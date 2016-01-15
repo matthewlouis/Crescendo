@@ -15,6 +15,11 @@
 		03A0C80E1C498C7D004213DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C80C1C498C7D004213DB /* Main.storyboard */; };
 		03A0C8101C498C7D004213DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C80F1C498C7D004213DB /* Assets.xcassets */; };
 		03A0C8131C498C7D004213DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C8111C498C7D004213DB /* LaunchScreen.storyboard */; };
+		03A0C81D1C4992FD004213DB /* Plane.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C81C1C4992FD004213DB /* Plane.m */; };
+		03A0C8201C499408004213DB /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03A0C81F1C499408004213DB /* Accelerate.framework */; };
+		03A0C8231C499812004213DB /* PlaneContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C8221C499812004213DB /* PlaneContainer.m */; };
+		03A0C82C1C499B4C004213DB /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */; };
+		03A0C82F1C499CC2004213DB /* PlaneObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C82E1C499CC2004213DB /* PlaneObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +35,15 @@
 		03A0C80F1C498C7D004213DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		03A0C8121C498C7D004213DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		03A0C8141C498C7D004213DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03A0C81B1C4992FD004213DB /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = GameComponents/Plane.h; sourceTree = "<group>"; };
+		03A0C81C1C4992FD004213DB /* Plane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Plane.m; path = GameComponents/Plane.m; sourceTree = "<group>"; };
+		03A0C81F1C499408004213DB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		03A0C8211C499812004213DB /* PlaneContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaneContainer.h; sourceTree = "<group>"; };
+		03A0C8221C499812004213DB /* PlaneContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaneContainer.m; sourceTree = "<group>"; };
+		03A0C82A1C499B4C004213DB /* NSMutableArray+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Queue.h"; path = "Utilities/NSMutableArray+Queue.h"; sourceTree = "<group>"; };
+		03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Queue.m"; path = "Utilities/NSMutableArray+Queue.m"; sourceTree = "<group>"; };
+		03A0C82D1C499CC2004213DB /* PlaneObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaneObject.h; path = GameComponents/PlaneObject.h; sourceTree = "<group>"; };
+		03A0C82E1C499CC2004213DB /* PlaneObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaneObject.m; path = GameComponents/PlaneObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03A0C8201C499408004213DB /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +61,7 @@
 		03A0C7F31C498C7C004213DB = {
 			isa = PBXGroup;
 			children = (
+				03A0C81F1C499408004213DB /* Accelerate.framework */,
 				03A0C7FE1C498C7D004213DB /* Crescendo */,
 				03A0C7FD1C498C7D004213DB /* Products */,
 			);
@@ -62,6 +78,8 @@
 		03A0C7FE1C498C7D004213DB /* Crescendo */ = {
 			isa = PBXGroup;
 			children = (
+				03A0C8251C4999AF004213DB /* Utilities */,
+				03A0C81E1C49930D004213DB /* GameComponents */,
 				03A0C8021C498C7D004213DB /* AppDelegate.h */,
 				03A0C8031C498C7D004213DB /* AppDelegate.m */,
 				03A0C8051C498C7D004213DB /* Shader.fsh */,
@@ -83,6 +101,28 @@
 				03A0C8001C498C7D004213DB /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		03A0C81E1C49930D004213DB /* GameComponents */ = {
+			isa = PBXGroup;
+			children = (
+				03A0C81B1C4992FD004213DB /* Plane.h */,
+				03A0C81C1C4992FD004213DB /* Plane.m */,
+				03A0C8211C499812004213DB /* PlaneContainer.h */,
+				03A0C8221C499812004213DB /* PlaneContainer.m */,
+				03A0C82D1C499CC2004213DB /* PlaneObject.h */,
+				03A0C82E1C499CC2004213DB /* PlaneObject.m */,
+			);
+			name = GameComponents;
+			sourceTree = "<group>";
+		};
+		03A0C8251C4999AF004213DB /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				03A0C82A1C499B4C004213DB /* NSMutableArray+Queue.h */,
+				03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,9 +197,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03A0C8231C499812004213DB /* PlaneContainer.m in Sources */,
 				03A0C8041C498C7D004213DB /* AppDelegate.m in Sources */,
 				03A0C80B1C498C7D004213DB /* GameViewController.m in Sources */,
+				03A0C82F1C499CC2004213DB /* PlaneObject.m in Sources */,
+				03A0C81D1C4992FD004213DB /* Plane.m in Sources */,
 				03A0C8011C498C7D004213DB /* main.m in Sources */,
+				03A0C82C1C499B4C004213DB /* NSMutableArray+Queue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
