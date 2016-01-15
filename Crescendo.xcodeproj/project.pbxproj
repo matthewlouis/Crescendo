@@ -1,0 +1,315 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03A0C8011C498C7D004213DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C8001C498C7D004213DB /* main.m */; };
+		03A0C8041C498C7D004213DB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C8031C498C7D004213DB /* AppDelegate.m */; };
+		03A0C8061C498C7D004213DB /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C8051C498C7D004213DB /* Shader.fsh */; };
+		03A0C8081C498C7D004213DB /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C8071C498C7D004213DB /* Shader.vsh */; };
+		03A0C80B1C498C7D004213DB /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C80A1C498C7D004213DB /* GameViewController.m */; };
+		03A0C80E1C498C7D004213DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C80C1C498C7D004213DB /* Main.storyboard */; };
+		03A0C8101C498C7D004213DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C80F1C498C7D004213DB /* Assets.xcassets */; };
+		03A0C8131C498C7D004213DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C8111C498C7D004213DB /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		03A0C7FC1C498C7D004213DB /* Crescendo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crescendo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		03A0C8001C498C7D004213DB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		03A0C8021C498C7D004213DB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		03A0C8031C498C7D004213DB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		03A0C8051C498C7D004213DB /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
+		03A0C8071C498C7D004213DB /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
+		03A0C8091C498C7D004213DB /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		03A0C80A1C498C7D004213DB /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		03A0C80D1C498C7D004213DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		03A0C80F1C498C7D004213DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		03A0C8121C498C7D004213DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		03A0C8141C498C7D004213DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		03A0C7F91C498C7C004213DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03A0C7F31C498C7C004213DB = {
+			isa = PBXGroup;
+			children = (
+				03A0C7FE1C498C7D004213DB /* Crescendo */,
+				03A0C7FD1C498C7D004213DB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		03A0C7FD1C498C7D004213DB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				03A0C7FC1C498C7D004213DB /* Crescendo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		03A0C7FE1C498C7D004213DB /* Crescendo */ = {
+			isa = PBXGroup;
+			children = (
+				03A0C8021C498C7D004213DB /* AppDelegate.h */,
+				03A0C8031C498C7D004213DB /* AppDelegate.m */,
+				03A0C8051C498C7D004213DB /* Shader.fsh */,
+				03A0C8071C498C7D004213DB /* Shader.vsh */,
+				03A0C8091C498C7D004213DB /* GameViewController.h */,
+				03A0C80A1C498C7D004213DB /* GameViewController.m */,
+				03A0C80C1C498C7D004213DB /* Main.storyboard */,
+				03A0C80F1C498C7D004213DB /* Assets.xcassets */,
+				03A0C8111C498C7D004213DB /* LaunchScreen.storyboard */,
+				03A0C8141C498C7D004213DB /* Info.plist */,
+				03A0C7FF1C498C7D004213DB /* Supporting Files */,
+			);
+			path = Crescendo;
+			sourceTree = "<group>";
+		};
+		03A0C7FF1C498C7D004213DB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				03A0C8001C498C7D004213DB /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		03A0C7FB1C498C7C004213DB /* Crescendo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03A0C8171C498C7D004213DB /* Build configuration list for PBXNativeTarget "Crescendo" */;
+			buildPhases = (
+				03A0C7F81C498C7C004213DB /* Sources */,
+				03A0C7F91C498C7C004213DB /* Frameworks */,
+				03A0C7FA1C498C7C004213DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Crescendo;
+			productName = Crescendo;
+			productReference = 03A0C7FC1C498C7D004213DB /* Crescendo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		03A0C7F41C498C7C004213DB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = Equalizer;
+				TargetAttributes = {
+					03A0C7FB1C498C7C004213DB = {
+						CreatedOnToolsVersion = 7.2;
+					};
+				};
+			};
+			buildConfigurationList = 03A0C7F71C498C7C004213DB /* Build configuration list for PBXProject "Crescendo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 03A0C7F31C498C7C004213DB;
+			productRefGroup = 03A0C7FD1C498C7D004213DB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				03A0C7FB1C498C7C004213DB /* Crescendo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		03A0C7FA1C498C7C004213DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03A0C80E1C498C7D004213DB /* Main.storyboard in Resources */,
+				03A0C8081C498C7D004213DB /* Shader.vsh in Resources */,
+				03A0C8101C498C7D004213DB /* Assets.xcassets in Resources */,
+				03A0C8131C498C7D004213DB /* LaunchScreen.storyboard in Resources */,
+				03A0C8061C498C7D004213DB /* Shader.fsh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		03A0C7F81C498C7C004213DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03A0C8041C498C7D004213DB /* AppDelegate.m in Sources */,
+				03A0C80B1C498C7D004213DB /* GameViewController.m in Sources */,
+				03A0C8011C498C7D004213DB /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		03A0C80C1C498C7D004213DB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				03A0C80D1C498C7D004213DB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		03A0C8111C498C7D004213DB /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				03A0C8121C498C7D004213DB /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		03A0C8151C498C7D004213DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		03A0C8161C498C7D004213DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		03A0C8181C498C7D004213DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Crescendo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Comp8051.Equalizer.Crescendo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		03A0C8191C498C7D004213DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Crescendo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Comp8051.Equalizer.Crescendo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		03A0C7F71C498C7C004213DB /* Build configuration list for PBXProject "Crescendo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03A0C8151C498C7D004213DB /* Debug */,
+				03A0C8161C498C7D004213DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		03A0C8171C498C7D004213DB /* Build configuration list for PBXNativeTarget "Crescendo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03A0C8181C498C7D004213DB /* Debug */,
+				03A0C8191C498C7D004213DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 03A0C7F41C498C7C004213DB /* Project object */;
+}
