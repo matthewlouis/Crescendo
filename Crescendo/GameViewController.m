@@ -8,6 +8,7 @@
 
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
+#import "Crescendo-Swift.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -84,6 +85,8 @@ GLfloat gCubeVertexData[216] =
     
     GLuint _vertexArray;
     GLuint _vertexBuffer;
+    
+    GameMusicPlayer *musicPlayer;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -102,6 +105,7 @@ GLfloat gCubeVertexData[216] =
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    musicPlayer = [[GameMusicPlayer alloc] init];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -114,6 +118,9 @@ GLfloat gCubeVertexData[216] =
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     [self setupGL];
+    
+    [musicPlayer load];
+    [musicPlayer play];
 }
 
 - (void)dealloc
