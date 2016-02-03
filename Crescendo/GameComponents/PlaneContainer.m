@@ -10,4 +10,21 @@
 
 @implementation PlaneContainer
 
+- (id)init
+{
+    self = [super init];
+    
+    if (self)
+    {
+        self.planes = [[NSMutableArray alloc] init];
+    }
+    
+    return self;
+}
+
+-(void)update
+{
+    
+}
+
 @end
