@@ -22,8 +22,6 @@ struct Track{
 }
 
 class GameMusicPlayer : NSObject{
-    let audiokit = AKManager.sharedInstance
-    
     var sequencer:AKSequencer?
     var mixer = AKMixer()
     
@@ -53,10 +51,10 @@ class GameMusicPlayer : NSObject{
     
     
     func load(){
-        audiokit.audioOutput = mixer
-        audiokit.start()
+        AudioKit.output = mixer
+        AudioKit.start()
         
-        sequencer = AKSequencer(filename: currentMidiLoop, engine: audiokit.engine)
+        sequencer = AKSequencer(filename: currentMidiLoop, engine: AudioKit.engine)
         sequencer?.loopOn()
         
         loadSampler(1, EXS24file: "Sounds/Sampler Instruments/sqrTone1")
@@ -64,7 +62,7 @@ class GameMusicPlayer : NSObject{
         loadSampler(3, EXS24file: "Sounds/Sampler Instruments/sawPad1")
         //loadSampler(4, EXS24file: "Sounds/Sampler Instruments/drumSimp")
         
-        audiokit.stop()
+        AudioKit.stop()
         //connects all tracks to mixer at default gain level
         for var index = 1; index < tracks.count; ++index {
             if(tracks[index] != nil){
@@ -73,7 +71,7 @@ class GameMusicPlayer : NSObject{
             }
         }
         tracks[3]?.volume!.gain = 0.3
-        audiokit.start()
+        AudioKit.start()
         sequencer!.setLength(8)
         
         

@@ -24,10 +24,11 @@
 		03AD819F1C59293C00934E91 /* seqDemo.mid in Resources */ = {isa = PBXBuildFile; fileRef = 03AD818F1C59293C00934E91 /* seqDemo.mid */; };
 		03CADDEB1C595500008BE459 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 03CADDEA1C595500008BE459 /* Sounds */; };
 		346BA07F1C61FB43002FAAFF /* test.mid in Resources */ = {isa = PBXBuildFile; fileRef = 346BA07E1C61FB43002FAAFF /* test.mid */; };
+		34A13D2D1C62940E007C7D39 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A13D2C1C62940E007C7D39 /* AudioKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		03AD81531C59221D00934E91 /* Embed Frameworks */ = {
+		34A13D291C628DEF007C7D39 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -66,6 +67,7 @@
 		03AD818F1C59293C00934E91 /* seqDemo.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = seqDemo.mid; sourceTree = "<group>"; };
 		03CADDEA1C595500008BE459 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		346BA07E1C61FB43002FAAFF /* test.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = test.mid; sourceTree = "<group>"; };
+		34A13D2C1C62940E007C7D39 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = "AudioKit/Frameworks/AudioKit-iOS/AudioKit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34A13D2D1C62940E007C7D39 /* AudioKit.framework in Frameworks */,
 				03A0C8201C499408004213DB /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -83,6 +86,7 @@
 		03A0C7F31C498C7C004213DB = {
 			isa = PBXGroup;
 			children = (
+				34A13D2C1C62940E007C7D39 /* AudioKit.framework */,
 				03A0C81F1C499408004213DB /* Accelerate.framework */,
 				03A0C7FE1C498C7D004213DB /* Crescendo */,
 				03A0C7FD1C498C7D004213DB /* Products */,
@@ -170,7 +174,7 @@
 				03A0C7F81C498C7C004213DB /* Sources */,
 				03A0C7F91C498C7C004213DB /* Frameworks */,
 				03A0C7FA1C498C7C004213DB /* Resources */,
-				03AD81531C59221D00934E91 /* Embed Frameworks */,
+				34A13D291C628DEF007C7D39 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -359,6 +363,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/AudioKit/Frameworks/AudioKit-iOS",
 				);
 				INFOPLIST_FILE = Crescendo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -377,6 +382,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/AudioKit/Frameworks/AudioKit-iOS",
 				);
 				INFOPLIST_FILE = Crescendo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
