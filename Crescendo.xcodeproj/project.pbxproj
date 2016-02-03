@@ -25,7 +25,6 @@
 		03AD81591C59267C00934E91 /* GameMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AD81581C59267C00934E91 /* GameMusicPlayer.swift */; };
 		03AD819F1C59293C00934E91 /* seqDemo.mid in Resources */ = {isa = PBXBuildFile; fileRef = 03AD818F1C59293C00934E91 /* seqDemo.mid */; };
 		03CADDEB1C595500008BE459 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 03CADDEA1C595500008BE459 /* Sounds */; };
-		346BA07F1C61FB43002FAAFF /* test.mid in Resources */ = {isa = PBXBuildFile; fileRef = 346BA07E1C61FB43002FAAFF /* test.mid */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -69,7 +68,6 @@
 		03AD81581C59267C00934E91 /* GameMusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameMusicPlayer.swift; sourceTree = "<group>"; };
 		03AD818F1C59293C00934E91 /* seqDemo.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = seqDemo.mid; sourceTree = "<group>"; };
 		03CADDEA1C595500008BE459 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
-		346BA07E1C61FB43002FAAFF /* test.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = test.mid; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,7 +157,6 @@
 		03AD817C1C5928E100934E91 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				346BA07E1C61FB43002FAAFF /* test.mid */,
 				03CADDEA1C595500008BE459 /* Sounds */,
 				03AD818F1C59293C00934E91 /* seqDemo.mid */,
 			);
@@ -224,7 +221,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				346BA07F1C61FB43002FAAFF /* test.mid in Resources */,
 				03A0C80E1C498C7D004213DB /* Main.storyboard in Resources */,
 				03A0C8081C498C7D004213DB /* Shader.vsh in Resources */,
 				03A0C8101C498C7D004213DB /* Assets.xcassets in Resources */,

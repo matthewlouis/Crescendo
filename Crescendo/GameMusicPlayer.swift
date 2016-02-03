@@ -10,14 +10,8 @@ import Foundation
 import UIKit
 import AudioKit
 
-//Basic track struct
 struct Track{
-    
-    //The instrument
-    var instrument: AKNode
-    //Array of insert effects
-    var fx = [AKNode?]()
-    //track volume
+    var node: AKNode
     var volume:AKBooster?
 }
 
@@ -27,55 +21,72 @@ class GameMusicPlayer : NSObject{
     var sequencer:AKSequencer?
     var mixer = AKMixer()
     
-    //Allots for 16 tracks, with a 1-based index
-    var tracks = [Track?](count: 17, repeatedValue:nil)
+    var track1 = AKSampler()
+    var track2 = AKSampler()
+    var track3 = AKSampler()
+    var track4 = AKSampler()
+    
+    var track1Volume:AKBooster?
+    var track2Volume:AKBooster?
+    var track3Volume:AKBooster?
+    var track4Volume:AKBooster?
     
     var currentMidiLoop = "";
     
     override init(){
-        currentMidiLoop = "test";
+        currentMidiLoop = "seqDemo";
         super.init()
             }
     
     init(withMidiLoopFileName midiLoopFileName: NSString){
         currentMidiLoop = midiLoopFileName as String
         super.init()
-    }
+            }
     
-    //loads a sampler instrument into
-    func loadSampler(intoTrackNumber:Int, EXS24file: String){
-        
-        var sampler = AKSampler()
-        sampler.loadEXS24(EXS24file)
-        sequencer!.avTracks[intoTrackNumber].destinationAudioUnit = sampler.samplerUnit
-        tracks[intoTrackNumber] = Track(instrument: sampler, fx: [AKNode?](), volume: nil)
+    func loadInstrument(intoTrackNumber:Int, instrumentType: String){
+        switch(intoTrackNumber){
+        case 1:break
+        case 2: break
+        case 3: break
+        case 4: break
+        default:break
+        }
     }
     
     
     func load(){
+        track1Volume = AKBooster(track1)
+        track2Volume = AKBooster(track2)
+        track3Volume = AKBooster(track3)
+        track4Volume = AKBooster(track4)
+        
+        track1Volume?.gain = 1
+        track2Volume?.gain = 1
+        track3Volume?.gain = 1
+        track4Volume?.gain = 1
+        
+        mixer.connect(track1Volume!)
+        mixer.connect(track2Volume!)
+        mixer.connect(track3Volume!)
+        mixer.connect(track4Volume!)
+        
         audiokit.audioOutput = mixer
-        audiokit.start()
+        
+        track1.loadEXS24("Sounds/Sampler Instruments/sqrTone1")
+        track2.loadEXS24("Sounds/Sampler Instruments/sawPiano1")
+        track3.loadEXS24("Sounds/Sampler Instruments/sawPad1")
+        track4.loadEXS24("Sounds/Sampler Instruments/drumSimp")
+        audiokit.start();
         
         sequencer = AKSequencer(filename: currentMidiLoop, engine: audiokit.engine)
         sequencer?.loopOn()
+        sequencer!.avTracks[1].destinationAudioUnit = track1.samplerUnit
+        sequencer!.avTracks[2].destinationAudioUnit = track2.samplerUnit
+        sequencer!.avTracks[3].destinationAudioUnit = track3.samplerUnit
+        sequencer!.avTracks[4].destinationAudioUnit = track4.samplerUnit
         
-        loadSampler(1, EXS24file: "Sounds/Sampler Instruments/sqrTone1")
-        loadSampler(2, EXS24file: "Sounds/Sampler Instruments/sawPiano1")
-        loadSampler(3, EXS24file: "Sounds/Sampler Instruments/sawPad1")
-        //loadSampler(4, EXS24file: "Sounds/Sampler Instruments/drumSimp")
-        
-        audiokit.stop()
-        //connects all tracks to mixer at default gain level
-        for var index = 1; index < tracks.count; ++index {
-            if(tracks[index] != nil){
-                attachVolume(&tracks[index]!)
-                mixer.connect(tracks[index]!.volume!)
-            }
-        }
-        tracks[3]?.volume!.gain = 0.3
-        audiokit.start()
-        sequencer!.setLength(8)
-        
+        sequencer!.setLength(4)
+
         
     }
     
@@ -85,20 +96,5 @@ class GameMusicPlayer : NSObject{
     
     func stop(){
         sequencer!.stop();
-    }
-    
-    
-    /********************** PRIVATE FUNCTIONS *******************/
-     
-    //Attaches a master volume to track
-    private func attachVolume(inout toTrack: Track, gainLevel: Double = 1){
-        if(toTrack.fx.count > 0) //if there are effects, attach to last effect
-        {
-            toTrack.volume = AKBooster(toTrack.fx[toTrack.fx.count - 1]!)
-        }else //attach to instrument
-        {
-            toTrack.volume = AKBooster(toTrack.instrument)
-        }
-        toTrack.volume!.gain = gainLevel
     }
 }
