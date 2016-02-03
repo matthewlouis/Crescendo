@@ -20,6 +20,11 @@
 		03A0C82C1C499B4C004213DB /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */; };
 		03A0C82F1C499CC2004213DB /* PlaneObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C82E1C499CC2004213DB /* PlaneObject.m */; };
 		03A0C8321C49A13A004213DB /* PlaneContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C8311C49A13A004213DB /* PlaneContainer.m */; };
+		03AD81591C59267C00934E91 /* GameMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AD81581C59267C00934E91 /* GameMusicPlayer.swift */; };
+		03AD819F1C59293C00934E91 /* seqDemo.mid in Resources */ = {isa = PBXBuildFile; fileRef = 03AD818F1C59293C00934E91 /* seqDemo.mid */; };
+		03CADDEB1C595500008BE459 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 03CADDEA1C595500008BE459 /* Sounds */; };
+		346BA07F1C61FB43002FAAFF /* test.mid in Resources */ = {isa = PBXBuildFile; fileRef = 346BA07E1C61FB43002FAAFF /* test.mid */; };
+		34A13D2D1C62940E007C7D39 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A13D2C1C62940E007C7D39 /* AudioKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,6 +62,12 @@
 		03A0C82E1C499CC2004213DB /* PlaneObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaneObject.m; path = GameComponents/PlaneObject.m; sourceTree = "<group>"; };
 		03A0C8301C49A13A004213DB /* PlaneContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaneContainer.h; path = GameComponents/PlaneContainer.h; sourceTree = "<group>"; };
 		03A0C8311C49A13A004213DB /* PlaneContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaneContainer.m; path = GameComponents/PlaneContainer.m; sourceTree = "<group>"; };
+		03AD81571C59267B00934E91 /* Crescendo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crescendo-Bridging-Header.h"; sourceTree = "<group>"; };
+		03AD81581C59267C00934E91 /* GameMusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameMusicPlayer.swift; sourceTree = "<group>"; };
+		03AD818F1C59293C00934E91 /* seqDemo.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = seqDemo.mid; sourceTree = "<group>"; };
+		03CADDEA1C595500008BE459 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
+		346BA07E1C61FB43002FAAFF /* test.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = test.mid; sourceTree = "<group>"; };
+		34A13D2C1C62940E007C7D39 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = "AudioKit/Frameworks/AudioKit-iOS/AudioKit.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34A13D2D1C62940E007C7D39 /* AudioKit.framework in Frameworks */,
 				03A0C8201C499408004213DB /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,6 +86,7 @@
 		03A0C7F31C498C7C004213DB = {
 			isa = PBXGroup;
 			children = (
+				34A13D2C1C62940E007C7D39 /* AudioKit.framework */,
 				03A0C81F1C499408004213DB /* Accelerate.framework */,
 				03A0C7FE1C498C7D004213DB /* Crescendo */,
 				03A0C7FD1C498C7D004213DB /* Products */,
@@ -91,6 +104,7 @@
 		03A0C7FE1C498C7D004213DB /* Crescendo */ = {
 			isa = PBXGroup;
 			children = (
+				03AD817C1C5928E100934E91 /* Resources */,
 				03A0C8251C4999AF004213DB /* Utilities */,
 				03A0C81E1C49930D004213DB /* GameComponents */,
 				03A0C8021C498C7D004213DB /* AppDelegate.h */,
@@ -125,6 +139,8 @@
 				03A0C81C1C4992FD004213DB /* Plane.m */,
 				03A0C82D1C499CC2004213DB /* PlaneObject.h */,
 				03A0C82E1C499CC2004213DB /* PlaneObject.m */,
+				03AD81581C59267C00934E91 /* GameMusicPlayer.swift */,
+				03AD81571C59267B00934E91 /* Crescendo-Bridging-Header.h */,
 			);
 			name = GameComponents;
 			sourceTree = "<group>";
@@ -136,6 +152,16 @@
 				03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		03AD817C1C5928E100934E91 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				346BA07E1C61FB43002FAAFF /* test.mid */,
+				03CADDEA1C595500008BE459 /* Sounds */,
+				03AD818F1C59293C00934E91 /* seqDemo.mid */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,11 +222,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				346BA07F1C61FB43002FAAFF /* test.mid in Resources */,
 				03A0C80E1C498C7D004213DB /* Main.storyboard in Resources */,
 				03A0C8081C498C7D004213DB /* Shader.vsh in Resources */,
 				03A0C8101C498C7D004213DB /* Assets.xcassets in Resources */,
+				03AD819F1C59293C00934E91 /* seqDemo.mid in Resources */,
 				03A0C8131C498C7D004213DB /* LaunchScreen.storyboard in Resources */,
 				03A0C8061C498C7D004213DB /* Shader.fsh in Resources */,
+				03CADDEB1C595500008BE459 /* Sounds in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +240,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03AD81591C59267C00934E91 /* GameMusicPlayer.swift in Sources */,
 				03A0C8041C498C7D004213DB /* AppDelegate.m in Sources */,
 				03A0C80B1C498C7D004213DB /* GameViewController.m in Sources */,
 				03A0C82F1C499CC2004213DB /* PlaneObject.m in Sources */,
@@ -339,6 +369,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Comp8051.Equalizer.Crescendo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Crescendo/Crescendo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -356,6 +388,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Comp8051.Equalizer.Crescendo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Crescendo/Crescendo-Bridging-Header.h";
 			};
 			name = Release;
 		};
