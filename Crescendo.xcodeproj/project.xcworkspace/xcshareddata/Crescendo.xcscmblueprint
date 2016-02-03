@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "B62543F5862AC503825879258275F3A4916EF085",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "92CBA65579F61C75FEC665D01E78C47FFFAA6B01" : 0,
+    "B62543F5862AC503825879258275F3A4916EF085" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "25B846F8-9AFE-4431-887A-38C48DD12FB4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "92CBA65579F61C75FEC665D01E78C47FFFAA6B01" : "Crescendo\/AudioKit\/",
+    "B62543F5862AC503825879258275F3A4916EF085" : "Crescendo\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Crescendo",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Crescendo.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/audiokit\/AudioKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "92CBA65579F61C75FEC665D01E78C47FFFAA6B01"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/matthewlouis\/Crescendo.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B62543F5862AC503825879258275F3A4916EF085"
+    }
+  ]
+}
