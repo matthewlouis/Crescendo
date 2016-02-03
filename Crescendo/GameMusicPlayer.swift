@@ -31,7 +31,7 @@ class GameMusicPlayer : NSObject{
     var currentMidiLoop = "";
     
     override init(){
-        currentMidiLoop = "test";
+        currentMidiLoop = "Songs/test";
         super.init()
             }
     
