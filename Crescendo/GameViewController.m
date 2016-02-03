@@ -9,6 +9,7 @@
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
+#import "Plane.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -76,6 +77,9 @@ GLfloat gCubeVertexData[216] =
     -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
 };
 
+// PlaneContainer
+
+
 @interface GameViewController () {
     GLuint _program;
     
@@ -87,6 +91,10 @@ GLfloat gCubeVertexData[216] =
     GLuint _vertexBuffer;
     
     GameMusicPlayer *musicPlayer;
+    
+    // Test Plane
+    Plane *testPlane;
+    
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -106,6 +114,9 @@ GLfloat gCubeVertexData[216] =
 {
     [super viewDidLoad];
     musicPlayer = [[GameMusicPlayer alloc] init];
+    
+    // Initialize test plane
+    testPlane = [[Plane alloc] init];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -171,7 +182,7 @@ GLfloat gCubeVertexData[216] =
     
     glGenBuffers(1, &_vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(testPlane), testPlane.gPlainVertexData, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));

@@ -10,12 +10,19 @@
 @import GLKit;
 
 @interface Plane : NSObject
+{
+    
+}
 
 @property GLKVector3 worldPosition;
+@property GLfloat* gPlainVertexData;
+
+
 
 - (void)update;
 - (void)move:(GLKVector3)amount;
 - (BOOL)checkCollision;
+
 
 
 
