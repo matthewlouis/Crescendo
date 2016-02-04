@@ -10,6 +10,17 @@ import Foundation
 import UIKit
 import AudioKit
 
+enum SampleFormat {
+    case EXS24
+    case SF2
+    case WAV
+}
+
+enum FXType {
+    case REVERB
+    case DELAY
+}
+
 //Basic track struct
 struct Track{
     
@@ -41,12 +52,48 @@ class GameMusicPlayer : NSObject{
     }
     
     //loads a sampler instrument into
-    func loadSampler(intoTrackNumber:Int, EXS24file: String){
+    func loadSampler(intoTrackNumber:Int, fileName: String, sampleFormat: SampleFormat){
         
         var sampler = AKSampler()
-        sampler.loadEXS24(EXS24file)
+        
+        switch(sampleFormat){
+        case .EXS24:
+            sampler.loadEXS24(fileName)
+            break
+        case .SF2:
+            sampler.loadSoundfont(fileName)
+            break
+        case .WAV:
+            sampler.loadWav(fileName)
+            break
+        }
+        
+        sampler.loadEXS24(fileName)
         sequencer!.avTracks[intoTrackNumber].destinationAudioUnit = sampler.samplerUnit
         tracks[intoTrackNumber] = Track(instrument: sampler, fx: [AKNode?](), volume: nil)
+    }
+    
+    func addFX(intoTrackNumber: Int, fxType: FXType) -> AKNode{
+        var lastNodeInChain:AKNode
+        
+        if(tracks[intoTrackNumber]!.fx.count > 0){ //if there are any FX in the chain
+            lastNodeInChain = tracks[intoTrackNumber]!.fx[tracks[intoTrackNumber]!.fx.count - 1]!
+        }else{ //connect directly to instrument
+            lastNodeInChain = tracks[intoTrackNumber]!.instrument
+        }
+        
+        
+        switch(fxType){
+        case .REVERB:
+            tracks[intoTrackNumber]!.fx.append(AKReverb2(lastNodeInChain))
+            break
+        case .DELAY:
+            tracks[intoTrackNumber]!.fx.append(AKDelay(lastNodeInChain))
+            break
+        }
+        
+        //return the newly added effect
+        return tracks[intoTrackNumber]!.fx[tracks[intoTrackNumber]!.fx.count - 1]!
     }
     
     
@@ -57,10 +104,15 @@ class GameMusicPlayer : NSObject{
         sequencer = AKSequencer(filename: currentMidiLoop, engine: AudioKit.engine)
         sequencer?.loopOn()
         
-        loadSampler(1, EXS24file: "Sounds/Sampler Instruments/sqrTone1")
-        loadSampler(2, EXS24file: "Sounds/Sampler Instruments/sawPiano1")
-        loadSampler(3, EXS24file: "Sounds/Sampler Instruments/sawPad1")
-        //loadSampler(4, EXS24file: "Sounds/Sampler Instruments/drumSimp")
+        loadSampler(10, fileName: "Sounds/Sampler Instruments/drumSimp", sampleFormat: SampleFormat.EXS24)
+        loadSampler(1, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24)
+        
+        var verb = addFX(1, fxType: .REVERB) as! AKReverb2
+        verb.dryWetMix = 0.2
+        verb.decayTimeAt0Hz = 10.0
+        verb.decayTimeAtNyquist = 10.0
+        verb.randomizeReflections = 500
+        
         
         AudioKit.stop()
         //connects all tracks to mixer at default gain level
@@ -70,11 +122,9 @@ class GameMusicPlayer : NSObject{
                 mixer.connect(tracks[index]!.volume!)
             }
         }
-        tracks[3]?.volume!.gain = 0.3
+
         AudioKit.start()
-        sequencer!.setLength(8)
-        
-        
+        sequencer!.setLength(64)
     }
     
     func play(){
