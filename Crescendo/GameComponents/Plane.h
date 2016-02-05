@@ -11,13 +11,9 @@
 
 @interface Plane : NSObject
 {
-    
+    @public GLfloat vertices[216];
+    @public GLKVector3 worldPosition;
 }
-
-@property GLKVector3 worldPosition;
-@property GLfloat* gPlainVertexData;
-
-
 
 - (void)update;
 - (void)move:(GLKVector3)amount;

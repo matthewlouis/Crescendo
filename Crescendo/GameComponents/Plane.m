@@ -20,7 +20,7 @@
     
     if (self)
     {
-        GLfloat plainData[216] =
+        GLfloat vertices[216] =
         {
             // Data layout for each line below is:
             // positionX, positionY, positionZ,     normalX, normalY, normalZ,
@@ -68,10 +68,16 @@
         };
 
         
-        self.gPlainVertexData = plainData;
+        self->worldPosition = GLKVector3Make(0, 0, 0);
+        
+        memcpy(self->vertices, vertices, sizeof(float)*216);
     }
     return self;
 }
 
+- (void)update
+{
+    worldPosition.z++;
+}
 
 @end
