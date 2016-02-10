@@ -9,11 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "NSMutableArray+Queue.h"
 
+#import "Plane.h"
+
 @interface PlaneContainer : NSObject
+{
+    @public NSMutableArray *Planes;
+    @private float timePassed;
+}
 
-@property (strong, atomic)NSMutableArray *planes;
-
--(void)update;
+-(void)CreatePlane;
+-(Plane*)GetPlane;
+-(void)update:(float)TimePassed;
 -(void)draw;
 
 @end

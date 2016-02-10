@@ -12,7 +12,7 @@
 
 @implementation Plane
 
-
+float const SPEED = 5.0f;
 
 - (id)init
 {
@@ -75,9 +75,9 @@
     return self;
 }
 
-- (void)update
+- (void)update:(float)TimePassed
 {
-    worldPosition.z++;
+    worldPosition.z += SPEED * TimePassed;
 }
 
 @end

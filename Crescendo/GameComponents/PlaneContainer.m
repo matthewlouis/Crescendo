@@ -16,15 +16,39 @@
     
     if (self)
     {
-        self.planes = [[NSMutableArray alloc] init];
+        self->Planes = [[NSMutableArray alloc] init];
     }
     
     return self;
 }
 
--(void)update
+// Creates a plane and places it in the queue
+-(void)CreatePlane
 {
+    Plane* newPlane = [[Plane alloc]init];
+    newPlane->worldPosition.z = -20;
+    [Planes enqueue: (newPlane)];
+}
+
+-(Plane*)GetPlane
+{
+    return (Plane*)[Planes peek];
+}
+
+-(void)update:(float)TimePassed
+{
+    // Update all planes
+    for (NSObject* o in Planes)
+    {
+        [(Plane*)o update:TimePassed];
+    }
     
+    timePassed += TimePassed;
+    if (timePassed > 2)
+    {
+        [self CreatePlane];
+        timePassed = 0;
+    }
 }
 
 @end
