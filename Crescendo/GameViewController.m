@@ -78,9 +78,6 @@ GLfloat gCubeVertexData[216] =
     -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
 };
 
-// PlaneContainer
-
-
 @interface GameViewController () {
     GLuint _program;
     
@@ -92,9 +89,6 @@ GLfloat gCubeVertexData[216] =
     GLuint _vertexBuffer;
     
     GameMusicPlayer *musicPlayer;
-    
-    // Test Plane
-    //Plane *testPlane;
     
     // Plane Container
     PlaneContainer *planeContainer;
@@ -118,10 +112,6 @@ GLfloat gCubeVertexData[216] =
 {
     [super viewDidLoad];
     musicPlayer = [[GameMusicPlayer alloc] init];
-    
-    // Initialize test plane
-    //testPlane = [[Plane alloc] init];
-    //testPlane->worldPosition.z = -20;
     
     // Initialize plane container
     planeContainer = [[PlaneContainer alloc] init];
@@ -235,11 +225,13 @@ GLfloat gCubeVertexData[216] =
     cameraViewMatrix = GLKMatrix4Rotate(cameraViewMatrix, 0, 0.0f, 1.0f, 0.0f);
     
     GLKMatrix4 modelViewMatrix;
+    GLuint _tempvertexBuffer;
+    Plane* currentPlane;
     
     for (NSObject* o in planeContainer->Planes)
     {
-        Plane* currentPlane = (Plane*)o;
-        GLuint _tempvertexBuffer;
+         currentPlane = (Plane*)o;
+        
         
         
         // Compute the model view matrix for the object rendered with ES2
@@ -268,6 +260,9 @@ GLfloat gCubeVertexData[216] =
         glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
         
         glDrawArrays(GL_TRIANGLES, 0, 36);
+        
+        // Clean up
+        glDeleteBuffers(1, &_tempvertexBuffer);
     }
     
 

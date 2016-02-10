@@ -75,6 +75,9 @@ float const SPEED = 5.0f;
     return self;
 }
 
+/*
+ * Update the plane based on the amount of time that has passed/
+ */
 - (void)update:(float)TimePassed
 {
     worldPosition.z += SPEED * TimePassed;
