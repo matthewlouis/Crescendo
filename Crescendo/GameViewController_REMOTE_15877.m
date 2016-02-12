@@ -9,7 +9,6 @@
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
-@import AudioKit;
 #import "Plane.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
@@ -78,6 +77,9 @@ GLfloat gCubeVertexData[216] =
     -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
 };
 
+// PlaneContainer
+
+
 @interface GameViewController () {
     GLuint _program;
     
@@ -89,7 +91,6 @@ GLfloat gCubeVertexData[216] =
     GLuint _vertexBuffer;
     
     GameMusicPlayer *musicPlayer;
-    AKReverb2 *reverbEffect;
     
     // Test Plane
     Plane *testPlane;
@@ -132,10 +133,6 @@ GLfloat gCubeVertexData[216] =
     [self setupGL];
     
     [musicPlayer load];
-    
-    //using this to show that we can affect sound from game code
-    //reverbEffect = (AKReverb2 *)[musicPlayer getFX:4 fxIndex:0];
-    
     [musicPlayer play];
 }
 
@@ -246,11 +243,6 @@ GLfloat gCubeVertexData[216] =
     _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
     _rotation += self.timeSinceLastUpdate * 0.5f;
-    
-    //matt test code
-    //reverbEffect.dryWetMix = modelViewMatrix.m01;
-    
-    
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect

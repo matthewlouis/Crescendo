@@ -9,8 +9,11 @@
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
+<<<<<<< HEAD
 @import AudioKit;
+=======
 #import "Plane.h"
+>>>>>>> develop
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -78,6 +81,9 @@ GLfloat gCubeVertexData[216] =
     -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
 };
 
+// PlaneContainer
+
+
 @interface GameViewController () {
     GLuint _program;
     
@@ -89,11 +95,14 @@ GLfloat gCubeVertexData[216] =
     GLuint _vertexBuffer;
     
     GameMusicPlayer *musicPlayer;
+<<<<<<< HEAD
     AKReverb2 *reverbEffect;
+=======
     
     // Test Plane
     Plane *testPlane;
     
+>>>>>>> develop
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
