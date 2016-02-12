@@ -270,6 +270,18 @@ GLfloat gCubeVertexData[216] =
         // Clean up
         glDeleteBuffers(1, &_tempvertexBuffer);
     }
+    
+<<<<<<< HEAD
+=======
+    _rotation += self.timeSinceLastUpdate * 0.5f;
+    
+    //matt test code
+    //reverbEffect.dryWetMix = modelViewMatrix.m01;
+    
+    
+}
+>>>>>>> develop
+
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation

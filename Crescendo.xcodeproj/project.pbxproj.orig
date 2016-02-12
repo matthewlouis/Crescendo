@@ -29,11 +29,14 @@
 		340FB36A1C62978000F4A3AC /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03A0C81F1C499408004213DB /* Accelerate.framework */; };
 		340FB36B1C62978800F4A3AC /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340FB3661C62976F00F4A3AC /* AudioKit.framework */; };
 		340FB36C1C62978800F4A3AC /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 340FB3661C62976F00F4A3AC /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		346671EB1C63D1C000583A6B /* Songs in Resources */ = {isa = PBXBuildFile; fileRef = 340FB3771C629E9000F4A3AC /* Songs */; };
-		346671EC1C63D1C000583A6B /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 03CADDEA1C595500008BE459 /* Sounds */; };
+<<<<<<< HEAD
 		340FB3781C629E9000F4A3AC /* Songs in Resources */ = {isa = PBXBuildFile; fileRef = 340FB3771C629E9000F4A3AC /* Songs */; };
 		340FB37A1C629FDC00F4A3AC /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 340FB3791C629FDC00F4A3AC /* Sounds */; };
 		D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = D75068371C6D9971001FBCFD /* GameObject3D.m */; };
+=======
+		346671EB1C63D1C000583A6B /* Songs in Resources */ = {isa = PBXBuildFile; fileRef = 340FB3771C629E9000F4A3AC /* Songs */; };
+		346671EC1C63D1C000583A6B /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 03CADDEA1C595500008BE459 /* Sounds */; };
+>>>>>>> develop
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -83,8 +86,12 @@
 		340FB3661C62976F00F4A3AC /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		340FB3771C629E9000F4A3AC /* Songs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Songs; sourceTree = "<group>"; };
 		340FB37B1C62A35B00F4A3AC /* Crescendo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crescendo-Bridging-Header.h"; sourceTree = "<group>"; };
+<<<<<<< HEAD
+		346BA07E1C61FB43002FAAFF /* test.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = test.mid; sourceTree = "<group>"; };
 		D75068361C6D98C6001FBCFD /* GameObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		D75068371C6D9971001FBCFD /* GameObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject3D.m; sourceTree = "<group>"; };
+=======
+>>>>>>> develop
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,12 +244,16 @@
 				TargetAttributes = {
 					03A0C7FB1C498C7C004213DB = {
 						CreatedOnToolsVersion = 7.2;
+<<<<<<< HEAD
+						DevelopmentTeam = N6RP3H788Z;
+=======
 						DevelopmentTeam = 766LELC49N;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 						};
+>>>>>>> develop
 					};
 				};
 			};
@@ -293,8 +304,11 @@
 				340557391C6BD551001DD32E /* CoreInstrument.swift in Sources */,
 				3405573F1C6BD575001DD32E /* Fatten.swift in Sources */,
 				03A0C82F1C499CC2004213DB /* PlaneObject.m in Sources */,
+<<<<<<< HEAD
 				D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */,
+=======
 				340557381C6BD551001DD32E /* Conductor.swift in Sources */,
+>>>>>>> develop
 				03A0C8321C49A13A004213DB /* PlaneContainer.m in Sources */,
 				340557401C6BD575001DD32E /* FilterSection.swift in Sources */,
 				03A0C81D1C4992FD004213DB /* Plane.m in Sources */,

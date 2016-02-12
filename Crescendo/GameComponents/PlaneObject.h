@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GameObject3D.h"
 @import GLKit;
 
-@interface PlaneObject : NSObject
+@interface PlaneObject : GameObject3D
 
 @property GLKVector3 *relativePosition;
 @property (strong, nonatomic) GLKMesh *mesh;
@@ -17,6 +18,5 @@
 //Matt: texture property but unsure of types
 
 -(void)move:(GLKVector3)amount;
--(GLKVector3)getWorldPosition;
 
 @end
