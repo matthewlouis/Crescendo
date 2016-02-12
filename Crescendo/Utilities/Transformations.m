@@ -47,6 +47,11 @@
     _translationStart = GLKVector2Make(0.0f, 0.0f);
 }
 
+- (void)setTranslationStart:(GLKVector2)t
+{
+    _translationStart = t;
+}
+
 - (void)scale:(float)s
 {
     _scaleEnd = s * _scaleStart;

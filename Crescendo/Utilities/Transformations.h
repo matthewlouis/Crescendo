@@ -16,6 +16,7 @@
 - (void)scale:(float)s;
 - (void)translate:(GLKVector2)t withMultiplier:(float)m aspectRatio:(float)aR;
 - (void)position:(GLKVector2)t;
+- (void)setTranslationStart:(GLKVector2)t;
 - (void)rotate:(GLKVector3)r withMultiplier:(float)m;
 - (GLKMatrix4)getModelViewMatrix;
 

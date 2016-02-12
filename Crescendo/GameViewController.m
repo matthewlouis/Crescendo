@@ -114,7 +114,7 @@ GLfloat gCubeVertexData[216] =
     GLKVector3 test = [self get3DVector:translation Width:recognizer.view.frame.size.width Height: recognizer.view.frame.size.height];
         NSLog(@"Translation %.1f %.1f", test.x, test.y);
 
-    [self.transformations position:GLKVector2Make(test.x, test.y)];
+    [self.transformations position:GLKVector2Make(test.x * 5.0f * aspectRatio, test.y * 5.0f)];
 }
 
 - (void)handleSingleDrag:(UIPanGestureRecognizer *)recognizer {
@@ -454,10 +454,10 @@ GLfloat gCubeVertexData[216] =
 - (GLKVector3)get3DVector:(GLKVector2)point2D Width:(int)w Height:(int)h
 {
     double x = 2.0 * point2D.x / self.view.frame.size.width - 1;
-    double y = 2.0 * point2D.y / self.view.frame.size.height + 1;
-        float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
+    double y = -2.0 * point2D.y / self.view.frame.size.height + 1;
+    float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     bool isInvertible;
-    GLKMatrix4 viewProjInv = GLKMatrix4Invert(GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f),  &isInvertible);
+    GLKMatrix4 viewProjInv = GLKMatrix4Invert(GLKMatrix4Multiply(GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f), [self.transformations getModelViewMatrix]),  &isInvertible);
     
     GLKVector3 point3D = GLKVector3Make(x, y, 0.0f);
     

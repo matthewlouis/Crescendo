@@ -42,13 +42,13 @@
     float x;
     float y;
     
-    for (int i = 0; i < _gridCount.y; i++)
+    for (int i = 0; i < _gridCount.x; i++)
     {
-        for (int j = 0; j < _gridCount.x; j++)
+        for (int j = 0; j < _gridCount.y; j++)
         {
             x = (j + 1) * _cellSize.x - _cellSize.x / 2;
             y = (i + 1) * _cellSize.y - _cellSize.y / 2;
-            cellArray[i] = GLKVector2Make(x, y);
+            cellArray[j * (int)_gridCount.x + i] = GLKVector2Make(x, y);
         }
     }
 }
@@ -71,7 +71,6 @@
 {
     int x = (int)(screenLocation.x / _cellSize.x);
     int y = (int)(screenLocation.y / _cellSize.y);
-    
     return cellArray[3 * x + y];
 }
 
