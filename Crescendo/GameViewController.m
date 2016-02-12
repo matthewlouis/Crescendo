@@ -9,7 +9,6 @@
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
-#import "Plane.h"
 #import "PlaneContainer.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@import GLKit;
+#import <GLKit/GLKit.h>
 
 @interface PlaneObject : NSObject
 
@@ -18,5 +18,6 @@
 
 -(void)move:(GLKVector3)amount;
 -(GLKVector3)getWorldPosition;
+
 
 @end

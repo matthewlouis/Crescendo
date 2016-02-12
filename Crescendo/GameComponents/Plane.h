@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GameObject3D.h"
-@import GLKit;
+#import <GLKit/GLKit.h>
 
 
 @interface Plane : GameObject3D
