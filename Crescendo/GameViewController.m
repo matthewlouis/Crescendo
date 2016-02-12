@@ -9,6 +9,8 @@
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
+#import "Utilities/Transformations.h"
+#import "GameComponents/GridMovement.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -82,7 +84,7 @@ GLfloat gCubeVertexData[216] =
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
     float _rotation;
-    
+    CGPoint _lastLocation;
     GLuint _vertexArray;
     GLuint _vertexBuffer;
     
@@ -90,6 +92,8 @@ GLfloat gCubeVertexData[216] =
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
+@property (strong, nonatomic) Transformations *transformations;
+@property (strong, nonatomic) GridMovement *gridMovement;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -102,6 +106,27 @@ GLfloat gCubeVertexData[216] =
 
 @implementation GameViewController
 
+- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
+    CGPoint location = [recognizer locationInView:recognizer.view];
+    float aspectRatio = recognizer.view.frame.size.width / recognizer.view.frame.size.height;
+    GLKVector2 translation = [self.gridMovement getGridLocation:GLKVector2Make(location.x, location.y)];
+
+    GLKVector3 test = [self get3DVector:translation Width:recognizer.view.frame.size.width Height: recognizer.view.frame.size.height];
+        NSLog(@"Translation %.1f %.1f", test.x, test.y);
+
+    [self.transformations position:GLKVector2Make(test.x, test.y)];
+}
+
+- (void)handleSingleDrag:(UIPanGestureRecognizer *)recognizer {
+    CGPoint translation = [recognizer translationInView:recognizer.view];
+    float x = translation.x/recognizer.view.frame.size.width;
+    float y = translation.y/recognizer.view.frame.size.height;
+    float aspectRatio = recognizer.view.frame.size.width / recognizer.view.frame.size.height;
+    
+    NSLog(@"Translation %.1f %.1f", x, y);
+    [self.transformations translate:GLKVector2Make(x, y) withMultiplier:5.0f aspectRatio:aspectRatio];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -109,6 +134,18 @@ GLfloat gCubeVertexData[216] =
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
+    // Testing Initialize transformations
+    self.transformations = [[Transformations alloc] initWithDepth:5.0f Scale:2.0f Translation:GLKVector2Make(0.0f, 0.0f) Rotation:GLKVector3Make(0.0f, 0.0f, 0.0f)];
+    
+    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    [self.view addGestureRecognizer:singleFingerTap];
+    
+    // Drag model gesture
+    UIPanGestureRecognizer *singleFingerDrag = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleDrag:)];
+    [self.view addGestureRecognizer:singleFingerDrag];
+
+    self.gridMovement = [[GridMovement alloc] initWithGridCount:GLKVector2Make(3.0f, 3.0f) Size:GLKVector2Make(self.view.frame.size.width, self.view.frame.size.height)];
+    
     if (!self.context) {
         NSLog(@"Failed to create ES context");
     }
@@ -220,11 +257,16 @@ GLfloat gCubeVertexData[216] =
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
+    // Overwriting the blue cube for testing
+    modelViewMatrix = [self.transformations getModelViewMatrix];
+    
     _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
     
     _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
     _rotation += self.timeSinceLastUpdate * 0.5f;
+    
+    [self.gridMovement debugLoop];
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
@@ -398,6 +440,28 @@ GLfloat gCubeVertexData[216] =
     }
     
     return YES;
+}
+
+// The first method to respond to a Touch event
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    // Begin transformations
+    [self.transformations start];
+    NSLog(@"Starting Gestures");
+}
+
+
+- (GLKVector3)get3DVector:(GLKVector2)point2D Width:(int)w Height:(int)h
+{
+    double x = 2.0 * point2D.x / self.view.frame.size.width - 1;
+    double y = 2.0 * point2D.y / self.view.frame.size.height + 1;
+        float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
+    bool isInvertible;
+    GLKMatrix4 viewProjInv = GLKMatrix4Invert(GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f),  &isInvertible);
+    
+    GLKVector3 point3D = GLKVector3Make(x, y, 0.0f);
+    
+    return GLKMatrix4MultiplyVector3(viewProjInv, point3D);
 }
 
 @end
