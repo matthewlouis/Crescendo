@@ -10,57 +10,134 @@ import Foundation
 import UIKit
 import AudioKit
 
+enum SampleFormat {
+    case EXS24
+    case SF2
+    case WAV
+}
+
+enum FXType {
+    case REVERB
+    case DELAY
+    case BITCRUSH
+    case COMPRESSOR
+    case FATTEN
+}
+
+enum InstrumentType{
+    case FM
+    case NOISE
+    case PWM
+    case KICK
+    case SNARE
+    case WAVE
+    case ANALOGX
+}
+
 //Basic track struct
 struct Track{
-    
     //The instrument
     var instrument: AKNode
     //Array of insert effects
     var fx = [AKNode?]()
     //track volume
     var volume:AKBooster?
+    //This allows polyphonic instruments to receive MIDI data
+    var midiInstrument:AKMIDIInstrument?
 }
 
 class GameMusicPlayer : NSObject{
+    let DEFAULT_BPM:Float = 120
+    
+    var bpm:Float{
+        didSet{
+            sequencer?.setBPM(bpm)
+        }
+    }
     var sequencer:AKSequencer?
     var mixer = AKMixer()
     
     //Allots for 16 tracks, with a 1-based index
     var tracks = [Track?](count: 17, repeatedValue:nil)
     
+    let midi = AKMIDI()
     var currentMidiLoop = "";
     
     override init(){
         currentMidiLoop = "Songs/test";
+        self.bpm = DEFAULT_BPM
         super.init()
-            }
+    }
     
     init(withMidiLoopFileName midiLoopFileName: NSString){
         currentMidiLoop = midiLoopFileName as String
+        self.bpm = DEFAULT_BPM
         super.init()
     }
     
-    //loads a sampler instrument into
-    func loadSampler(intoTrackNumber:Int, EXS24file: String){
-        
-        var sampler = AKSampler()
-        sampler.loadEXS24(EXS24file)
-        sequencer!.avTracks[intoTrackNumber].destinationAudioUnit = sampler.samplerUnit
-        tracks[intoTrackNumber] = Track(instrument: sampler, fx: [AKNode?](), volume: nil)
-    }
-    
-    
+    //loads audiokit and settings, will be turned into loadSong
     func load(){
         AudioKit.output = mixer
         AudioKit.start()
         
         sequencer = AKSequencer(filename: currentMidiLoop, engine: AudioKit.engine)
-        sequencer?.loopOn()
+        sequencer?.setBPM(bpm)
         
-        loadSampler(1, EXS24file: "Sounds/Sampler Instruments/sqrTone1")
-        loadSampler(2, EXS24file: "Sounds/Sampler Instruments/sawPiano1")
-        loadSampler(3, EXS24file: "Sounds/Sampler Instruments/sawPad1")
-        //loadSampler(4, EXS24file: "Sounds/Sampler Instruments/drumSimp")
+        loadSampler(3, fileName: "Sounds/Sampler Instruments/Drums", sampleFormat: SampleFormat.EXS24)
+        
+        let drumsfx1 = addFX(3, fxType: .COMPRESSOR) as! AKCompressor
+        drumsfx1.releaseTime = 1
+        drumsfx1.attackTime = 0.05
+        drumsfx1.threshold = -40
+        drumsfx1.headRoom = 9
+        drumsfx1.masterGain = 3
+        let drumsfx2 = addFX(3, fxType: .BITCRUSH) as! AKBitCrusher
+        drumsfx2.bitDepth = 8
+        
+        loadSampler(1, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24)
+        let pianofx1 = addFX(1, fxType: .FATTEN) as! Fatten
+        pianofx1.time = 0.05
+        let pianofx2 = addFX(1, fxType: .REVERB) as! AKReverb2
+        pianofx2.decayTimeAt0Hz = 2
+        pianofx2.decayTimeAtNyquist = 10 
+        pianofx2.dryWetMix = 0.5
+        let pianofx3 = addFX(1, fxType: .COMPRESSOR) as! AKCompressor
+        pianofx3.masterGain = 9
+        
+        let bass = loadPolySynth(7, instrumentType: .ANALOGX, voiceCount: 2) as! CoreInstrument
+        bass.releaseDuration = 0.05
+        bass.attackDuration = 0
+        bass.sustainLevel = 0.5
+        bass.waveform1 = Double(3.0)
+        bass.waveform2 = Double(0.0)
+        bass.offset1 =  -12
+        bass.offset2 = -12
+        bass.morph = 0.9
+        bass.vcoBalance = 0.7
+        let bassfx1 = addFX(7, fxType: .DELAY) as! AKDelay
+        bassfx1.time = 0.05
+        bassfx1.dryWetMix = 0.1
+        
+        let dinky = loadPolySynth(5, instrumentType: .ANALOGX, voiceCount: 2) as! CoreInstrument
+        dinky.releaseDuration = 0.3
+        dinky.attackDuration = 0
+        dinky.sustainLevel = 0.5
+        dinky.waveform1 = Double(2.0)
+        dinky.waveform2 = Double(2.0)
+        dinky.morph = 1.0
+        let dinkyfx1 = addFX(5, fxType: .DELAY) as! AKDelay
+        dinkyfx1.time = 0.25
+        dinkyfx1.feedback = 0.9
+        dinkyfx1.dryWetMix = 0.2
+        dinkyfx1.lowPassCutoff = 9000
+        
+        let synth2 = loadPolySynth(4, instrumentType: .ANALOGX, voiceCount: 4) as! CoreInstrument
+        synth2.waveform1 = Double(2)
+        synth2.waveform2 = Double(2)
+        synth2.detune = -2.0
+        synth2.morph = -0.99
+        synth2.attackDuration = 0.2
+        synth2.releaseDuration = 0.0
         
         AudioKit.stop()
         //connects all tracks to mixer at default gain level
@@ -70,17 +147,147 @@ class GameMusicPlayer : NSObject{
                 mixer.connect(tracks[index]!.volume!)
             }
         }
-        tracks[3]?.volume!.gain = 0.3
+        
+        let masterComp = AKCompressor(mixer)
+        masterComp.headRoom = 3
+        masterComp.releaseTime = 0.2
+        masterComp.masterGain = 9
+        
+        tracks[4]?.volume?.gain = 0.1
+        tracks[1]?.volume?.gain = 0.3
+        
+        AudioKit.output = masterComp
         AudioKit.start()
-        sequencer!.setLength(8)
         
-        
+        sequencer!.setLength(4.0)
+        sequencer?.loopOn()
     }
     
+    //loads a sampler instrument into the track
+    func loadSampler(intoTrackNumber:Int, fileName: String, sampleFormat: SampleFormat) -> AKSampler{
+        
+        let sampler = AKSampler()
+        
+        switch(sampleFormat){
+        case .EXS24:
+            sampler.loadEXS24(fileName)
+            break
+        case .SF2:
+            sampler.loadSoundfont(fileName)
+            break
+        case .WAV:
+            sampler.loadWav(fileName)
+            break
+        }
+        
+        sampler.loadEXS24(fileName)
+        sequencer!.avTracks[intoTrackNumber].destinationAudioUnit = sampler.samplerUnit
+        tracks[intoTrackNumber] = Track(instrument: sampler, fx: [AKNode?](), volume: nil, midiInstrument: nil)
+        return sampler
+    }
+    
+    //loads a polyphonic instrument into the track
+    func loadPolySynth(intoTrackNumber:Int, instrumentType: InstrumentType, voiceCount: Int, whitePinkMix: Double? = nil, tableType: AKTableType? = nil, tableSize: Int? = nil) -> AKPolyphonicInstrument{
+        var instrument: AKPolyphonicInstrument
+        switch(instrumentType){
+        case .FM:
+            instrument = AKFMSynth(voiceCount: voiceCount)
+            break
+        case .NOISE:
+            instrument = AKNoiseGenerator(whitePinkMix: whitePinkMix!, voiceCount: voiceCount)
+            break
+        case .PWM:
+            instrument = AKPWMSynth(voiceCount: voiceCount)
+            break
+        case .KICK:
+            instrument = AKSynthKick(voiceCount: voiceCount)
+            break
+        case .SNARE:
+            instrument = AKSynthSnare(voiceCount: voiceCount)
+            break
+        case .WAVE:
+            instrument = AKWavetableSynth(waveform: AKTable(tableType!, size:tableSize!), voiceCount: voiceCount)
+            break
+        case .ANALOGX:
+            instrument = CoreInstrument(voiceCount: voiceCount);
+        }
+        
+        //assign midiControl to instrument and connect to midi client
+        let midiInstrument = AKMIDIInstrument(instrument: instrument)
+        midiInstrument.enableMIDI(midi.midiClient, name: String(format: "Track %d midi in", intoTrackNumber))
+        
+        //add add midiInstrument and physical instrument to newly generated track
+        tracks[intoTrackNumber] = Track(instrument: instrument, fx: [AKNode?](), volume: nil, midiInstrument: midiInstrument)
+        
+        //set sequencer track to output to midi instrument
+        sequencer!.avTracks[intoTrackNumber].destinationMIDIEndpoint = midiInstrument.midiIn
+        tracks[intoTrackNumber]?.midiInstrument = midiInstrument
+        
+        //return the physical instrument
+        return instrument
+    }
+    
+    
+    //gets the specified effect chain
+    func getFXChain(trackNumber: Int) -> [AKNode?]{
+        return tracks[trackNumber]!.fx
+    }
+    
+    //gets the specified effect
+    func getFX(trackNumber: Int, fxIndex: Int) -> AKNode?{
+        return tracks[trackNumber]!.fx[fxIndex]
+    }
+    
+    
+    //gets the instrument on specified track
+    func getInstrument(trackNumber: Int) -> AKNode{
+        return tracks[trackNumber]!.instrument
+    }
+    
+    //gets the volume fader for the specified track
+    func getVolume(trackNumber: Int) -> AKNode?{
+        return tracks[trackNumber]!.volume
+    }
+    
+    //adds a specified effect into the effect chain and returns the new effect
+    func addFX(intoTrackNumber: Int, fxType: FXType) -> AKNode{
+        var lastNodeInChain:AKNode
+        
+        if(tracks[intoTrackNumber]!.fx.count > 0){ //if there are any FX in the chain
+            lastNodeInChain = tracks[intoTrackNumber]!.fx[tracks[intoTrackNumber]!.fx.count - 1]!
+        }else{ //connect directly to instrument
+            lastNodeInChain = tracks[intoTrackNumber]!.instrument
+        }
+        
+        
+        switch(fxType){
+        case .REVERB:
+            tracks[intoTrackNumber]!.fx.append(AKReverb2(lastNodeInChain))
+            break
+        case .DELAY:
+            tracks[intoTrackNumber]!.fx.append(AKDelay(lastNodeInChain))
+            break
+        case .BITCRUSH:
+            tracks[intoTrackNumber]!.fx.append(AKBitCrusher(lastNodeInChain))
+            break
+        case .COMPRESSOR:
+            tracks[intoTrackNumber]!.fx.append(AKCompressor(lastNodeInChain))
+            break
+        case .FATTEN:
+            tracks[intoTrackNumber]!.fx.append(Fatten(lastNodeInChain))
+            break
+        }
+        
+        //return the newly added effect
+        return tracks[intoTrackNumber]!.fx[tracks[intoTrackNumber]!.fx.count - 1]!
+    }
+    
+    //play sequencer
     func play(){
         sequencer!.play();
     }
     
+    //stop sequencer
     func stop(){
         sequencer!.stop();
     }

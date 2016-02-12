@@ -10,8 +10,6 @@
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
 @import AudioKit;
-#import "Plane.h"
-#import "PlaneContainer.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -91,10 +89,6 @@ GLfloat gCubeVertexData[216] =
     
     GameMusicPlayer *musicPlayer;
     AKReverb2 *reverbEffect;
-    
-    // Plane Container
-    PlaneContainer *planeContainer;
-    
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -114,11 +108,6 @@ GLfloat gCubeVertexData[216] =
 {
     [super viewDidLoad];
     musicPlayer = [[GameMusicPlayer alloc] init];
-    
-    // Initialize plane container
-    planeContainer = [[PlaneContainer alloc] init];
-    [planeContainer CreatePlane];
-    
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -186,6 +175,15 @@ GLfloat gCubeVertexData[216] =
     glGenVertexArraysOES(1, &_vertexArray);
     glBindVertexArrayOES(_vertexArray);
     
+    glGenBuffers(1, &_vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
+    glEnableVertexAttribArray(GLKVertexAttribNormal);
+    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
+    
     glBindVertexArrayOES(0);
 }
 
@@ -208,68 +206,57 @@ GLfloat gCubeVertexData[216] =
 
 - (void)update
 {
-    // Update Plane Container
-    [planeContainer update:self.timeSinceLastUpdate];
-}
-
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-{
-    // Rendering Code for Jarred
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glBindVertexArrayOES(_vertexArray);
-    
-    // Attempt to render all planes
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
     
     self.effect.transform.projectionMatrix = projectionMatrix;
     
-    // View
-    GLKMatrix4 cameraViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
-    cameraViewMatrix = GLKMatrix4Rotate(cameraViewMatrix, 0, 0.0f, 1.0f, 0.0f);
+    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
+    baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
     
-    GLKMatrix4 modelViewMatrix;
-    GLuint _tempvertexBuffer;
-    Plane* currentPlane;
+    // Compute the model view matrix for the object rendered with GLKit
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
+    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
-    for (NSObject* o in planeContainer->Planes)
-    {
-         currentPlane = (Plane*)o;
-        
-        
-        
-        // Compute the model view matrix for the object rendered with ES2
-        glGenBuffers(1, &_tempvertexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, _tempvertexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(currentPlane->vertices), currentPlane->vertices, GL_STATIC_DRAW);
-        
-        glEnableVertexAttribArray(GLKVertexAttribPosition);
-        glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-        glEnableVertexAttribArray(GLKVertexAttribNormal);
-        glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
-        
-        
-        modelViewMatrix = GLKMatrix4MakeTranslation(currentPlane->worldPosition.x, currentPlane->worldPosition.y, currentPlane->worldPosition.z);
-        modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-        modelViewMatrix = GLKMatrix4Multiply(cameraViewMatrix, modelViewMatrix);
-        
-        _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
-        
-        _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
-        
-        // Render the object again with ES2
-        glUseProgram(_program);
-        
-        glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-        glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
-        
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        
-        // Clean up
-        glDeleteBuffers(1, &_tempvertexBuffer);
-    }
+    self.effect.transform.modelviewMatrix = modelViewMatrix;
+    
+    // Compute the model view matrix for the object rendered with ES2
+    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
+    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
+    
+    _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
+    
+    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
+    
+    _rotation += self.timeSinceLastUpdate * 0.5f;
+    
+    //matt test code
+    //reverbEffect.dryWetMix = modelViewMatrix.m01;
+    
+    
+}
+
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
+{
+    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glBindVertexArrayOES(_vertexArray);
+    
+    // Render the object with GLKit
+    [self.effect prepareToDraw];
+    
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    
+    // Render the object again with ES2
+    glUseProgram(_program);
+    
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
+    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation
