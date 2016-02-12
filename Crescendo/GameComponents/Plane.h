@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GameObject3D.h"
 @import GLKit;
 
-@interface Plane : NSObject
+
+@interface Plane : GameObject3D
 {    
-    @public GLfloat vertices[216];
-    @public GLKVector3 worldPosition;
+    
 }
 
 - (void)update:(float)TimePassed;
