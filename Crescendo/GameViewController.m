@@ -9,8 +9,9 @@
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
-#import "Utilities/Transformations.h"
-#import "GameComponents/GridMovement.h"
+#import "Transformations.h"
+#import "GridMovement.h"
+#import "HandleInputs.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -94,6 +95,7 @@ GLfloat gCubeVertexData[216] =
 @property (strong, nonatomic) GLKBaseEffect *effect;
 @property (strong, nonatomic) Transformations *transformations;
 @property (strong, nonatomic) GridMovement *gridMovement;
+@property (strong, nonatomic) HandleInputs *handleInput;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -102,30 +104,14 @@ GLfloat gCubeVertexData[216] =
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
 - (BOOL)linkProgram:(GLuint)prog;
 - (BOOL)validateProgram:(GLuint)prog;
+
+- (void)initializeClasses;
+- (void)createGestures;
+- (GLKMatrix4)getModelViewProjectionMatrix;
+
 @end
 
 @implementation GameViewController
-
-- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
-    CGPoint location = [recognizer locationInView:recognizer.view];
-    float aspectRatio = recognizer.view.frame.size.width / recognizer.view.frame.size.height;
-    GLKVector2 translation = [self.gridMovement getGridLocation:GLKVector2Make(location.x, location.y)];
-
-    GLKVector3 test = [self get3DVector:translation Width:recognizer.view.frame.size.width Height: recognizer.view.frame.size.height];
-        NSLog(@"Translation %.1f %.1f", test.x, test.y);
-
-    [self.transformations position:GLKVector2Make(test.x * 5.0f * aspectRatio, test.y * 5.0f)];
-}
-
-- (void)handleSingleDrag:(UIPanGestureRecognizer *)recognizer {
-    CGPoint translation = [recognizer translationInView:recognizer.view];
-    float x = translation.x/recognizer.view.frame.size.width;
-    float y = translation.y/recognizer.view.frame.size.height;
-    float aspectRatio = recognizer.view.frame.size.width / recognizer.view.frame.size.height;
-    
-    NSLog(@"Translation %.1f %.1f", x, y);
-    [self.transformations translate:GLKVector2Make(x, y) withMultiplier:5.0f aspectRatio:aspectRatio];
-}
 
 - (void)viewDidLoad
 {
@@ -133,18 +119,11 @@ GLfloat gCubeVertexData[216] =
     musicPlayer = [[GameMusicPlayer alloc] init];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-
-    // Testing Initialize transformations
-    self.transformations = [[Transformations alloc] initWithDepth:5.0f Scale:2.0f Translation:GLKVector2Make(0.0f, 0.0f) Rotation:GLKVector3Make(0.0f, 0.0f, 0.0f)];
-    
-    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-    [self.view addGestureRecognizer:singleFingerTap];
-    
-    // Drag model gesture
-    UIPanGestureRecognizer *singleFingerDrag = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleDrag:)];
-    [self.view addGestureRecognizer:singleFingerDrag];
-
-    self.gridMovement = [[GridMovement alloc] initWithGridCount:GLKVector2Make(3.0f, 3.0f) Size:GLKVector2Make(self.view.frame.size.width, self.view.frame.size.height)];
+    self.gridMovement = [[GridMovement alloc] initWithGridCount:GLKVector2Make(3.0f, 2.0f) Size:GLKVector2Make(self.view.frame.size.width, self.view.frame.size.height)];
+    self.transformations = [[Transformations alloc] initWithDepth:1.0f Scale:0.25f Translation:GLKVector2Make(0.0f, 0.0f) Rotation:GLKVector3Make(0.0f, 0.0f, 0.0f)];
+    //self.handleInput = [[HandleInputs alloc] initWithTransformations:self.transformations andGridMovement:self.gridMovement GameViewController:self];
+    //[self initializeClasses];
+    [self createGestures];
     
     if (!self.context) {
         NSLog(@"Failed to create ES context");
@@ -263,6 +242,8 @@ GLfloat gCubeVertexData[216] =
     _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
     
     _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
+    
+    [self.handleInput setModelViewProjectionMatrix:_modelViewProjectionMatrix];
     
     _rotation += self.timeSinceLastUpdate * 0.5f;
     
@@ -450,18 +431,27 @@ GLfloat gCubeVertexData[216] =
     NSLog(@"Starting Gestures");
 }
 
-
-- (GLKVector3)get3DVector:(GLKVector2)point2D Width:(int)w Height:(int)h
+- (void)initializeClasses
 {
-    double x = 2.0 * point2D.x / self.view.frame.size.width - 1;
-    double y = -2.0 * point2D.y / self.view.frame.size.height + 1;
-    float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
-    bool isInvertible;
-    GLKMatrix4 viewProjInv = GLKMatrix4Invert(GLKMatrix4Multiply(GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f), [self.transformations getModelViewMatrix]),  &isInvertible);
+    self.gridMovement = [[GridMovement alloc] initWithGridCount:GLKVector2Make(3.0f, 2.0f) Size:GLKVector2Make(self.view.frame.size.width, self.view.frame.size.height)];
+    self.transformations = [[Transformations alloc] initWithDepth:1.0f Scale:0.25f Translation:GLKVector2Make(0.0f, 0.0f) Rotation:GLKVector3Make(0.0f, 0.0f, 0.0f)];
+    self.handleInput = [[HandleInputs alloc] initWithTransformations:self.transformations andGridMovement:self.gridMovement GameViewController:self];
+
+}
+
+- (void)createGestures
+{
+    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleTap:)];
+    [self.view addGestureRecognizer:singleFingerTap];
     
-    GLKVector3 point3D = GLKVector3Make(x, y, 0.0f);
-    
-    return GLKMatrix4MultiplyVector3(viewProjInv, point3D);
+    // Drag model gesture
+    UIPanGestureRecognizer *singleFingerDrag = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleDrag:)];
+    [self.view addGestureRecognizer:singleFingerDrag];
+}
+
+- (GLKMatrix4)getModelViewProjectionMatrix
+{
+    return _modelViewProjectionMatrix;
 }
 
 @end

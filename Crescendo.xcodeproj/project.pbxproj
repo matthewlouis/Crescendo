@@ -27,6 +27,7 @@
 		340FB37A1C629FDC00F4A3AC /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 340FB3791C629FDC00F4A3AC /* Sounds */; };
 		4801BF4F1C6D99F3001784B7 /* Transformations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF4E1C6D99F3001784B7 /* Transformations.m */; };
 		4801BF521C6DBB09001784B7 /* GridMovement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF511C6DBB09001784B7 /* GridMovement.m */; };
+		485974581C6E6391003FBC7C /* HandleInputs.m in Sources */ = {isa = PBXBuildFile; fileRef = 485974571C6E6391003FBC7C /* HandleInputs.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,6 +78,8 @@
 		4801BF4E1C6D99F3001784B7 /* Transformations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Transformations.m; path = Utilities/Transformations.m; sourceTree = "<group>"; };
 		4801BF501C6DBB09001784B7 /* GridMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GridMovement.h; path = GameComponents/GridMovement.h; sourceTree = "<group>"; };
 		4801BF511C6DBB09001784B7 /* GridMovement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridMovement.m; path = GameComponents/GridMovement.m; sourceTree = "<group>"; };
+		485974571C6E6391003FBC7C /* HandleInputs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandleInputs.m; sourceTree = "<group>"; };
+		485974591C6E63B7003FBC7C /* HandleInputs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleInputs.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +116,7 @@
 		03A0C7FE1C498C7D004213DB /* Crescendo */ = {
 			isa = PBXGroup;
 			children = (
+				485974561C6E6205003FBC7C /* Controller */,
 				340FB3791C629FDC00F4A3AC /* Sounds */,
 				340FB3771C629E9000F4A3AC /* Songs */,
 				03AD817C1C5928E100934E91 /* Resources */,
@@ -152,8 +156,6 @@
 				03A0C82E1C499CC2004213DB /* PlaneObject.m */,
 				03AD81581C59267C00934E91 /* GameMusicPlayer.swift */,
 				340FB37B1C62A35B00F4A3AC /* Crescendo-Bridging-Header.h */,
-				4801BF501C6DBB09001784B7 /* GridMovement.h */,
-				4801BF511C6DBB09001784B7 /* GridMovement.m */,
 			);
 			name = GameComponents;
 			sourceTree = "<group>";
@@ -163,8 +165,6 @@
 			children = (
 				03A0C82A1C499B4C004213DB /* NSMutableArray+Queue.h */,
 				03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */,
-				4801BF4D1C6D99F3001784B7 /* Transformations.h */,
-				4801BF4E1C6D99F3001784B7 /* Transformations.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -177,6 +177,19 @@
 				03AD818F1C59293C00934E91 /* seqDemo.mid */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		485974561C6E6205003FBC7C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4801BF4D1C6D99F3001784B7 /* Transformations.h */,
+				4801BF4E1C6D99F3001784B7 /* Transformations.m */,
+				4801BF501C6DBB09001784B7 /* GridMovement.h */,
+				4801BF511C6DBB09001784B7 /* GridMovement.m */,
+				485974591C6E63B7003FBC7C /* HandleInputs.h */,
+				485974571C6E6391003FBC7C /* HandleInputs.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,7 +224,6 @@
 				TargetAttributes = {
 					03A0C7FB1C498C7C004213DB = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 766LELC49N;
 					};
 				};
 			};
@@ -260,6 +272,7 @@
 				03A0C80B1C498C7D004213DB /* GameViewController.m in Sources */,
 				03A0C82F1C499CC2004213DB /* PlaneObject.m in Sources */,
 				03A0C8321C49A13A004213DB /* PlaneContainer.m in Sources */,
+				485974581C6E6391003FBC7C /* HandleInputs.m in Sources */,
 				03A0C81D1C4992FD004213DB /* Plane.m in Sources */,
 				4801BF521C6DBB09001784B7 /* GridMovement.m in Sources */,
 				4801BF4F1C6D99F3001784B7 /* Transformations.m in Sources */,
@@ -385,6 +398,7 @@
 					"$(PROJECT_DIR)/AudioKit/Frameworks/AudioKit-iOS",
 				);
 				INFOPLIST_FILE = Crescendo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Comp8051.Equalizer.Crescendo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -407,6 +421,7 @@
 					"$(PROJECT_DIR)/AudioKit/Frameworks/AudioKit-iOS",
 				);
 				INFOPLIST_FILE = Crescendo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Comp8051.Equalizer.Crescendo;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -59,6 +59,8 @@
 
 - (void)position:(GLKVector2)t
 {
+    t = GLKVector2MultiplyScalar(t, _depth);
+    t = GLKVector2MultiplyScalar(t, _scaleEnd);
     _translationEnd = t;
 }
 
