@@ -10,6 +10,8 @@
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
 #import "PlaneContainer.h"
+#import "BaseEffect.h"
+#import "GameScene.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -92,6 +94,9 @@ GLfloat gCubeVertexData[216] =
     // Plane Container
     PlaneContainer *planeContainer;
     
+    BaseEffect *_shader;
+    GameScene *_scene;
+    
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -129,6 +134,9 @@ GLfloat gCubeVertexData[216] =
     
     [self setupGL];
     
+    // Create the game scene
+    [self setupScene];
+    
     [musicPlayer load];
     [musicPlayer play];
 }
@@ -164,11 +172,18 @@ GLfloat gCubeVertexData[216] =
     return YES;
 }
 
+- (void)setupScene
+{
+    _shader = [[BaseEffect alloc] initWithVertexShader:@"VertexShader.glsl" fragmentShader:@"FragmentShader.glsl"];
+    _scene = [[GameScene alloc] initWithShader:_shader];
+    
+}
+
 - (void)setupGL
 {
     [EAGLContext setCurrentContext:self.context];
     
-    [self loadShaders];
+    /*[self loadShaders];
     
     self.effect = [[GLKBaseEffect alloc] init];
     self.effect.light0.enabled = GL_TRUE;
@@ -179,7 +194,7 @@ GLfloat gCubeVertexData[216] =
     glGenVertexArraysOES(1, &_vertexArray);
     glBindVertexArrayOES(_vertexArray);
     
-    glBindVertexArrayOES(0);
+    glBindVertexArrayOES(0);*/
 }
 
 - (void)tearDownGL
@@ -208,11 +223,16 @@ GLfloat gCubeVertexData[216] =
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     // Rendering Code for Jarred
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
+    glClearColor(0.9f, 0.9f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
-    glBindVertexArrayOES(_vertexArray);
+    //glBindVertexArrayOES(_vertexArray);
     
+    /*
     // Attempt to render all planes
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
@@ -263,8 +283,11 @@ GLfloat gCubeVertexData[216] =
         // Clean up
         glDeleteBuffers(1, &_tempvertexBuffer);
     }
+    */
+    // Render the scene
+    GLKMatrix4 viewMatrix = GLKMatrix4Identity;
+    [_scene renderWithParentModelViewMatrix:viewMatrix];
     
-
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation
