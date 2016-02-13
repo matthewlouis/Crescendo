@@ -12,8 +12,6 @@
 
 @implementation Plane
 
-float const SPEED = 5.0f;
-
 - (id)init
 {
     self = [super init];
@@ -66,7 +64,9 @@ float const SPEED = 5.0f;
             -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
             -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
         };
-
+        
+        // Default Plane Velocity of 5 per second;
+        self->m_PlaneVelocity = 5.0;
         
         self->worldPosition = GLKVector3Make(0, 0, 0);
         
@@ -80,7 +80,7 @@ float const SPEED = 5.0f;
  */
 - (void)update:(float)TimePassed
 {
-    worldPosition.z += SPEED * TimePassed;
+    worldPosition.z += m_PlaneVelocity * TimePassed;
 }
 
 @end

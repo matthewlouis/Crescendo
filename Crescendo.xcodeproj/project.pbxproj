@@ -31,8 +31,6 @@
 		340FB36C1C62978800F4A3AC /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 340FB3661C62976F00F4A3AC /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		346671EB1C63D1C000583A6B /* Songs in Resources */ = {isa = PBXBuildFile; fileRef = 340FB3771C629E9000F4A3AC /* Songs */; };
 		346671EC1C63D1C000583A6B /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 03CADDEA1C595500008BE459 /* Sounds */; };
-		340FB3781C629E9000F4A3AC /* Songs in Resources */ = {isa = PBXBuildFile; fileRef = 340FB3771C629E9000F4A3AC /* Songs */; };
-		340FB37A1C629FDC00F4A3AC /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 340FB3791C629FDC00F4A3AC /* Sounds */; };
 		D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = D75068371C6D9971001FBCFD /* GameObject3D.m */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +81,7 @@
 		340FB3661C62976F00F4A3AC /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		340FB3771C629E9000F4A3AC /* Songs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Songs; sourceTree = "<group>"; };
 		340FB37B1C62A35B00F4A3AC /* Crescendo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crescendo-Bridging-Header.h"; sourceTree = "<group>"; };
+		D733D5571C6FB88A00854AE9 /* TimeSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSignature.h; sourceTree = "<group>"; };
 		D75068361C6D98C6001FBCFD /* GameObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		D75068371C6D9971001FBCFD /* GameObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject3D.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -160,6 +159,7 @@
 				340FB37B1C62A35B00F4A3AC /* Crescendo-Bridging-Header.h */,
 				D75068361C6D98C6001FBCFD /* GameObject3D.h */,
 				D75068371C6D9971001FBCFD /* GameObject3D.m */,
+				D733D5571C6FB88A00854AE9 /* TimeSignature.h */,
 			);
 			name = GameComponents;
 			sourceTree = "<group>";

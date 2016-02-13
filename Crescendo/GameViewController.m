@@ -234,7 +234,7 @@ GLfloat gCubeVertexData[216] =
     GLuint _tempvertexBuffer;
     Plane* currentPlane;
     
-    for (NSObject* o in planeContainer->Planes)
+    for (NSObject* o in planeContainer->m_Planes)
     {
          currentPlane = (Plane*)o;
         

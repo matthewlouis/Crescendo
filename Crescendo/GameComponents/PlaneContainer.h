@@ -10,16 +10,34 @@
 #import "NSMutableArray+Queue.h"
 
 #import "Plane.h"
+#import "TimeSignature.h"
+
+
 
 @interface PlaneContainer : NSObject
 {
-    @public NSMutableArray *Planes;
-    @private float timePassed;
+
+    
+@public NSMutableArray *m_Planes;
+@public float m_BPM;
+    
+@private TimeSignature m_TimeSignature;
+@private float m_TimePassed;
+@private float m_DelayPerBar;
+    
+@private float m_SpawnDistance;
+@private float m_PlaneVelocity;
+@private float m_TimeOnScreen;
 }
 
 -(void)CreatePlane;
 -(Plane*)GetPlane;
--(void)update:(float)TimePassed;
+
+-(void)setTimeSignature:(TimeSignature)timeSig;
+-(void)setTimeOnScreen:(float)time;
+-(void)setPlaneVelocity:(float)velocity;
+
+-(void)update:(float)timePassed;
 -(void)draw;
 
 @end

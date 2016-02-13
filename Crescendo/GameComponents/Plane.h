@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "GameObject3D.h"
+
 @import GLKit;
 
 
 @interface Plane : GameObject3D
 {    
-    
+@public float m_PlaneVelocity;
 }
 
 - (void)update:(float)TimePassed;
