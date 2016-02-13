@@ -38,6 +38,7 @@
 		920721CC1C6E865600C929CB /* FragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 920721CB1C6E865600C929CB /* FragmentShader.glsl */; };
 		920721CE1C6E868600C929CB /* VertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 920721CD1C6E868600C929CB /* VertexShader.glsl */; };
 		920721DE1C6E8A9700C929CB /* mushroom.png in Resources */ = {isa = PBXBuildFile; fileRef = 920721D91C6E8A9700C929CB /* mushroom.png */; };
+		92EBA11A1C6FAD1900993E0F /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 92EBA1191C6FAD1900993E0F /* GameScene.m */; };
 		D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = D75068371C6D9971001FBCFD /* GameObject3D.m */; };
 /* End PBXBuildFile section */
 
@@ -100,6 +101,8 @@
 		920721D71C6E8A9700C929CB /* mushroom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mushroom.h; sourceTree = "<group>"; };
 		920721D91C6E8A9700C929CB /* mushroom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mushroom.png; sourceTree = "<group>"; };
 		D733D5571C6FB88A00854AE9 /* TimeSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSignature.h; sourceTree = "<group>"; };
+		92EBA1181C6FAD1900993E0F /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		92EBA1191C6FAD1900993E0F /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
 		D75068361C6D98C6001FBCFD /* GameObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		D75068371C6D9971001FBCFD /* GameObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject3D.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -138,6 +141,7 @@
 		03A0C7FE1C498C7D004213DB /* Crescendo */ = {
 			isa = PBXGroup;
 			children = (
+				92EBA1171C6FACF400993E0F /* Scenes */,
 				340557341C6BD531001DD32E /* AudioSystem */,
 				920721D51C6E8A9700C929CB /* Models */,
 				920721B81C6E7B7A00C929CB /* Shaders */,
@@ -258,6 +262,15 @@
 			path = mushroom;
 			sourceTree = "<group>";
 		};
+		92EBA1171C6FACF400993E0F /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				92EBA1181C6FAD1900993E0F /* GameScene.h */,
+				92EBA1191C6FAD1900993E0F /* GameScene.m */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -360,6 +373,7 @@
 				03A0C81D1C4992FD004213DB /* Plane.m in Sources */,
 				340557411C6BD575001DD32E /* MultiDelay.swift in Sources */,
 				03A0C8011C498C7D004213DB /* main.m in Sources */,
+				92EBA11A1C6FAD1900993E0F /* GameScene.m in Sources */,
 				03A0C82C1C499B4C004213DB /* NSMutableArray+Queue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

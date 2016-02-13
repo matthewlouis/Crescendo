@@ -12,6 +12,8 @@
 @import AudioKit;
 #import "Plane.h"
 #import "PlaneContainer.h"
+#import "BaseEffect.h"
+#import "GameScene.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -95,6 +97,9 @@ GLfloat gCubeVertexData[216] =
     // Plane Container
     PlaneContainer *planeContainer;
     
+    BaseEffect *_shader;
+    GameScene *_scene;
+    
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -131,6 +136,9 @@ GLfloat gCubeVertexData[216] =
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     [self setupGL];
+    
+    // Create the game scene
+    [self setupScene];
     
     [musicPlayer load];
     
@@ -169,6 +177,13 @@ GLfloat gCubeVertexData[216] =
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
+}
+
+- (void)setupScene
+{
+    _shader = [[BaseEffect alloc] initWithVertexShader:@"VertexShader.glsl" fragmentShader:@"FragmentShader.glsl"];
+    _scene = [[GameScene alloc] initWithShader:_shader];
+    
 }
 
 - (void)setupGL
@@ -215,10 +230,18 @@ GLfloat gCubeVertexData[216] =
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     // Rendering Code for Jarred
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
+    glClearColor(0.9f, 0.9f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glBindVertexArrayOES(_vertexArray);
+    
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    
+    
     
     // Attempt to render all planes
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
@@ -270,6 +293,11 @@ GLfloat gCubeVertexData[216] =
         // Clean up
         glDeleteBuffers(1, &_tempvertexBuffer);
     }
+    
+    // Render the scene
+    GLKMatrix4 viewMatrix = GLKMatrix4Identity;
+    [_scene renderWithParentModelViewMatrix:viewMatrix];
+    
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation

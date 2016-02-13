@@ -93,6 +93,26 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)vertex
     
 }
 
+- (void)updateWithDelta:(NSTimeInterval)dt {
+    for (GameObject3D *child in self.children) {
+        [child updateWithDelta:dt];
+    }
+}
+
+- (void)loadTexture:(NSString *)filename {
+    NSError *error;
+    NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:nil];
+    
+    NSDictionary *options = @{ GLKTextureLoaderOriginBottomLeft: @YES };
+    GLKTextureInfo *info = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
+    if (info == nil) {
+        NSLog(@"Error loading file: %@", error.localizedDescription);
+    } else {
+        self.texture = info.name;
+    }
+}
+
+
 -(GLKVector3)GetRight
 {
     GLKVector3 rightVector = GLKVector3Make(1, 0, 0);
