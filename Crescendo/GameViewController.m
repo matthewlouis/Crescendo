@@ -183,7 +183,7 @@ GLfloat gCubeVertexData[216] =
 {
     [EAGLContext setCurrentContext:self.context];
     
-    /*[self loadShaders];
+    [self loadShaders];
     
     self.effect = [[GLKBaseEffect alloc] init];
     self.effect.light0.enabled = GL_TRUE;
@@ -194,7 +194,7 @@ GLfloat gCubeVertexData[216] =
     glGenVertexArraysOES(1, &_vertexArray);
     glBindVertexArrayOES(_vertexArray);
     
-    glBindVertexArrayOES(0);*/
+    glBindVertexArrayOES(0);
 }
 
 - (void)tearDownGL
@@ -225,14 +225,17 @@ GLfloat gCubeVertexData[216] =
     // Rendering Code for Jarred
     glClearColor(0.9f, 0.9f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glBindVertexArrayOES(_vertexArray);
+    
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
-    //glBindVertexArrayOES(_vertexArray);
     
-    /*
+    
+    
     // Attempt to render all planes
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
@@ -283,7 +286,7 @@ GLfloat gCubeVertexData[216] =
         // Clean up
         glDeleteBuffers(1, &_tempvertexBuffer);
     }
-    */
+    
     // Render the scene
     GLKMatrix4 viewMatrix = GLKMatrix4Identity;
     [_scene renderWithParentModelViewMatrix:viewMatrix];

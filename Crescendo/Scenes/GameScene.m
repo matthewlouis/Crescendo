@@ -26,14 +26,14 @@
         _gameArea = CGSizeMake(48, 27);
         _sceneOffset = _gameArea.height/2 / tanf(GLKMathDegreesToRadians(85.0/2));
         self.position = GLKVector3Make(-_gameArea.width/2, -_gameArea.height/2 + 10, -_sceneOffset);
-        self.rotationX = GLKMathDegreesToRadians(-20);
+        //self.rotationX = GLKMathDegreesToRadians(-20);
         
         // Create player near bottom center of screen
         _player = [[Player alloc] initWithShader:shader];
         _player.position = GLKVector3Make(_gameArea.width/2, _gameArea.height * 0.05, 0);
         [self.children addObject:_player];
         
-        // Create plane containers
+        // Create plane container and its planes
     
         
         
