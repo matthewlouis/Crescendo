@@ -9,8 +9,11 @@
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
+<<<<<<< HEAD
 @import AudioKit;
 #import "Plane.h"
+=======
+>>>>>>> ImportModel
 #import "PlaneContainer.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
@@ -234,7 +237,7 @@ GLfloat gCubeVertexData[216] =
     GLuint _tempvertexBuffer;
     Plane* currentPlane;
     
-    for (NSObject* o in planeContainer->Planes)
+    for (NSObject* o in planeContainer->m_Planes)
     {
          currentPlane = (Plane*)o;
         
@@ -270,18 +273,6 @@ GLfloat gCubeVertexData[216] =
         // Clean up
         glDeleteBuffers(1, &_tempvertexBuffer);
     }
-    
-<<<<<<< HEAD
-=======
-    _rotation += self.timeSinceLastUpdate * 0.5f;
-    
-    //matt test code
-    //reverbEffect.dryWetMix = modelViewMatrix.m01;
-    
-    
-}
->>>>>>> develop
-
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation

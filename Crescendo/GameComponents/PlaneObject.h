@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <GLKit/GLKit.h>
 #import "GameObject3D.h"
 @import GLKit;
 
@@ -18,5 +19,6 @@
 //Matt: texture property but unsure of types
 
 -(void)move:(GLKVector3)amount;
+
 
 @end

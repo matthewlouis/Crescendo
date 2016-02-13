@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GameObject3D.h"
+#import <GLKit/GLKit.h>
 
 @import GLKit;
 
