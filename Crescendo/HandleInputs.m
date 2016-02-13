@@ -14,7 +14,6 @@
     GLKMatrix4 _modelViewProjectionMatrix;
     Transformations *transformations;
     GridMovement *gridMovement;
-    GameViewController *gameViewController;
 }
 
 @end
@@ -27,7 +26,6 @@
     {
         transformations = t;
         gridMovement = g;
-        gameViewController = v;
     }
     
     return self;
@@ -65,7 +63,7 @@
     double y = -2.0 * point2D.y / h + 1;
     
     bool isInvertible;
-    GLKMatrix4 viewProjInv = GLKMatrix4Invert([gameViewController getModelViewProjectionMatrix],  &isInvertible);
+    GLKMatrix4 viewProjInv = GLKMatrix4Invert(_modelViewProjectionMatrix, &isInvertible);
     
     GLKVector3 point3D = GLKVector3Make(x, y, 0.0f);
     

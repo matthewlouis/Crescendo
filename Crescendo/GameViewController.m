@@ -119,10 +119,8 @@ GLfloat gCubeVertexData[216] =
     musicPlayer = [[GameMusicPlayer alloc] init];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    self.gridMovement = [[GridMovement alloc] initWithGridCount:GLKVector2Make(3.0f, 2.0f) Size:GLKVector2Make(self.view.frame.size.width, self.view.frame.size.height)];
-    self.transformations = [[Transformations alloc] initWithDepth:1.0f Scale:0.25f Translation:GLKVector2Make(0.0f, 0.0f) Rotation:GLKVector3Make(0.0f, 0.0f, 0.0f)];
-    //self.handleInput = [[HandleInputs alloc] initWithTransformations:self.transformations andGridMovement:self.gridMovement GameViewController:self];
-    //[self initializeClasses];
+
+    [self initializeClasses];
     [self createGestures];
     
     if (!self.context) {
@@ -246,8 +244,7 @@ GLfloat gCubeVertexData[216] =
     [self.handleInput setModelViewProjectionMatrix:_modelViewProjectionMatrix];
     
     _rotation += self.timeSinceLastUpdate * 0.5f;
-    
-    [self.gridMovement debugLoop];
+
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
