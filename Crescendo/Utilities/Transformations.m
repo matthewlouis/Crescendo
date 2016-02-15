@@ -19,6 +19,11 @@
     // Translation
     GLKVector2  _translationStart;
     GLKVector2  _translationEnd;
+    // Rotation
+    GLKVector3      _rotationStart;
+    GLKQuaternion   _rotationEnd;
+    // Vectors
+    GLKVector3      _front;
 }
 
 @end
@@ -36,6 +41,11 @@
         _scaleEnd = s;
         // Translation
         _translationEnd = t;
+        // Vectors
+        _front = GLKVector3Make(0.0f, 0.0f, 1.0f);
+        r.z = GLKMathDegreesToRadians(r.z);
+        _rotationEnd = GLKQuaternionIdentity;
+        _rotationEnd = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-r.z, _front), _rotationEnd);
     }
     
     return self;
@@ -87,9 +97,12 @@
 {
     // 3
     GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, _translationEnd.x, _translationEnd.y, -_depth);
-    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, _scaleEnd, _scaleEnd, _scaleEnd);
+    GLKMatrix4 quaternionMatrix = GLKMatrix4MakeWithQuaternion(_rotationEnd);
     
+    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, _translationEnd.x, _translationEnd.y, -_depth);
+    modelViewMatrix = GLKMatrix4Multiply(modelViewMatrix, quaternionMatrix);
+    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, _scaleEnd, _scaleEnd, _scaleEnd);
+
     return modelViewMatrix;
 }
 

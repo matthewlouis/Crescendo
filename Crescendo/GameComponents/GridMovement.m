@@ -37,7 +37,7 @@
 - (void)calculateCellsCenter
 {
     int cellCount = _gridCount.x * _gridCount.y;
-    cellArray = calloc(cellCount, sizeof(GLKVector2));
+    cellArray = calloc(cellCount+1, sizeof(GLKVector2));
     
     float x;
     float y;
@@ -72,7 +72,8 @@
     int y = (int)(screenLocation.y / _cellSize.y);
  
     NSLog(@"Accessing Array Index: %i", 3 * y + x + 1);
-    
+    NSLog(@"Array Index: %f, %f", cellArray[3 * y + x + 1].x, cellArray[3 * y + x + 1].y);
+
     return cellArray[3 * y + x + 1];
 }
 

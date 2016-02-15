@@ -20,12 +20,12 @@
 
 @implementation HandleInputs
 
-- (id)initWithTransformations:(Transformations*)t andGridMovement:(GridMovement*)g GameViewController:(GameViewController*)v
+- (id)initWithViewSize:(CGSize)size
 {
     if(self = [super init])
     {
-        transformations = t;
-        gridMovement = g;
+        gridMovement = [[GridMovement alloc] initWithGridCount:GLKVector2Make(3.0f, 2.0f) Size:GLKVector2Make(size.width, size.height)];
+        transformations = [[Transformations alloc] initWithDepth:1.0f Scale:0.25f Translation:GLKVector2Make(0.0f, 0.0f) Rotation:GLKVector3Make(0.0f, 0.0f, 0.0f)];
     }
     
     return self;
@@ -36,6 +36,11 @@
     _modelViewProjectionMatrix = m;
 }
 
+- (GLKMatrix4)getModelViewMatrix
+{
+    return [transformations getModelViewMatrix];
+}
+
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer
 {
     CGPoint location = [recognizer locationInView:recognizer.view];
@@ -43,6 +48,8 @@
     GLKVector2 translation = [gridMovement getGridLocation:GLKVector2Make(location.x, location.y)];
     
     GLKVector3 test = [self get3DVector:translation Width:recognizer.view.frame.size.width Height: recognizer.view.frame.size.height];
+    
+    NSLog(@"Placing Model At: (X: %f, Y: %f)", test.x, test.y);
     
     [transformations position:GLKVector2Make(test.x, test.y)];
 }
@@ -68,6 +75,11 @@
     GLKVector3 point3D = GLKVector3Make(x, y, 0.0f);
     
     return GLKMatrix4MultiplyVector3(viewProjInv, point3D);
+}
+
+- (void)respondToTouchesBegan
+{
+    [transformations start];
 }
 
 @end

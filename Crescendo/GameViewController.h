@@ -11,6 +11,4 @@
 
 @interface GameViewController : GLKViewController
 
-- (GLKMatrix4)getModelViewProjectionMatrix;
-
 @end

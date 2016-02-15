@@ -9,8 +9,6 @@
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
-#import "Transformations.h"
-#import "GridMovement.h"
 #import "HandleInputs.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
@@ -93,8 +91,6 @@ GLfloat gCubeVertexData[216] =
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
-@property (strong, nonatomic) Transformations *transformations;
-@property (strong, nonatomic) GridMovement *gridMovement;
 @property (strong, nonatomic) HandleInputs *handleInput;
 
 - (void)setupGL;
@@ -107,7 +103,6 @@ GLfloat gCubeVertexData[216] =
 
 - (void)initializeClasses;
 - (void)createGestures;
-- (GLKMatrix4)getModelViewProjectionMatrix;
 
 @end
 
@@ -235,7 +230,7 @@ GLfloat gCubeVertexData[216] =
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
     // Overwriting the blue cube for testing
-    modelViewMatrix = [self.transformations getModelViewMatrix];
+    modelViewMatrix = [self.handleInput getModelViewMatrix];
     
     _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
     
@@ -424,16 +419,13 @@ GLfloat gCubeVertexData[216] =
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     // Begin transformations
-    [self.transformations start];
+    [self.handleInput respondToTouchesBegan];
     NSLog(@"Starting Gestures");
 }
 
 - (void)initializeClasses
 {
-    self.gridMovement = [[GridMovement alloc] initWithGridCount:GLKVector2Make(3.0f, 2.0f) Size:GLKVector2Make(self.view.frame.size.width, self.view.frame.size.height)];
-    self.transformations = [[Transformations alloc] initWithDepth:1.0f Scale:0.25f Translation:GLKVector2Make(0.0f, 0.0f) Rotation:GLKVector3Make(0.0f, 0.0f, 0.0f)];
-    self.handleInput = [[HandleInputs alloc] initWithTransformations:self.transformations andGridMovement:self.gridMovement GameViewController:self];
-
+    self.handleInput = [[HandleInputs alloc] initWithViewSize:self.view.frame.size];
 }
 
 - (void)createGestures
@@ -444,11 +436,6 @@ GLfloat gCubeVertexData[216] =
     // Drag model gesture
     UIPanGestureRecognizer *singleFingerDrag = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleDrag:)];
     [self.view addGestureRecognizer:singleFingerDrag];
-}
-
-- (GLKMatrix4)getModelViewProjectionMatrix
-{
-    return _modelViewProjectionMatrix;
 }
 
 @end

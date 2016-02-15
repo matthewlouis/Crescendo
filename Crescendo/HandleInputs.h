@@ -14,9 +14,11 @@
 
 @interface HandleInputs : NSObject
 
-- (id)initWithTransformations:(Transformations*)t andGridMovement:(GridMovement*)g GameViewController:(GameViewController*)v;
+- (id)initWithViewSize:(CGSize)size;
 - (void)setModelViewProjectionMatrix:(GLKMatrix4)m;
+- (GLKMatrix4)getModelViewMatrix;
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer;
 - (void)handleSingleDrag:(UIPanGestureRecognizer *)recognizer;
+- (void)respondToTouchesBegan;
 
 @end
