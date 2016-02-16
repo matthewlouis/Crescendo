@@ -16,9 +16,10 @@
 
 - (id)initWithViewSize:(CGSize)size;
 - (void)setModelViewProjectionMatrix:(GLKMatrix4)m;
-- (GLKMatrix4)getModelViewMatrix;
+- (GLKMatrix4)modelViewMatrix:(float)time;
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer;
 - (void)handleSingleDrag:(UIPanGestureRecognizer *)recognizer;
 - (void)respondToTouchesBegan;
+- (void)animateMovement:(float)frame;
 
 @end

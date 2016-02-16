@@ -14,6 +14,9 @@
     GLKMatrix4 _modelViewProjectionMatrix;
     Transformations *transformations;
     GridMovement *gridMovement;
+    GLKVector2 _position;
+    float _aspectRatio;
+    float _timeElasped;
 }
 
 @end
@@ -36,22 +39,36 @@
     _modelViewProjectionMatrix = m;
 }
 
-- (GLKMatrix4)getModelViewMatrix
+- (GLKMatrix4)modelViewMatrix:(float)time
 {
-    return [transformations getModelViewMatrix];
+    return [transformations getModelViewMatrix:time];
 }
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer
 {
     CGPoint location = [recognizer locationInView:recognizer.view];
     
-    GLKVector2 translation = [gridMovement getGridLocation:GLKVector2Make(location.x, location.y)];
+    GLKVector2 translation = [gridMovement gridLocation:GLKVector2Make(location.x, location.y)];
     
-    GLKVector3 test = [self get3DVector:translation Width:recognizer.view.frame.size.width Height: recognizer.view.frame.size.height];
+    GLKVector3 test = [self Vector3D:translation Width:recognizer.view.frame.size.width Height: recognizer.view.frame.size.height];
     
     NSLog(@"Placing Model At: (X: %f, Y: %f)", test.x, test.y);
     
     [transformations position:GLKVector2Make(test.x, test.y)];
+    
+    //[transformations setTranslationStart:GLKVector2Make(location.x, location.y)];
+    float x = translation.x/recognizer.view.frame.size.width;
+    float y = translation.y/recognizer.view.frame.size.height;
+    _aspectRatio = recognizer.view.frame.size.width / recognizer.view.frame.size.height;
+    
+    NSLog(@"x %f, y %f", x, y);
+    
+    _position = GLKVector2Make(x, y);
+}
+
+- (void)animateMovement:(float)frame
+{
+    _timeElasped = frame;
 }
 
 - (void)handleSingleDrag:(UIPanGestureRecognizer *)recognizer
@@ -60,11 +77,11 @@
     float x = translation.x/recognizer.view.frame.size.width;
     float y = translation.y/recognizer.view.frame.size.height;
     float aspectRatio = recognizer.view.frame.size.width / recognizer.view.frame.size.height;
-
+    NSLog(@"x %f, y %f", x, y);
     [transformations translate:GLKVector2Make(x, y) withMultiplier:1.0f aspectRatio:aspectRatio];
 }
 
-- (GLKVector3)get3DVector:(GLKVector2)point2D Width:(int)w Height:(int)h
+- (GLKVector3)Vector3D:(GLKVector2)point2D Width:(int)w Height:(int)h
 {
     double x = 2.0 * point2D.x / w - 1;
     double y = -2.0 * point2D.y / h + 1;

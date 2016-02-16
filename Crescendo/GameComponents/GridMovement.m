@@ -66,7 +66,7 @@
     free(cellArray);
 }
 
-- (GLKVector2)getGridLocation:(GLKVector2)screenLocation
+- (GLKVector2)gridLocation:(GLKVector2)screenLocation
 {
     int x = (int)(screenLocation.x / _cellSize.x);
     int y = (int)(screenLocation.y / _cellSize.y);

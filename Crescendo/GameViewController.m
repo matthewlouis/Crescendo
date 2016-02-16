@@ -230,7 +230,7 @@ GLfloat gCubeVertexData[216] =
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
     // Overwriting the blue cube for testing
-    modelViewMatrix = [self.handleInput getModelViewMatrix];
+    modelViewMatrix = [self.handleInput modelViewMatrix:_rotation];
     
     _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
     

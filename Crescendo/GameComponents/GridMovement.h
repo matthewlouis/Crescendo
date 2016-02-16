@@ -14,6 +14,6 @@
 - (id)initWithGridCount:(GLKVector2)count Size:(GLKVector2)size;
 - (void)calculateCellsCenter;
 - (void)debugLoop;
-- (GLKVector2)getGridLocation:(GLKVector2)screenLocation;
+- (GLKVector2)gridLocation:(GLKVector2)screenLocation;
 
 @end

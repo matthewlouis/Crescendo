@@ -19,6 +19,8 @@
     // Translation
     GLKVector2  _translationStart;
     GLKVector2  _translationEnd;
+    GLKVector2 _lastLocation;
+    GLKVector2 _lastTranslation;
     // Rotation
     GLKVector3      _rotationStart;
     GLKQuaternion   _rotationEnd;
@@ -41,6 +43,8 @@
         _scaleEnd = s;
         // Translation
         _translationEnd = t;
+        _lastTranslation = _translationEnd;
+        _lastLocation = GLKVector2Make(0.0f, 0.0f);
         // Vectors
         _front = GLKVector3Make(0.0f, 0.0f, 1.0f);
         r.z = GLKMathDegreesToRadians(r.z);
@@ -67,11 +71,29 @@
     _scaleEnd = s * _scaleStart;
 }
 
-- (void)position:(GLKVector2)t
+- (void)position:(GLKVector2)t 
 {
+    _lastTranslation = _translationEnd;
+ 
     t = GLKVector2MultiplyScalar(t, _depth);
     t = GLKVector2MultiplyScalar(t, _scaleEnd);
+
     _translationEnd = t;
+}
+
+- (void)translate2:(GLKVector2)t withMultiplier:(float)m aspectRatio:(float)aR
+{
+    // 1
+    t.y *= m;
+    t.x *= m * aR;
+    
+    // 2
+    float dx = _translationEnd.x + (t.x-_lastLocation.x);
+    float dy = _translationEnd.y - (t.y-_lastLocation.y);
+    
+    // 3
+    _translationEnd = GLKVector2Make(dx, dy);
+    _lastLocation = t;
 }
 
 - (void)translate:(GLKVector2)t withMultiplier:(float)m aspectRatio:(float)aR
@@ -93,7 +115,7 @@
 {
 }
 
-- (GLKMatrix4)getModelViewMatrix
+- (GLKMatrix4)getModelViewMatrix:(float)time
 {
     // 3
     GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
