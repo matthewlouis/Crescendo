@@ -7,15 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GameObject3D.h"
 @import GLKit;
 
-@interface Plane : NSObject
 
-@property GLKVector3 worldPosition;
+@interface Plane : GameObject3D
+{    
+    
+}
 
-- (void)update;
+- (void)update:(float)TimePassed;
 - (void)move:(GLKVector3)amount;
 - (BOOL)checkCollision;
+
 
 
 

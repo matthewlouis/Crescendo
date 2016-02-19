@@ -9,10 +9,11 @@
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
+<<<<<<< HEAD
 @import AudioKit;
+=======
 #import "Plane.h"
-#import "PlaneContainer.h"
-#import "HandleInputs.h"
+>>>>>>> develop
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -80,26 +81,31 @@ GLfloat gCubeVertexData[216] =
     -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
 };
 
+// PlaneContainer
+
+
 @interface GameViewController () {
     GLuint _program;
     
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
     float _rotation;
-    CGPoint _lastLocation;
+    
     GLuint _vertexArray;
     GLuint _vertexBuffer;
     
     GameMusicPlayer *musicPlayer;
+<<<<<<< HEAD
     AKReverb2 *reverbEffect;
+=======
     
-    // Plane Container
-    PlaneContainer *planeContainer;
+    // Test Plane
+    Plane *testPlane;
     
+>>>>>>> develop
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
-@property (strong, nonatomic) HandleInputs *handleInput;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -108,10 +114,6 @@ GLfloat gCubeVertexData[216] =
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
 - (BOOL)linkProgram:(GLuint)prog;
 - (BOOL)validateProgram:(GLuint)prog;
-
-- (void)initializeClasses;
-- (void)createGestures;
-
 @end
 
 @implementation GameViewController
@@ -121,16 +123,13 @@ GLfloat gCubeVertexData[216] =
     [super viewDidLoad];
     musicPlayer = [[GameMusicPlayer alloc] init];
     
-    // Initialize plane container
-    planeContainer = [[PlaneContainer alloc] init];
-    [planeContainer CreatePlane];
+    // Initialize test plane
+    testPlane = [[Plane alloc] init];
+    testPlane->worldPosition.z = -20;
     
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
-    [self initializeClasses];
-    [self createGestures];
-    
     if (!self.context) {
         NSLog(@"Failed to create ES context");
     }
@@ -195,6 +194,15 @@ GLfloat gCubeVertexData[216] =
     glGenVertexArraysOES(1, &_vertexArray);
     glBindVertexArrayOES(_vertexArray);
     
+    glGenBuffers(1, &_vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(testPlane->vertices), testPlane->vertices, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
+    glEnableVertexAttribArray(GLKVertexAttribNormal);
+    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
+    
     glBindVertexArrayOES(0);
 }
 
@@ -217,19 +225,10 @@ GLfloat gCubeVertexData[216] =
 
 - (void)update
 {
-    // Update Plane Container
-    [planeContainer update:self.timeSinceLastUpdate];
-}
-
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-{
-    // Rendering Code for Jarred
-    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // Update Test Plane
+    [testPlane update];
     
-    glBindVertexArrayOES(_vertexArray);
     
-    // Attempt to render all planes
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
     
@@ -239,46 +238,49 @@ GLfloat gCubeVertexData[216] =
     GLKMatrix4 cameraViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
     cameraViewMatrix = GLKMatrix4Rotate(cameraViewMatrix, 0, 0.0f, 1.0f, 0.0f);
     
-    GLKMatrix4 modelViewMatrix;
-    GLuint _tempvertexBuffer;
-    Plane* currentPlane;
+    // Compute the model view matrix for the object rendered with GLKit
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(testPlane->worldPosition.x, testPlane->worldPosition.y, testPlane->worldPosition.z);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, 0, 1.0f, 1.0f, 1.0f);
+    modelViewMatrix = GLKMatrix4Multiply(cameraViewMatrix, modelViewMatrix);
     
-    for (NSObject* o in planeContainer->Planes)
-    {
-         currentPlane = (Plane*)o;
-        
-        
-        
-        // Compute the model view matrix for the object rendered with ES2
-        glGenBuffers(1, &_tempvertexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, _tempvertexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(currentPlane->vertices), currentPlane->vertices, GL_STATIC_DRAW);
-        
-        glEnableVertexAttribArray(GLKVertexAttribPosition);
-        glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-        glEnableVertexAttribArray(GLKVertexAttribNormal);
-        glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
-        
-        
-        modelViewMatrix = GLKMatrix4MakeTranslation(currentPlane->worldPosition.x, currentPlane->worldPosition.y, currentPlane->worldPosition.z);
-        modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-        modelViewMatrix = GLKMatrix4Multiply(cameraViewMatrix, modelViewMatrix);
-        
-        _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
-        
-        _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
-        
-        // Render the object again with ES2
-        glUseProgram(_program);
-        
-        glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-        glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
-        
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        
-        // Clean up
-        glDeleteBuffers(1, &_tempvertexBuffer);
-    }
+    self.effect.transform.modelviewMatrix = modelViewMatrix;
+    
+    // Compute the model view matrix for the object rendered with ES2
+    modelViewMatrix = GLKMatrix4MakeTranslation(testPlane->worldPosition.x, testPlane->worldPosition.y, testPlane->worldPosition.z);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
+    modelViewMatrix = GLKMatrix4Multiply(cameraViewMatrix, modelViewMatrix);
+    
+    _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
+    
+    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
+    
+    _rotation += self.timeSinceLastUpdate * 0.5f;
+    
+    //matt test code
+    //reverbEffect.dryWetMix = modelViewMatrix.m01;
+    
+    
+}
+
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
+{
+    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glBindVertexArrayOES(_vertexArray);
+    
+    // Render the object with GLKit
+    [self.effect prepareToDraw];
+    
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    
+    // Render the object again with ES2
+    glUseProgram(_program);
+    
+    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
+    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation
@@ -431,29 +433,6 @@ GLfloat gCubeVertexData[216] =
     }
     
     return YES;
-}
-
-// The first method to respond to a Touch event
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    // Begin transformations
-    [self.handleInput respondToTouchesBegan];
-    NSLog(@"Starting Gestures");
-}
-
-- (void)initializeClasses
-{
-    self.handleInput = [[HandleInputs alloc] initWithViewSize:self.view.frame.size];
-}
-
-- (void)createGestures
-{
-    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleTap:)];
-    [self.view addGestureRecognizer:singleFingerTap];
-    
-    // Drag model gesture
-    UIPanGestureRecognizer *singleFingerDrag = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleDrag:)];
-    [self.view addGestureRecognizer:singleFingerDrag];
 }
 
 @end

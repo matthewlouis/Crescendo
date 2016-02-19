@@ -8,6 +8,79 @@
 
 #import "Plane.h"
 
+
+
 @implementation Plane
+
+float const SPEED = 5.0f;
+
+- (id)init
+{
+    self = [super init];
+    
+    if (self)
+    {
+        GLfloat vertices[216] =
+        {
+            // Data layout for each line below is:
+            // positionX, positionY, positionZ,     normalX, normalY, normalZ,
+            0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,
+            0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
+            0.5f, 0.5f, -0.5f,          1.0f, 0.0f, 0.0f,
+            0.5f, 0.5f, 0.5f,         1.0f, 0.0f, 0.0f,
+            
+            0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,
+            -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
+            0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
+            0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,
+            -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,
+            -0.5f, 0.5f, 0.5f,         0.0f, 1.0f, 0.0f,
+            
+            -0.5f, 0.5f, -0.5f,        -1.0f, 0.0f, 0.0f,
+            -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
+            -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
+            -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,
+            -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,
+            -0.5f, -0.5f, 0.5f,        -1.0f, 0.0f, 0.0f,
+            
+            -0.5f, -0.5f, -0.5f,       0.0f, -1.0f, 0.0f,
+            0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
+            -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
+            -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,
+            0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,
+            0.5f, -0.5f, 0.5f,         0.0f, -1.0f, 0.0f,
+            
+            0.5f, 0.5f, 0.5f,          0.0f, 0.0f, 1.0f,
+            -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
+            0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
+            0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
+            -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,
+            -0.5f, -0.5f, 0.5f,        0.0f, 0.0f, 1.0f,
+            
+            0.5f, -0.5f, -0.5f,        0.0f, 0.0f, -1.0f,
+            -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
+            0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
+            0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,
+            -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
+            -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
+        };
+
+        
+        self->worldPosition = GLKVector3Make(0, 0, 0);
+        
+        memcpy(self->vertices, vertices, sizeof(float)*216);
+    }
+    return self;
+}
+
+/*
+ * Update the plane based on the amount of time that has passed/
+ */
+- (void)update:(float)TimePassed
+{
+    worldPosition.z += SPEED * TimePassed;
+}
 
 @end

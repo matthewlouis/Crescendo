@@ -12,7 +12,6 @@
 @import AudioKit;
 #import "Plane.h"
 #import "PlaneContainer.h"
-#import "HandleInputs.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -86,7 +85,7 @@ GLfloat gCubeVertexData[216] =
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
     float _rotation;
-    CGPoint _lastLocation;
+    
     GLuint _vertexArray;
     GLuint _vertexBuffer;
     
@@ -99,7 +98,6 @@ GLfloat gCubeVertexData[216] =
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
-@property (strong, nonatomic) HandleInputs *handleInput;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -108,10 +106,6 @@ GLfloat gCubeVertexData[216] =
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
 - (BOOL)linkProgram:(GLuint)prog;
 - (BOOL)validateProgram:(GLuint)prog;
-
-- (void)initializeClasses;
-- (void)createGestures;
-
 @end
 
 @implementation GameViewController
@@ -128,9 +122,6 @@ GLfloat gCubeVertexData[216] =
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
-    [self initializeClasses];
-    [self createGestures];
-    
     if (!self.context) {
         NSLog(@"Failed to create ES context");
     }
@@ -279,6 +270,18 @@ GLfloat gCubeVertexData[216] =
         // Clean up
         glDeleteBuffers(1, &_tempvertexBuffer);
     }
+    
+<<<<<<< HEAD
+=======
+    _rotation += self.timeSinceLastUpdate * 0.5f;
+    
+    //matt test code
+    //reverbEffect.dryWetMix = modelViewMatrix.m01;
+    
+    
+}
+>>>>>>> develop
+
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation
@@ -431,29 +434,6 @@ GLfloat gCubeVertexData[216] =
     }
     
     return YES;
-}
-
-// The first method to respond to a Touch event
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    // Begin transformations
-    [self.handleInput respondToTouchesBegan];
-    NSLog(@"Starting Gestures");
-}
-
-- (void)initializeClasses
-{
-    self.handleInput = [[HandleInputs alloc] initWithViewSize:self.view.frame.size];
-}
-
-- (void)createGestures
-{
-    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleTap:)];
-    [self.view addGestureRecognizer:singleFingerTap];
-    
-    // Drag model gesture
-    UIPanGestureRecognizer *singleFingerDrag = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleDrag:)];
-    [self.view addGestureRecognizer:singleFingerDrag];
 }
 
 @end
