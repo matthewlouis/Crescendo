@@ -15,25 +15,26 @@ const float SECONDS_PER_MINUTE = 60.0f;
 
 - (id)init
 {
-    self = [super init];
+    self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
+    if (self)
+    {
+        // Default BPM of 120
+        self->m_BPM = 120;
+        
+        // Default Plane Velocity of 5 per seconds
+        [self setPlaneVelocity:5.0f];
     
     //Instantiate Music Player
     gameMusicPlayer = [[GameMusicPlayer alloc] init];
     
     // Default BPM of 120
     self->m_BPM = [gameMusicPlayer getBPM];
+        // Calculate Delays
+        [self setTimeSignature:FourFour];
     
-    // Default Plane Velocity of 5 per seconds
-    [self setPlaneVelocity:5.0f];
+        // Set Time on Screen
+        [self setTimeOnScreen:10.0f];
     
-    // Calculate Delays
-    [self setTimeSignature:FourFour];
-    
-    // Set Time on Screen
-    [self setTimeOnScreen:5.0f];
-    
-    if (self)
-    {
         // Initialize a new Plane
         self->m_Planes = [[NSMutableArray alloc] init];
     }
@@ -50,6 +51,7 @@ const float SECONDS_PER_MINUTE = 60.0f;
     newPlane->worldPosition.z = self->m_SpawnDistance;
     newPlane->m_PlaneVelocity = self->m_PlaneVelocity;
     [m_Planes enqueue: (newPlane)];
+    [self->children addObject:newPlane];
 }
 
 /*
@@ -113,6 +115,7 @@ const float SECONDS_PER_MINUTE = 60.0f;
     // Clean up planes that are no longer valid
     while ([m_Planes peek] != nil && ((Plane*)[m_Planes peek])->worldPosition.z > 0)
     {
+        [self->children removeObject:(Plane*)[m_Planes peek]];
         [m_Planes dequeue];
     }
     

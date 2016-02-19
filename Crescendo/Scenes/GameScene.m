@@ -14,6 +14,9 @@
 @implementation GameScene{
     CGSize _gameArea;
     Player *_player;
+    Plane* plane;
+    
+    PlaneContainer* planeContainer;
     
     float _sceneOffset;
 }
@@ -27,17 +30,25 @@
         //self.rotationX = GLKMathDegreesToRadians(-20);
         
         // Create player near bottom center of screen
-        _player = [[Player alloc] initWithShader:shader];
-        [self->children addObject:_player];
+        //_player = [[Player alloc] initWithShader:shader];
+        //[self->children addObject:_player];
         
-        // Create plane container and its planes
+        planeContainer = [[PlaneContainer alloc]init];
+        [self->children addObject:planeContainer];
+        
+        
+        //plane = [[Plane alloc]init];
+        //plane->worldPosition = GLKVector3Make(0, 0, -10);
+        //[self->children addObject:plane];
     }
     return self;
 }
 
-- (void) update
+- (void) updateWithDeltaTime:(float)timePassed;
 {
-    _player->rotation.x += 0.01f;
+    [planeContainer update:timePassed];
+    //[plane update:timePassed];
+    //_player->rotation.x += 0.01f;
 }
 
 

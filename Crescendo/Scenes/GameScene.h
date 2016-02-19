@@ -12,6 +12,6 @@
 
 - (instancetype)initWithShader:(BaseEffect *)shader;
 
-- (void) update;
+- (void) updateWithDeltaTime:(float)timePassed;
 
 @end
