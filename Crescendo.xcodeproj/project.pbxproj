@@ -100,9 +100,9 @@
 		920721CD1C6E868600C929CB /* VertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VertexShader.glsl; sourceTree = "<group>"; };
 		920721D71C6E8A9700C929CB /* mushroom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mushroom.h; sourceTree = "<group>"; };
 		920721D91C6E8A9700C929CB /* mushroom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mushroom.png; sourceTree = "<group>"; };
-		D733D5571C6FB88A00854AE9 /* TimeSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSignature.h; sourceTree = "<group>"; };
 		92EBA1181C6FAD1900993E0F /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		92EBA1191C6FAD1900993E0F /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
+		D733D5571C6FB88A00854AE9 /* TimeSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSignature.h; sourceTree = "<group>"; };
 		D75068361C6D98C6001FBCFD /* GameObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		D75068371C6D9971001FBCFD /* GameObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject3D.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -303,7 +303,6 @@
 				TargetAttributes = {
 					03A0C7FB1C498C7C004213DB = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 766LELC49N;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;

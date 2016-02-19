@@ -12,4 +12,6 @@
 
 - (instancetype)initWithShader:(BaseEffect *)shader;
 
+- (void) update;
+
 @end

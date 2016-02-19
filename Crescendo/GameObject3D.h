@@ -14,33 +14,26 @@
 
 @interface GameObject3D : NSObject
 {
-@public GLfloat vertices[216];
+//@public GLfloat vertices[216];
 @public GLKVector3 worldPosition;
 @public GLKVector3 rotation;
 @public GLKVector3 scale;
+@public GLuint vao;
+@public unsigned int vertexCount;
+@public NSMutableArray* children;
+@public GLuint texture;
 }
 
-@property (nonatomic, strong) BaseEffect *shader;
-@property (nonatomic, assign) GLKVector3 position;
-@property (nonatomic) float rotationX;
-@property (nonatomic) float rotationY;
-@property (nonatomic) float rotationZ;
-@property (nonatomic) float scale;
-@property (nonatomic) GLuint texture;
-@property (assign) GLKVector4 matColor;
-@property (assign) float width;
-@property (assign) float height;
+- (instancetype)initWithName:(char *)name shader:(BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)vertexCount;
+
 -(GLKVector3)GetUp;
 -(GLKVector3)GetRight;
 -(GLKVector3)GetFoward;
 
-@property (nonatomic, strong) NSMutableArray *children;
-
-- (instancetype)initWithName:(char *)name shader:(BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)vertexCount;
-- (void)renderWithParentModelViewMatrix:(GLKMatrix4)parentModelViewMatrix;
-- (void)updateWithDelta:(NSTimeInterval)dt;
+- (void)renderWithProgram:(GLuint)program WithProjectionMatrix:(GLKMatrix4)projectionMatrix;
 - (void)loadTexture:(NSString *)filename;
 
+-(GLKMatrix4)GetModelViewMatrix;
 -(GLKMatrix4)GetTranslationMatrix;
 -(GLKMatrix4)GetRotationMatrix;
 -(GLKMatrix4)GetScaleMatrix;

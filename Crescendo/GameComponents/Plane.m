@@ -70,7 +70,7 @@
         
         self->worldPosition = GLKVector3Make(0, 0, 0);
         
-        memcpy(self->vertices, vertices, sizeof(float)*216);
+        //memcpy(self->vertices, vertices, sizeof(float)*216);
     }
     return self;
 }
