@@ -35,6 +35,8 @@ const float SECONDS_PER_MINUTE = 60.0f;
     
         // Initialize a new Plane
         self->m_Planes = [[NSMutableArray alloc] init];
+        
+        self->buildBar = false;
     }
     
     return self;
@@ -107,7 +109,7 @@ const float SECONDS_PER_MINUTE = 60.0f;
     for (NSObject* o in m_Planes)
     {
         Plane* currentPlane = (Plane*)o;
-        [currentPlane update:m_TimePassed];
+        [currentPlane update:timePassed];
     }
     
     // Clean up planes that are no longer valid
@@ -117,14 +119,11 @@ const float SECONDS_PER_MINUTE = 60.0f;
         [m_Planes dequeue];
     }
     
-    // Keep track of time passed.
-    m_TimePassed += timePassed;
-    
-    // If the amount of time that has passed is more than 2 seconds, spawn new plane
-    if (m_TimePassed > 2)
+    // Spawn new plane if flagged to do so.
+    if (buildBar)
     {
         [self CreatePlane];
-        m_TimePassed = 0;
+        buildBar = false;
     }
 }
 
@@ -133,6 +132,8 @@ const float SECONDS_PER_MINUTE = 60.0f;
  */
 -(void)syncToBar{
     printf("\nstart of bar!");
+    self->buildBar = true;
+    
 }
 
 
