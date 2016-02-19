@@ -10,21 +10,117 @@
 
 @implementation PlaneContainer
 
+const float SECONDS_PER_MINUTE = 60.0f;
+
 - (id)init
 {
     self = [super init];
     
+    // Default BPM of 120
+    self->m_BPM = 120;
+    
+    // Default Plane Velocity of 5 per seconds
+    [self setPlaneVelocity:5.0f];
+    
+    // Calculate Delays
+    [self setTimeSignature:FourFour];
+    
+    // Set Time on Screen
+    [self setTimeOnScreen:5.0f];
+    
     if (self)
     {
-        self.planes = [[NSMutableArray alloc] init];
+        // Initialize a new Plane
+        self->m_Planes = [[NSMutableArray alloc] init];
     }
     
     return self;
 }
 
--(void)update
+/* 
+ * Creates a plane and places it in the queue
+ */
+ -(void)CreatePlane
 {
+    Plane* newPlane = [[Plane alloc]init];
+    newPlane->worldPosition.z = self->m_SpawnDistance;
+    newPlane->m_PlaneVelocity = self->m_PlaneVelocity;
+    [m_Planes enqueue: (newPlane)];
+}
+
+/*
+ * Returns the oldest plane in the queue
+ */
+-(Plane*)GetPlane
+{
+    return (Plane*)[m_Planes peek];
+}
+
+/*
+ * Sets the time signature and calculates all the delays
+ */
+-(void)setTimeSignature:(TimeSignature)timeSig
+{
+    // Set Time signature
+    m_TimeSignature = timeSig;
     
+    /* Calculate Delays */
+    if (m_TimeSignature == FourFour)
+    {
+        m_DelayPerBar = m_BPM / SECONDS_PER_MINUTE;
+    }
+}
+
+/*
+ * Set the time on screen and calculate the distance to be spawned
+ */
+-(void)setTimeOnScreen:(float)time
+{
+    m_TimeOnScreen = time;
+    
+    // Calculate distance required based on velocity
+    m_SpawnDistance = -m_PlaneVelocity * m_TimeOnScreen;
+}
+
+/*
+ * Set the velocity for the planes
+ */
+-(void)setPlaneVelocity:(float)velocity
+{
+    // Store velocity
+    m_PlaneVelocity = velocity;
+    
+    // Calculate new distance required based on velocity
+    m_SpawnDistance = -m_PlaneVelocity * m_TimeOnScreen;
+}
+
+/*
+ * Updates all the planes based on the amount of time that has passed.
+ */
+ -(void)update:(float)timePassed
+{
+    // Update all planes
+    for (NSObject* o in m_Planes)
+    {
+        Plane* currentPlane = (Plane*)o;
+        [currentPlane update:m_TimePassed];
+    }
+    
+    // Clean up planes that are no longer valid
+    while ([m_Planes peek] != nil && ((Plane*)[m_Planes peek])->worldPosition.z > 0)
+    {
+        [m_Planes dequeue];
+    }
+    
+    // Keep track of time passed.
+    m_TimePassed += timePassed;
+    
+    // If the amount of time that has passed is more than 2 seconds, spawn new plane
+    if (m_TimePassed > 2)
+    {
+        [self CreatePlane];
+        m_TimePassed = 0;
+    }
 }
 
 @end

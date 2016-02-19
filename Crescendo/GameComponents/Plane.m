@@ -12,8 +12,6 @@
 
 @implementation Plane
 
-
-
 - (id)init
 {
     self = [super init];
@@ -66,18 +64,23 @@
             -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,
             -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f
         };
-
+        
+        // Default Plane Velocity of 5 per second;
+        self->m_PlaneVelocity = 5.0;
         
         self->worldPosition = GLKVector3Make(0, 0, 0);
         
-        memcpy(self->vertices, vertices, sizeof(float)*216);
+        //memcpy(self->vertices, vertices, sizeof(float)*216);
     }
     return self;
 }
 
-- (void)update
+/*
+ * Update the plane based on the amount of time that has passed/
+ */
+- (void)update:(float)TimePassed
 {
-    worldPosition.z++;
+    worldPosition.z += m_PlaneVelocity * TimePassed;
 }
 
 @end

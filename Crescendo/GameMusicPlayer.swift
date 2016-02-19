@@ -82,7 +82,7 @@ class GameMusicPlayer : NSObject{
         sequencer = AKSequencer(filename: currentMidiLoop, engine: AudioKit.engine)
         sequencer?.setBPM(bpm)
         
-        /*
+        
         loadSampler(3, fileName: "Sounds/Sampler Instruments/Drums", sampleFormat: SampleFormat.EXS24)
         
         let drumsfx1 = addFX(3, fxType: .COMPRESSOR) as! AKCompressor
@@ -137,12 +137,12 @@ class GameMusicPlayer : NSObject{
         synth2.detune = -2.0
         synth2.morph = -0.99
         synth2.attackDuration = 0.2
-        synth2.releaseDuration = 0.0*/
+        synth2.releaseDuration = 0.0
         
         
         let tk = TempoKeeper()
         tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
-        sequencer!.setGlobalMIDIOutput(tk.midiIn)
+        sequencer!.avTracks[sequencer!.avTracks.capacity-1].destinationMIDIEndpoint = tk.midiIn
         
         
         
@@ -301,6 +301,10 @@ class GameMusicPlayer : NSObject{
     //stop sequencer
     func stop(){
         sequencer!.stop();
+    }
+    
+    func getBPM() -> float{
+        return bpm;
     }
     
     
