@@ -31,10 +31,6 @@
         [self->children addObject:_player];
         
         // Create plane container and its planes
-    
-        
-        
-        
     }
     return self;
 }

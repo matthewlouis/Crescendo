@@ -12,6 +12,7 @@
 @import AudioKit;
 #import "Plane.h"
 #import "PlaneContainer.h"
+#import "HandleInputs.h"
 #import "BaseEffect.h"
 #import "GameScene.h"
 
@@ -44,10 +45,14 @@ enum
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
+@property (strong, nonatomic) HandleInputs *handleInput;
 
 - (void)setupGL;
 - (void)tearDownGL;
 
+
+- (void)initializeClasses;
+- (void)createGestures;
 
 @end
 
@@ -65,6 +70,9 @@ enum
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
+    [self initializeClasses];
+    [self createGestures];
+    
     if (!self.context) {
         NSLog(@"Failed to create ES context");
     }
@@ -178,6 +186,30 @@ enum
 
     [_shader render:_scene];
     
+}
+
+
+// The first method to respond to a Touch event
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    // Begin transformations
+    [self.handleInput respondToTouchesBegan];
+    NSLog(@"Starting Gestures");
+}
+
+- (void)initializeClasses
+{
+    self.handleInput = [[HandleInputs alloc] initWithViewSize:self.view.frame.size];
+}
+
+- (void)createGestures
+{
+    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleTap:)];
+    [self.view addGestureRecognizer:singleFingerTap];
+    
+    // Drag model gesture
+    UIPanGestureRecognizer *singleFingerDrag = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleDrag:)];
+    [self.view addGestureRecognizer:singleFingerDrag];
 }
 
 @end

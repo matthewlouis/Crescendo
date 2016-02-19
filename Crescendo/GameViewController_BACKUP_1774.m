@@ -9,11 +9,13 @@
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
 #import "Crescendo-Swift.h"
+<<<<<<< HEAD
+#import "HandleInputs.h"
+=======
 @import AudioKit;
 #import "Plane.h"
 #import "PlaneContainer.h"
-#import "BaseEffect.h"
-#import "GameScene.h"
+>>>>>>> develop
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -87,7 +89,7 @@ GLfloat gCubeVertexData[216] =
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
     float _rotation;
-    
+    CGPoint _lastLocation;
     GLuint _vertexArray;
     GLuint _vertexBuffer;
     
@@ -97,12 +99,10 @@ GLfloat gCubeVertexData[216] =
     // Plane Container
     PlaneContainer *planeContainer;
     
-    BaseEffect *_shader;
-    GameScene *_scene;
-    
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
+@property (strong, nonatomic) HandleInputs *handleInput;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -111,6 +111,10 @@ GLfloat gCubeVertexData[216] =
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
 - (BOOL)linkProgram:(GLuint)prog;
 - (BOOL)validateProgram:(GLuint)prog;
+
+- (void)initializeClasses;
+- (void)createGestures;
+
 @end
 
 @implementation GameViewController
@@ -127,6 +131,9 @@ GLfloat gCubeVertexData[216] =
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
+    [self initializeClasses];
+    [self createGestures];
+    
     if (!self.context) {
         NSLog(@"Failed to create ES context");
     }
@@ -136,9 +143,6 @@ GLfloat gCubeVertexData[216] =
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     [self setupGL];
-    
-    // Create the game scene
-    [self setupScene];
     
     [musicPlayer load];
     
@@ -179,13 +183,6 @@ GLfloat gCubeVertexData[216] =
     return YES;
 }
 
-- (void)setupScene
-{
-    _shader = [[BaseEffect alloc] initWithVertexShader:@"VertexShader.glsl" fragmentShader:@"FragmentShader.glsl"];
-    _scene = [[GameScene alloc] initWithShader:_shader];
-    
-}
-
 - (void)setupGL
 {
     [EAGLContext setCurrentContext:self.context];
@@ -223,25 +220,51 @@ GLfloat gCubeVertexData[216] =
 
 - (void)update
 {
+<<<<<<< HEAD
+    float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
+    
+    self.effect.transform.projectionMatrix = projectionMatrix;
+    
+    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
+    baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
+    
+    // Compute the model view matrix for the object rendered with GLKit
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
+    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
+    
+    self.effect.transform.modelviewMatrix = modelViewMatrix;
+    
+    // Compute the model view matrix for the object rendered with ES2
+    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
+    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
+    
+    // Overwriting the blue cube for testing
+    modelViewMatrix = [self.handleInput modelViewMatrix:_rotation];
+    
+    _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
+    
+    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
+    
+    [self.handleInput setModelViewProjectionMatrix:_modelViewProjectionMatrix];
+    
+    _rotation += self.timeSinceLastUpdate * 0.5f;
+
+=======
     // Update Plane Container
     [planeContainer update:self.timeSinceLastUpdate];
+>>>>>>> develop
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     // Rendering Code for Jarred
-    glClearColor(0.9f, 0.9f, 1.0f, 1.0f);
+    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glBindVertexArrayOES(_vertexArray);
-    
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
-    
-    
     
     // Attempt to render all planes
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
@@ -257,7 +280,7 @@ GLfloat gCubeVertexData[216] =
     GLuint _tempvertexBuffer;
     Plane* currentPlane;
     
-    for (NSObject* o in planeContainer->m_Planes)
+    for (NSObject* o in planeContainer->Planes)
     {
          currentPlane = (Plane*)o;
         
@@ -293,14 +316,6 @@ GLfloat gCubeVertexData[216] =
         // Clean up
         glDeleteBuffers(1, &_tempvertexBuffer);
     }
-<<<<<<< HEAD
-=======
-    
-    // Render the scene
-    GLKMatrix4 viewMatrix = GLKMatrix4Identity;
-    [_scene renderWithParentModelViewMatrix:viewMatrix];
-    
->>>>>>> 830a85751197d27d21bc845f8cf4e31ab18d5517
 }
 
 #pragma mark -  OpenGL ES 2 shader compilation
@@ -453,6 +468,29 @@ GLfloat gCubeVertexData[216] =
     }
     
     return YES;
+}
+
+// The first method to respond to a Touch event
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    // Begin transformations
+    [self.handleInput respondToTouchesBegan];
+    NSLog(@"Starting Gestures");
+}
+
+- (void)initializeClasses
+{
+    self.handleInput = [[HandleInputs alloc] initWithViewSize:self.view.frame.size];
+}
+
+- (void)createGestures
+{
+    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleTap:)];
+    [self.view addGestureRecognizer:singleFingerTap];
+    
+    // Drag model gesture
+    UIPanGestureRecognizer *singleFingerDrag = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleDrag:)];
+    [self.view addGestureRecognizer:singleFingerDrag];
 }
 
 @end

@@ -40,6 +40,9 @@
 		920721DE1C6E8A9700C929CB /* mushroom.png in Resources */ = {isa = PBXBuildFile; fileRef = 920721D91C6E8A9700C929CB /* mushroom.png */; };
 		92EBA11A1C6FAD1900993E0F /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 92EBA1191C6FAD1900993E0F /* GameScene.m */; };
 		D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = D75068371C6D9971001FBCFD /* GameObject3D.m */; };
+		4801BF4F1C6D99F3001784B7 /* Transformations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF4E1C6D99F3001784B7 /* Transformations.m */; };
+		4801BF521C6DBB09001784B7 /* GridMovement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF511C6DBB09001784B7 /* GridMovement.m */; };
+		485974581C6E6391003FBC7C /* HandleInputs.m in Sources */ = {isa = PBXBuildFile; fileRef = 485974571C6E6391003FBC7C /* HandleInputs.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -105,6 +108,13 @@
 		D733D5571C6FB88A00854AE9 /* TimeSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSignature.h; sourceTree = "<group>"; };
 		D75068361C6D98C6001FBCFD /* GameObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		D75068371C6D9971001FBCFD /* GameObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject3D.m; sourceTree = "<group>"; };
+		346BA07E1C61FB43002FAAFF /* test.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = test.mid; sourceTree = "<group>"; };
+		4801BF4D1C6D99F3001784B7 /* Transformations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transformations.h; path = Utilities/Transformations.h; sourceTree = "<group>"; };
+		4801BF4E1C6D99F3001784B7 /* Transformations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Transformations.m; path = Utilities/Transformations.m; sourceTree = "<group>"; };
+		4801BF501C6DBB09001784B7 /* GridMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GridMovement.h; path = GameComponents/GridMovement.h; sourceTree = "<group>"; };
+		4801BF511C6DBB09001784B7 /* GridMovement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridMovement.m; path = GameComponents/GridMovement.m; sourceTree = "<group>"; };
+		485974571C6E6391003FBC7C /* HandleInputs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandleInputs.m; sourceTree = "<group>"; };
+		485974591C6E63B7003FBC7C /* HandleInputs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleInputs.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +153,9 @@
 			children = (
 				92EBA1171C6FACF400993E0F /* Scenes */,
 				340557341C6BD531001DD32E /* AudioSystem */,
+				485974561C6E6205003FBC7C /* Controller */,
+				340FB3791C629FDC00F4A3AC /* Sounds */,
+				340FB3771C629E9000F4A3AC /* Songs */,
 				920721D51C6E8A9700C929CB /* Models */,
 				920721B81C6E7B7A00C929CB /* Shaders */,
 				03AD817C1C5928E100934E91 /* Resources */,
@@ -229,6 +242,19 @@
 				3405573E1C6BD575001DD32E /* MultiDelay.swift */,
 			);
 			name = AudioProcessors;
+			sourceTree = "<group>";
+		};
+		485974561C6E6205003FBC7C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4801BF4D1C6D99F3001784B7 /* Transformations.h */,
+				4801BF4E1C6D99F3001784B7 /* Transformations.m */,
+				4801BF501C6DBB09001784B7 /* GridMovement.h */,
+				4801BF511C6DBB09001784B7 /* GridMovement.m */,
+				485974591C6E63B7003FBC7C /* HandleInputs.h */,
+				485974571C6E6391003FBC7C /* HandleInputs.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		920721B81C6E7B7A00C929CB /* Shaders */ = {
@@ -369,8 +395,11 @@
 				340557381C6BD551001DD32E /* Conductor.swift in Sources */,
 				03A0C8321C49A13A004213DB /* PlaneContainer.m in Sources */,
 				340557401C6BD575001DD32E /* FilterSection.swift in Sources */,
+				485974581C6E6391003FBC7C /* HandleInputs.m in Sources */,
 				03A0C81D1C4992FD004213DB /* Plane.m in Sources */,
 				340557411C6BD575001DD32E /* MultiDelay.swift in Sources */,
+				4801BF521C6DBB09001784B7 /* GridMovement.m in Sources */,
+				4801BF4F1C6D99F3001784B7 /* Transformations.m in Sources */,
 				03A0C8011C498C7D004213DB /* main.m in Sources */,
 				92EBA11A1C6FAD1900993E0F /* GameScene.m in Sources */,
 				03A0C82C1C499B4C004213DB /* NSMutableArray+Queue.m in Sources */,
