@@ -64,7 +64,7 @@ class GameMusicPlayer : NSObject{
     var currentMidiLoop = "";
     
     override init(){
-        currentMidiLoop = "Songs/test";
+        currentMidiLoop = "Songs/testTimeCode";
         self.bpm = DEFAULT_BPM
         super.init()
     }
@@ -79,10 +79,10 @@ class GameMusicPlayer : NSObject{
     func load(){
         AudioKit.output = mixer
         AudioKit.start()
-        
         sequencer = AKSequencer(filename: currentMidiLoop, engine: AudioKit.engine)
         sequencer?.setBPM(bpm)
         
+        /*
         loadSampler(3, fileName: "Sounds/Sampler Instruments/Drums", sampleFormat: SampleFormat.EXS24)
         
         let drumsfx1 = addFX(3, fxType: .COMPRESSOR) as! AKCompressor
@@ -137,9 +137,20 @@ class GameMusicPlayer : NSObject{
         synth2.detune = -2.0
         synth2.morph = -0.99
         synth2.attackDuration = 0.2
-        synth2.releaseDuration = 0.0
+        synth2.releaseDuration = 0.0*/
+        
+        
+        let tk = TempoKeeper()
+        tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
+        sequencer!.setGlobalMIDIOutput(tk.midiIn)
+        
+        
+        
         
         AudioKit.stop()
+        let vol = AKBooster(tk)
+        mixer.connect(vol)
+        
         //connects all tracks to mixer at default gain level
         for var index = 1; index < tracks.count; ++index {
             if(tracks[index] != nil){
@@ -157,9 +168,9 @@ class GameMusicPlayer : NSObject{
         tracks[1]?.volume?.gain = 0.3
         
         AudioKit.output = masterComp
+        
         AudioKit.start()
         
-        sequencer!.setLength(4.0)
         sequencer?.loopOn()
     }
     
