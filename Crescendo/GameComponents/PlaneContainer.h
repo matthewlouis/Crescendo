@@ -14,10 +14,8 @@
 
 
 
-@interface PlaneContainer : NSObject
+@interface PlaneContainer : GameObject3D
 {
-
-    
 @public NSMutableArray *m_Planes;
 @public float m_BPM;
     
