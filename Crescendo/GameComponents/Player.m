@@ -7,18 +7,18 @@
 //
 
 #import "Player.h"
-//#import "playerModel.h"
+#import "playerModel.h"
 
-#import "mushroom.h"
+//#import "mushroom.h"
 
 
 @implementation Player
 
 
 - (instancetype)initWithShader:(BaseEffect *)shader {
-    if ((self = [super initWithName:"mushroom" shader:shader vertices:(Vertex*) Mushroom_Cylinder_mushroom_Vertices vertexCount:sizeof(Mushroom_Cylinder_mushroom_Vertices) / sizeof(Mushroom_Cylinder_mushroom_Vertices[0])])) {
+    if ((self = [super initWithName:"player" shader:shader vertices:(Vertex*) player_Human_GEO_player_Vertices vertexCount:sizeof(player_Human_GEO_player_Vertices) / sizeof(player_Human_GEO_player_Vertices[0])])) {
         
-        [self loadTexture:@"mushroom.png"];
+        //[self loadTexture:@"mushroom.png"];
         //self.rotationY = M_PI;
         //self.rotationX = M_PI_2;
         self->worldPosition = GLKVector3Make(0, 0, -10);
