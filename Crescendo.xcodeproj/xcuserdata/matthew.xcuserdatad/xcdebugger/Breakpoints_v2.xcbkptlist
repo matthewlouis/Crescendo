@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Crescendo/GameViewController.m"
-            timestampString = "476393428.219773"
+            timestampString = "477600093.699361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "-setupScene"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -384,22 +384,6 @@
             startingLineNumber = "143"
             endingLineNumber = "143"
             landmarkName = "load()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TempoKeeper.swift"
-            timestampString = "477435451.607665"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "startNote(_:withVelocity:onChannel:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

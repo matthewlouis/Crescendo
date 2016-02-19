@@ -7,6 +7,7 @@
 //
 
 #import "PlaneContainer.h"
+#import "Crescendo-Swift.h"
 
 @implementation PlaneContainer
 
@@ -16,8 +17,11 @@ const float SECONDS_PER_MINUTE = 60.0f;
 {
     self = [super init];
     
+    //Instantiate Music Player
+    gameMusicPlayer = [[GameMusicPlayer alloc] init];
+    
     // Default BPM of 120
-    self->m_BPM = 120;
+    self->m_BPM = [gameMusicPlayer getBPM];
     
     // Default Plane Velocity of 5 per seconds
     [self setPlaneVelocity:5.0f];
@@ -122,5 +126,13 @@ const float SECONDS_PER_MINUTE = 60.0f;
         m_TimePassed = 0;
     }
 }
+
+/**
+ * Acts as a sort of "Tap Tempo" mechanism. When called, creates a plane in time with the music
+ */
+    -(void)syncToBar{
+        //DO SOMETHING
+    }
+
 
 @end

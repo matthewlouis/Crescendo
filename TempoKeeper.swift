@@ -11,16 +11,17 @@ import AudioKit
 
 class TempoKeeper:AKMIDIInstrument{
     
-    //var _listener:PlaneContainer
+    var _listener:PlaneContainer
     
-    init(/*listener: PlaneContainer*/){
-        //self._listener = listener
+    init(listener: PlaneContainer){
+        self._listener = listener
         super.init( instrument: CoreInstrument(voiceCount: 10))
     }
     
     override func startNote(note: Int, withVelocity velocity: Int, onChannel channel: Int) {
-        print(String(format:"received startnote: %d channel: %d", note ,channel))
-        //_listener.DOSOMETHING
+        if(note == 0){
+            _listener.syncToBar()
+        }
     }
     
     override func midiNoteOn(note: Int, velocity: Int, channel: Int) {

@@ -63,15 +63,19 @@ class GameMusicPlayer : NSObject{
     let midi = AKMIDI()
     var currentMidiLoop = "";
     
-    override init(){
+    var tk:TempoKeeper
+    
+    init(tempoListener: PlaneContainer){
         currentMidiLoop = "Songs/testTimeCode";
         self.bpm = DEFAULT_BPM
+        tk = TempoKeeper(listener:tempoListener)
         super.init()
     }
     
-    init(withMidiLoopFileName midiLoopFileName: NSString){
+    init(withMidiLoopFileName tempoListener: PlaneContainer, midiLoopFileName: NSString){
         currentMidiLoop = midiLoopFileName as String
         self.bpm = DEFAULT_BPM
+        tk = TempoKeeper(listener:tempoListener)
         super.init()
     }
     
@@ -140,11 +144,8 @@ class GameMusicPlayer : NSObject{
         synth2.releaseDuration = 0.0
         
         
-        let tk = TempoKeeper()
         tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
         sequencer!.avTracks[sequencer!.avTracks.capacity-1].destinationMIDIEndpoint = tk.midiIn
-        
-        
         
         
         AudioKit.stop()
@@ -303,7 +304,7 @@ class GameMusicPlayer : NSObject{
         sequencer!.stop();
     }
     
-    func getBPM() -> float{
+    func getBPM() -> Float{
         return bpm;
     }
     

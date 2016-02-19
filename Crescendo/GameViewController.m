@@ -34,7 +34,6 @@ enum
     GLuint _vertexBuffer;
     
     GameMusicPlayer *musicPlayer;
-    AKReverb2 *reverbEffect;
     
     // Plane Container
     PlaneContainer *planeContainer;
