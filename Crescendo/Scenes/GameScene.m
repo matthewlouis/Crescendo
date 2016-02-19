@@ -10,6 +10,9 @@
 
 #import "Player.h"
 #import "PlaneContainer.h"
+#import "HandleInputs.h"
+
+
 
 @implementation GameScene{
     CGSize _gameArea;
@@ -18,7 +21,7 @@
     float _sceneOffset;
 }
 
-- (instancetype)initWithShader:(BaseEffect *)shader {
+- (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput {
     
     if ((self = [super initWithName:"GameScene" shader:shader vertices:nil vertexCount:0])) {
         
@@ -30,6 +33,8 @@
         _player = [[Player alloc] initWithShader:shader];
         [self->children addObject:_player];
         
+        self.handleInput = handleInput;
+        [self.handleInput setPlayer:_player];
         // Create plane container and its planes
     }
     return self;
@@ -37,7 +42,20 @@
 
 - (void) update
 {
-    _player->rotation.x += 0.01f;
+    [self.handleInput setModelViewMatrix:([_player GetModelViewMatrix])];
+    
+    if ([self.handleInput isMoving])
+    {
+        if (_player->worldPosition.x < [self.handleInput Translation].x)
+        {
+            _player->worldPosition.x++;
+        }
+        else
+        {
+            _player->worldPosition.x--;
+        }
+    }
+    //NSLog(@"%f, %f, %f", [self.handleInput Translation].x, [self.handleInput Translation].y, [self.handleInput Translation].z);
 }
 
 

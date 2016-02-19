@@ -22,7 +22,7 @@
         //self.rotationY = M_PI;
         //self.rotationX = M_PI_2;
         self->worldPosition = GLKVector3Make(0, 0, -10);
-        self->rotation = GLKVector3Make(1.0, 0, 0);
+        self->rotation = GLKVector3Make(0, 0, 0);
         self->scale = GLKVector3Make(1, 1, 1);
         //self.matColor = GLKVector4Make(1, 0, 0, 1);
         

@@ -130,10 +130,12 @@ enum
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
     
+    [self.handleInput setProjectionMatrix:projectionMatrix];
+    
     _shader = [[BaseEffect alloc]init];
     _shader->projectionMatrix = projectionMatrix;
     
-    _scene = [[GameScene alloc] initWithShader:_shader];
+    _scene = [[GameScene alloc] initWithShader:_shader HandleInputs:self.handleInput];
     
 }
 
