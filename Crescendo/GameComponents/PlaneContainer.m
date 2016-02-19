@@ -113,7 +113,7 @@ const float SECONDS_PER_MINUTE = 60.0f;
     }
     
     // Clean up planes that are no longer valid
-    while ([m_Planes peek] != nil && ((Plane*)[m_Planes peek])->worldPosition.z > 0)
+    while ([m_Planes peek] != nil && ((Plane*)[m_Planes peek])->worldPosition.z > 20)
     {
         [self->children removeObject:(Plane*)[m_Planes peek]];
         [m_Planes dequeue];
