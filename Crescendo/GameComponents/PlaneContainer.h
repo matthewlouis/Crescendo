@@ -40,6 +40,7 @@
 -(void)update:(float)timePassed;
 -(void)draw;
 
+-(void)startMusic;
 -(void)syncToBar;
 
 @end

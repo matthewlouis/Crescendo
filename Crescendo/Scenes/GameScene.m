@@ -36,10 +36,7 @@
         planeContainer = [[PlaneContainer alloc]init];
         [self->children addObject:planeContainer];
         
-        
-        //plane = [[Plane alloc]init];
-        //plane->worldPosition = GLKVector3Make(0, 0, -10);
-        //[self->children addObject:plane];
+        [planeContainer startMusic];
     }
     return self;
 }

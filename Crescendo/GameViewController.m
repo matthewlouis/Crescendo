@@ -32,9 +32,7 @@ enum
     
     GLuint _vertexArray;
     GLuint _vertexBuffer;
-    
-    GameMusicPlayer *musicPlayer;
-    
+        
     // Plane Container
     PlaneContainer *planeContainer;
     
@@ -60,7 +58,6 @@ enum
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    musicPlayer = [[GameMusicPlayer alloc] init];
     
     // Initialize plane container
     planeContainer = [[PlaneContainer alloc] init];
@@ -84,13 +81,6 @@ enum
     
     // Create the game scene
     [self setupScene];
-    
-    [musicPlayer load];
-    
-    //using this to show that we can affect sound from game code
-    //reverbEffect = (AKReverb2 *)[musicPlayer getFX:4 fxIndex:0];
-    
-    [musicPlayer play];
 }
 
 - (void)dealloc

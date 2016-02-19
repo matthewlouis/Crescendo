@@ -18,18 +18,16 @@ const float SECONDS_PER_MINUTE = 60.0f;
     self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
     if (self)
     {
-        // Default BPM of 120
-        self->m_BPM = 120;
-        
         // Default Plane Velocity of 5 per seconds
         [self setPlaneVelocity:5.0f];
     
-    //Instantiate Music Player
-    gameMusicPlayer = [[GameMusicPlayer alloc] init];
-    
-    // Default BPM of 120
-    self->m_BPM = [gameMusicPlayer getBPM];
-        // Calculate Delays
+        //Instantiate Music Player
+        gameMusicPlayer = [[GameMusicPlayer alloc] initWithTempoListener:self];
+        
+        // Default BPM of 120
+        self->m_BPM = [gameMusicPlayer getBPM];
+        
+        // Calculate Delays: TODO - grab from GameMusicPlayer
         [self setTimeSignature:FourFour];
     
         // Set Time on Screen
@@ -133,9 +131,18 @@ const float SECONDS_PER_MINUTE = 60.0f;
 /**
  * Acts as a sort of "Tap Tempo" mechanism. When called, creates a plane in time with the music
  */
-    -(void)syncToBar{
-        //DO SOMETHING
-    }
+-(void)syncToBar{
+    printf("\nstart of bar!");
+}
+
+
+/*
+ *Temporary music start
+ */
+-(void)startMusic{
+    [gameMusicPlayer load];
+    [gameMusicPlayer play];
+}
 
 
 @end
