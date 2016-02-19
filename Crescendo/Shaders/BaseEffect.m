@@ -194,7 +194,20 @@
     glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
     
     glBindVertexArrayOES(gameObject3D->vao);
-    glDrawArrays(GL_TRIANGLES, 0, gameObject3D->vertexCount);
+    
+    // Check rendering mode of object
+    switch (gameObject3D->renderMode)
+    {
+        case GL_TRIANGLES:
+            glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
+            break;
+        case GL_LINES:
+            glLineWidth(gameObject3D->lineWidth);
+            glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
+            break;
+    }
+    
+    
     glBindVertexArrayOES(0);
     
     for (GameObject3D *child in gameObject3D->children) {
