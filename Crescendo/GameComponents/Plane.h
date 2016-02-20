@@ -7,22 +7,28 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSMutableArray+Queue.h"
 #import "GameObject3D.h"
 #import <GLKit/GLKit.h>
+#import "PlaneObject.h"
+
 
 @import GLKit;
 
 
 @interface Plane : GameObject3D
-{    
+{
+@public NSMutableArray *m_PlaneObjects;
 @public float m_PlaneVelocity;
 }
 
+- (id)initWithPosition:(float)positon;
 - (void)update:(float)TimePassed;
-- (void)move:(GLKVector3)amount;
-- (BOOL)checkCollision;
+//- (void)move:(GLKVector3)amount;
+//- (BOOL)checkCollision;
 
 - (void)updateLineWith;
+- (void)CreatePlaneObject;
 
 
 

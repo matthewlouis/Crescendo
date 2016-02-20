@@ -10,7 +10,7 @@
 
 @interface Player : GameObject3D
 
-- (instancetype)initWithShader:(BaseEffect *)shader;
+- (instancetype)init;
 
 
 

@@ -47,8 +47,8 @@ const float SECONDS_PER_MINUTE = 60.0f;
  */
  -(void)CreatePlane
 {
-    Plane* newPlane = [[Plane alloc]init];
-    newPlane->worldPosition.z = self->m_SpawnDistance;
+    Plane* newPlane = [[Plane alloc]initWithPosition:self->m_SpawnDistance];
+    //newPlane->worldPosition.z = self->m_SpawnDistance;
     newPlane->m_PlaneVelocity = self->m_PlaneVelocity;
     [m_Planes enqueue: (newPlane)];
     [self->children addObject:newPlane];

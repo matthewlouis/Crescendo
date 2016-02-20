@@ -19,8 +19,8 @@ uniform mat3 normalMatrix;
 void main()
 {
     vec3 eyeNormal = normalize(normalMatrix * normal);
-    vec3 lightPosition = vec3(0.0, 0.0, 1.0);
-    vec4 diffuseColor = vec4(1.0, 0.1, 0.2, 0.8);
+    vec3 lightPosition = vec3(5.0, 10.0, 0.0);
+    vec4 diffuseColor = vec4(1.0, 0.1, 0.2, 1);
     
     float nDotVP = max(0.0, dot(eyeNormal, normalize(lightPosition)));
                  
