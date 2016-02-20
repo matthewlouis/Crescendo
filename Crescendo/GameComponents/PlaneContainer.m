@@ -141,6 +141,9 @@ const float SECONDS_PER_MINUTE = 60.0f;
  */
 -(void)startMusic{
     [gameMusicPlayer load];
+    
+    SoundEffectController *sec = [[SoundEffectController alloc]initWithMusicPlayer:gameMusicPlayer];
+    
     [gameMusicPlayer play];
 }
 
