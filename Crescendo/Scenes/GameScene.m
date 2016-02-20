@@ -33,14 +33,17 @@
         //self.rotationX = GLKMathDegreesToRadians(-20);
         
         // Create player near bottom center of screen
-        _player = [[Player alloc] initWithShader:shader];
+
+        _player = [[Player alloc] init];
         [self->children addObject:_player];
         
         self.handleInput = handleInput;
         [self.handleInput setPlayer:_player];
+        
         // Create plane container and its planes
         planeContainer = [[PlaneContainer alloc]init];
         [self->children addObject:planeContainer];
+        
         _playerSpeed = 3.0f;
         [planeContainer startMusic];
     }
@@ -102,6 +105,8 @@
     //[plane update:timePassed];
     //_player->rotation.x += 0.01f;
 }
+
+
 
 
 @end

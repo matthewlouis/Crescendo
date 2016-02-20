@@ -46,7 +46,11 @@ struct Track{
     var midiInstrument:AKMIDIInstrument?
 }
 
+
+
 class GameMusicPlayer : NSObject{
+    static var theInstance:GameMusicPlayer?
+    
     let DEFAULT_BPM:Float = 120
     
     var bpm:Float{
@@ -306,6 +310,39 @@ class GameMusicPlayer : NSObject{
     
     func getBPM() -> Float{
         return bpm;
+    }
+    
+    
+    /**
+     * Plays a note on a given track
+     */
+    func playNoteOnInstrument(trackNumber:Int, note: Int, velocity: Int = 100, duration: Float){
+        if(tracks[trackNumber]?.midiInstrument != nil){ //if a polyphonic instrument
+            tracks[trackNumber]?.midiInstrument?.startNote(note, withVelocity: velocity, onChannel: 1)
+            
+            let qualityOfServiceClass = QOS_CLASS_USER_INITIATED
+            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+            dispatch_async(backgroundQueue, {
+                sleep(UInt32(60000/self.bpm * duration)) //wait to turn off note
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.tracks[trackNumber]?.midiInstrument?.stopNote(note, onChannel: 1)
+                })
+            })
+        }else{ //sampler instrument
+            var sampler = self.tracks[trackNumber]?.instrument as? AKSampler
+            sampler?.playNote(note, velocity: velocity, channel: 1)
+            
+            let qualityOfServiceClass = QOS_CLASS_USER_INITIATED
+            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+            dispatch_async(backgroundQueue, {
+                sleep(UInt32(60000/self.bpm * duration)) //wait to turn off note
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    sampler?.stopNote(note, channel: 1)
+                })
+            })
+        }
     }
     
     

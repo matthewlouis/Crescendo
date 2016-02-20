@@ -61,7 +61,6 @@ enum
     
     // Initialize plane container
     planeContainer = [[PlaneContainer alloc] init];
-    [planeContainer CreatePlane];
     
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -199,6 +198,11 @@ enum
     // Drag model gesture
     UIPanGestureRecognizer *singleFingerDrag = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleDrag:)];
     [self.view addGestureRecognizer:singleFingerDrag];
+}
+
+-(BaseEffect *)GetShader
+{
+    return _shader;
 }
 
 @end
