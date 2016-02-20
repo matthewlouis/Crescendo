@@ -8,17 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import <GLKit/GLKit.h>
+
 #import "GameObject3D.h"
+
+
 @import GLKit;
 
-@interface PlaneObject : GameObject3D
+@class Plane;
 
-@property GLKVector3 *relativePosition;
-@property (strong, nonatomic) GLKMesh *mesh;
+@interface PlaneObject : GameObject3D
+{
+    
+}
 
 //Matt: texture property but unsure of types
-
--(void)move:(GLKVector3)amount;
-
-
+- (instancetype)initWithPlane:(Plane*)plane ;
+//-(void)move:(GLKVector3)amount;
+-(void)updatePositionBasedOnPlane:(Plane *) plane;
 @end

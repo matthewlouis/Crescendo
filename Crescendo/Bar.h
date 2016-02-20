@@ -25,6 +25,7 @@
 }
 
 - (id)init;
+- (id)initWithPosition:(float)position;
 
 - (void)GeneratePlanes;
 - (void)CreatePlane:(float)zOffset;

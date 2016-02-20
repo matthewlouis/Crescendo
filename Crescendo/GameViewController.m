@@ -197,4 +197,9 @@ enum
     [self.view addGestureRecognizer:singleFingerDrag];
 }
 
+-(BaseEffect *)GetShader
+{
+    return _shader;
+}
+
 @end

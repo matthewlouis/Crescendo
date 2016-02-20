@@ -12,17 +12,19 @@
 
 @implementation Bar
 
-- (id)init
+- (id)initWithPosition:(float)position
 {
-    self = [super init];
+    self = [super initWithPosition:position];
     if (self)
     {
         m_BarWidth = 10.0f;
-        m_LineThickness = 2;
+        m_LineThickness = 1.5f;
+        worldPosition.z = position;
         
         self->m_Planes = [[NSMutableArray alloc] init];
         
         [self GeneratePlanes];
+        [self updatePlanePositions];
     }
     
     return self;
@@ -47,7 +49,7 @@
  */
 -(void)CreatePlane:(float)zOffset
 {
-    Plane* newPlane = [[Plane alloc]init];
+    Plane* newPlane = [[Plane alloc]initWithPosition:worldPosition.z + zOffset];
     newPlane->m_LocalZOffset = zOffset;
     newPlane->m_Velocity = 0;
     newPlane->m_LineThickness = 1;
@@ -88,6 +90,20 @@
     
     // Update all plane positions
     [self updatePlanePositions];
+    
+    for (NSObject* o in m_Planes)
+    {
+        Plane* currentPlane = (Plane*)o;
+        [currentPlane update:TimePassed];
+    }
+
+    // Update all planeObjects
+    for (NSObject* o in m_PlaneObjects)
+    {
+        PlaneObject* currentPlane = (PlaneObject*)o;
+        [currentPlane updatePositionBasedOnPlane:self];
+    }
+    
 }
 
 /*

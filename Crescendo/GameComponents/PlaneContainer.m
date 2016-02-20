@@ -48,8 +48,8 @@
  */
 - (void)CreateBar
 {
-    Bar* newBar = [[Bar alloc]init];
-    newBar->worldPosition.z = self->m_SpawnDistance;
+    Bar* newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance];
+    //newBar->worldPosition.z = self->m_SpawnDistance;
     newBar->m_Velocity = self->m_SpawnBarVelocity;
     [newBar updatePlanePositions];
     [m_Bars enqueue:newBar];
@@ -119,6 +119,7 @@
     
     [soundEffectController generateAndAddSection:1.0f/8.0f barLength:1.0f];
     
+    /*
     NSArray<MusicBar*> *barbar = soundEffectController._musicBars;
     for (MusicBar* bar in barbar)
     {
@@ -131,6 +132,7 @@
             }
         }
     }
+     */
 }
 
 /*
