@@ -10,8 +10,10 @@
 
 @interface Player : GameObject3D
 
-- (instancetype)initWithShader:(BaseEffect *)shader;
-
-
+- (instancetype)init;
+- (bool)moveUp:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time;
+- (bool)moveDown:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time;
+- (bool)moveLeft:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time;
+- (bool)moveRight:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time;
 
 @end

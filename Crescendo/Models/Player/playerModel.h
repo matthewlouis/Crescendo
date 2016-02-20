@@ -2,12 +2,12 @@
 
 #import "Vertex.h"
 
-const GLKVector4 player_Human_GEO_player_ambient = {1.000000, 1.000000, 1.000000, 1.000000};
-const GLKVector4 player_Human_GEO_player_diffuse = {0.640000, 0.640000, 0.640000, 1.000000};
-const GLKVector4 player_Human_GEO_player_specular = {0.500000, 0.500000, 0.500000, 1.000000};
-const float player_Human_GEO_player_shininess = 96.078430;
+const GLKVector4 player_ambient = {1.000000, 1.000000, 1.000000, 1.000000};
+const GLKVector4 player_diffuse = {0.640000, 0.640000, 0.640000, 1.000000};
+const GLKVector4 player__specular = {0.500000, 0.500000, 0.500000, 1.000000};
+const float player_shininess = 96.078430;
 
-const Vertex player_Human_GEO_player_Vertices[2220] = {
+const Vertex player_Vertices[2220] = {
     {{0.156757, 1.731548, 0.078111}, {1, 1, 1, 1}, {0.788981, 0.832599}, {0.495300, -0.544200, 0.677100}},
     {{0.005844, 1.579365, 0.066194}, {1, 1, 1, 1}, {0.777858, 0.812470}, {0.495300, -0.544200, 0.677100}},
     {{0.190689, 1.621502, -0.035152}, {1, 1, 1, 1}, {0.801270, 0.813590}, {0.495300, -0.544200, 0.677100}},

@@ -19,12 +19,6 @@ let ROOT_NOTE = 26 //D2
 let scale1:[Int] = [0,2,4,7,9]
 let scale2:[Int] = [0,3,5,7,10]
 
-struct MusicBar{
-    var barLength = SEQ_LENGTH
-    var events:[InteractiveSoundObject]
-}
-
-
 class SoundEffectController: NSObject{
     var isMinorScale = true
     
@@ -50,7 +44,7 @@ class SoundEffectController: NSObject{
         //let musicTrack = AKMusicTrack(musicTrack: trackPtr)
         
         var barOfMusic:MusicBar
-        barOfMusic = MusicBar(barLength: barLength, events: [InteractiveSoundObject]())
+        barOfMusic = MusicBar(length: SEQ_LENGTH)
         
         let numSteps = Int(SEQ_LENGTH/stepSize)
         

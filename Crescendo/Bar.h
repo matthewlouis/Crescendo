@@ -11,14 +11,30 @@
 
 #import "GameObject3D.h"
 #import "Plane.h"
+#import "TimeSignature.h"
+#import "NSMutableArray+Queue.h"
 
-@interface Bar : GameObject3D
+@interface Bar : Plane
 {
-    @public NSMutableArray *m_Planes;
+@public NSMutableArray *m_Planes;
+@public float m_BPM;
+@public float m_BarWidth;
+    
+@private TimeSignature m_TimeSignature;
+@private float m_DelayPerBar;
 }
 
--(void)CreatePlane;
--(Plane*)GetPlane;
+- (id)init;
+- (id)initWithPosition:(float)position;
+
+- (void)GeneratePlanes;
+- (void)CreatePlane:(float)zOffset;
+- (Plane*)GetNextPlane;
+
+- (void)update:(float)TimePassed;
+- (void)updatePlanePositions;
+
+- (void)setTimeSignature:(TimeSignature)timeSig;
 
 @end
 

@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
 
+@class BaseEffect;
+
 @interface GameViewController : GLKViewController
+
+-(BaseEffect *)GetShader;
 
 @end

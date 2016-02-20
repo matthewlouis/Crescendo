@@ -26,6 +26,7 @@
     GLKQuaternion   _rotationEnd;
     // Vectors
     GLKVector3      _front;
+    GLKMatrix4 _modelViewMatrix;
 }
 
 @end
@@ -71,14 +72,20 @@
     _scaleEnd = s * _scaleStart;
 }
 
-- (void)position:(GLKVector2)t 
+- (void)setDepth:(float)depth
 {
-    _lastTranslation = _translationEnd;
- 
+    _depth = depth;
+}
+- (void)setModelViewMatrix:(GLKMatrix4)modelViewMatrix
+{
+    _modelViewMatrix = modelViewMatrix;
+}
+- (GLKVector3)position:(GLKVector2)t
+{
     t = GLKVector2MultiplyScalar(t, _depth);
     t = GLKVector2MultiplyScalar(t, _scaleEnd);
 
-    _translationEnd = t;
+    return GLKVector3Make(t.x, t.y, _depth);
 }
 
 - (void)translate2:(GLKVector2)t withMultiplier:(float)m aspectRatio:(float)aR
@@ -126,6 +133,11 @@
     modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, _scaleEnd, _scaleEnd, _scaleEnd);
 
     return modelViewMatrix;
+}
+
+- (GLKVector3)getTranslationVector3
+{
+    return GLKVector3Make(_translationEnd.x, _translationEnd.y, -_depth);
 }
 
 @end

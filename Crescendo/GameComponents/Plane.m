@@ -12,7 +12,8 @@
 
 @implementation Plane
 
-- (id)init
+
+- (id)initWithPosition:(float)positon
 {
     const Vertex vertices[8] = {
     {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
@@ -29,17 +30,26 @@
     
     if (self)
     {
-        self->worldPosition = GLKVector3Make(0, 0, 0);
+        self->worldPosition = GLKVector3Make(0, 0, positon);
         self->rotation = GLKVector3Make(0, 0, 0);
         self->scale = GLKVector3Make(1, 1, 1);
         
         // Default Plane Velocity of 5 per second;
-        self->m_PlaneVelocity = 2.5;
+        self->m_Velocity = 0;
         
         // Specify line drawing mode and thickness.
         renderMode = GL_LINES;
+        lineWidth = 1;
+
         [self updateLineWith];
     }
+    
+    // Initialize new plane object storage
+    self->m_PlaneObjects = [[NSMutableArray alloc] init];
+    
+    [self CreatePlaneObject];
+    
+    
     return self;
 }
 
@@ -48,8 +58,16 @@
  */
 - (void)update:(float)TimePassed
 {
-    worldPosition.z += m_PlaneVelocity * TimePassed;
-    [self updateLineWith];
+    worldPosition.z += m_Velocity * TimePassed;
+    
+    // Update all planeObjects
+    for (NSObject* o in m_PlaneObjects)
+    {
+        PlaneObject* currentPlane = (PlaneObject*)o;
+        [currentPlane updatePositionBasedOnPlane:self];
+    }
+    
+    //[self updateLineWith];
 }
 
 /*
@@ -57,11 +75,25 @@
  */
 - (void)updateLineWith
 {
-    lineWidth = (int)(20.0f / (-worldPosition.z + 5));
+    lineWidth = (float)(20.0f / (-worldPosition.z + 5)) * m_LineThickness;
     if (lineWidth < 1)
     {
         lineWidth = 1;
     }
+}
+
+/*
+ * Creates a plane and places it in the queue
+ */
+-(void)CreatePlaneObject
+{
+    PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self];
+    newPlaneObject->worldPosition.x = -1.0f;
+    //newPlaneObject->worldPosition.y = 0.0f;
+    //newPlaneObject->worldPosition.z = self->worldPosition.z;
+    
+    [m_PlaneObjects enqueue: (newPlaneObject)];
+    [self->children addObject:newPlaneObject];
 }
 
 

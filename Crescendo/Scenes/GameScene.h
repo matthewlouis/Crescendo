@@ -7,11 +7,15 @@
 //
 
 #import "GameObject3D.h"
+#import "HandleInputs.h"
 
 @interface GameScene : GameObject3D
 
-- (instancetype)initWithShader:(BaseEffect *)shader;
+@property (strong, nonatomic) HandleInputs *handleInput;
+- (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput;
 
 - (void) updateWithDeltaTime:(float)timePassed;
+
+
 
 @end
