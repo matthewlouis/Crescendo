@@ -22,6 +22,8 @@
 @public unsigned int vertexCount;
 @public NSMutableArray* children;
 @public GLuint texture;
+@public GLenum renderMode;  // Determines how object is rendered.  Current uses are GL_TRIANGLES (regular 3D models) and GL_LINES (for planes)
+@public GLfloat lineWidth;  // Only used for GL_LINES rendering mode.
 }
 
 - (instancetype)initWithName:(char *)name shader:(BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)vertexCount;
@@ -30,7 +32,6 @@
 -(GLKVector3)GetRight;
 -(GLKVector3)GetFoward;
 
-- (void)renderWithProgram:(GLuint)program WithProjectionMatrix:(GLKMatrix4)projectionMatrix;
 - (void)loadTexture:(NSString *)filename;
 
 -(GLKMatrix4)GetModelViewMatrix;

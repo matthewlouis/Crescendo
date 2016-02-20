@@ -19,6 +19,7 @@
 		03A0C82C1C499B4C004213DB /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */; };
 		03A0C82F1C499CC2004213DB /* PlaneObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C82E1C499CC2004213DB /* PlaneObject.m */; };
 		03A0C8321C49A13A004213DB /* PlaneContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C8311C49A13A004213DB /* PlaneContainer.m */; };
+		03AD81591C59267C00934E91 /* GameMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AD81581C59267C00934E91 /* GameMusicPlayer.swift */; };
 		340557381C6BD551001DD32E /* Conductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340557351C6BD551001DD32E /* Conductor.swift */; };
 		340557391C6BD551001DD32E /* CoreInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340557361C6BD551001DD32E /* CoreInstrument.swift */; };
 		3405573A1C6BD551001DD32E /* CoreVoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340557371C6BD551001DD32E /* CoreVoice.swift */; };
@@ -30,11 +31,9 @@
 		340FB36C1C62978800F4A3AC /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 340FB3661C62976F00F4A3AC /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		340FB3781C629E9000F4A3AC /* Songs in Resources */ = {isa = PBXBuildFile; fileRef = 340FB3771C629E9000F4A3AC /* Songs */; };
 		346671EC1C63D1C000583A6B /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 03CADDEA1C595500008BE459 /* Sounds */; };
-		348326E61C779328003C22AC /* GameMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348326E51C779328003C22AC /* GameMusicPlayer.swift */; };
+<<<<<<< HEAD
 		34B673AF1C6E863800D7BD29 /* TempoKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */; };
-		4801BF4F1C6D99F3001784B7 /* Transformations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF4E1C6D99F3001784B7 /* Transformations.m */; };
-		4801BF521C6DBB09001784B7 /* GridMovement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF511C6DBB09001784B7 /* GridMovement.m */; };
-		485974581C6E6391003FBC7C /* HandleInputs.m in Sources */ = {isa = PBXBuildFile; fileRef = 485974571C6E6391003FBC7C /* HandleInputs.m */; };
+=======
 		920721AA1C6E58A200C929CB /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 920721A91C6E58A200C929CB /* Player.m */; };
 		920721BB1C6E7B7A00C929CB /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 920721B91C6E7B7A00C929CB /* Shader.fsh */; };
 		920721BC1C6E7B7A00C929CB /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 920721BA1C6E7B7A00C929CB /* Shader.vsh */; };
@@ -42,10 +41,12 @@
 		920721CC1C6E865600C929CB /* FragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 920721CB1C6E865600C929CB /* FragmentShader.glsl */; };
 		920721CE1C6E868600C929CB /* VertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 920721CD1C6E868600C929CB /* VertexShader.glsl */; };
 		920721DE1C6E8A9700C929CB /* mushroom.png in Resources */ = {isa = PBXBuildFile; fileRef = 920721D91C6E8A9700C929CB /* mushroom.png */; };
-		927B9A8D1C778B0D005E3B67 /* ._.DS_Store in Resources */ = {isa = PBXBuildFile; fileRef = 927B9A8A1C778B0D005E3B67 /* ._.DS_Store */; };
 		92EBA11A1C6FAD1900993E0F /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 92EBA1191C6FAD1900993E0F /* GameScene.m */; };
-		D73542141C77BFE200274735 /* Bar.m in Sources */ = {isa = PBXBuildFile; fileRef = D73542131C77BFE200274735 /* Bar.m */; };
 		D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = D75068371C6D9971001FBCFD /* GameObject3D.m */; };
+		4801BF4F1C6D99F3001784B7 /* Transformations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF4E1C6D99F3001784B7 /* Transformations.m */; };
+		4801BF521C6DBB09001784B7 /* GridMovement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF511C6DBB09001784B7 /* GridMovement.m */; };
+		485974581C6E6391003FBC7C /* HandleInputs.m in Sources */ = {isa = PBXBuildFile; fileRef = 485974571C6E6391003FBC7C /* HandleInputs.m */; };
+>>>>>>> ede33970115067feacaf4a978762bb349bb83b00
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -84,6 +85,7 @@
 		03A0C82E1C499CC2004213DB /* PlaneObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaneObject.m; path = GameComponents/PlaneObject.m; sourceTree = "<group>"; };
 		03A0C8301C49A13A004213DB /* PlaneContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaneContainer.h; path = GameComponents/PlaneContainer.h; sourceTree = "<group>"; };
 		03A0C8311C49A13A004213DB /* PlaneContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaneContainer.m; path = GameComponents/PlaneContainer.m; sourceTree = "<group>"; };
+		03AD81581C59267C00934E91 /* GameMusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameMusicPlayer.swift; path = Crescendo/GameMusicPlayer.swift; sourceTree = "<group>"; };
 		03CADDEA1C595500008BE459 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		340557351C6BD551001DD32E /* Conductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conductor.swift; sourceTree = "<group>"; };
 		340557361C6BD551001DD32E /* CoreInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreInstrument.swift; sourceTree = "<group>"; };
@@ -94,14 +96,9 @@
 		340FB3661C62976F00F4A3AC /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
 		340FB3771C629E9000F4A3AC /* Songs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Songs; sourceTree = "<group>"; };
 		340FB37B1C62A35B00F4A3AC /* Crescendo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crescendo-Bridging-Header.h"; sourceTree = "<group>"; };
-		348326E51C779328003C22AC /* GameMusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameMusicPlayer.swift; path = Crescendo/GameMusicPlayer.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempoKeeper.swift; sourceTree = "<group>"; };
-		4801BF4D1C6D99F3001784B7 /* Transformations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transformations.h; path = Utilities/Transformations.h; sourceTree = "<group>"; };
-		4801BF4E1C6D99F3001784B7 /* Transformations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Transformations.m; path = Utilities/Transformations.m; sourceTree = "<group>"; };
-		4801BF501C6DBB09001784B7 /* GridMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GridMovement.h; path = GameComponents/GridMovement.h; sourceTree = "<group>"; };
-		4801BF511C6DBB09001784B7 /* GridMovement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridMovement.m; path = GameComponents/GridMovement.m; sourceTree = "<group>"; };
-		485974571C6E6391003FBC7C /* HandleInputs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandleInputs.m; sourceTree = "<group>"; };
-		485974591C6E63B7003FBC7C /* HandleInputs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleInputs.h; sourceTree = "<group>"; };
+=======
 		920721A81C6E58A200C929CB /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = GameComponents/Player.h; sourceTree = "<group>"; };
 		920721A91C6E58A200C929CB /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Player.m; path = GameComponents/Player.m; sourceTree = "<group>"; };
 		920721B91C6E7B7A00C929CB /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
@@ -113,15 +110,19 @@
 		920721CD1C6E868600C929CB /* VertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VertexShader.glsl; sourceTree = "<group>"; };
 		920721D71C6E8A9700C929CB /* mushroom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mushroom.h; sourceTree = "<group>"; };
 		920721D91C6E8A9700C929CB /* mushroom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mushroom.png; sourceTree = "<group>"; };
-		927B9A8A1C778B0D005E3B67 /* ._.DS_Store */ = {isa = PBXFileReference; lastKnownFileType = file; path = ._.DS_Store; sourceTree = "<group>"; };
-		927B9A8B1C778B0D005E3B67 /* playerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = playerModel.h; sourceTree = "<group>"; };
 		92EBA1181C6FAD1900993E0F /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		92EBA1191C6FAD1900993E0F /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
 		D733D5571C6FB88A00854AE9 /* TimeSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSignature.h; sourceTree = "<group>"; };
-		D73542121C77BFCD00274735 /* Bar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bar.h; sourceTree = "<group>"; };
-		D73542131C77BFE200274735 /* Bar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bar.m; sourceTree = "<group>"; };
 		D75068361C6D98C6001FBCFD /* GameObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		D75068371C6D9971001FBCFD /* GameObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject3D.m; sourceTree = "<group>"; };
+		346BA07E1C61FB43002FAAFF /* test.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = test.mid; sourceTree = "<group>"; };
+		4801BF4D1C6D99F3001784B7 /* Transformations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transformations.h; path = Utilities/Transformations.h; sourceTree = "<group>"; };
+		4801BF4E1C6D99F3001784B7 /* Transformations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Transformations.m; path = Utilities/Transformations.m; sourceTree = "<group>"; };
+		4801BF501C6DBB09001784B7 /* GridMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GridMovement.h; path = GameComponents/GridMovement.h; sourceTree = "<group>"; };
+		4801BF511C6DBB09001784B7 /* GridMovement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridMovement.m; path = GameComponents/GridMovement.m; sourceTree = "<group>"; };
+		485974571C6E6391003FBC7C /* HandleInputs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandleInputs.m; sourceTree = "<group>"; };
+		485974591C6E63B7003FBC7C /* HandleInputs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleInputs.h; sourceTree = "<group>"; };
+>>>>>>> ede33970115067feacaf4a978762bb349bb83b00
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +162,7 @@
 				92EBA1171C6FACF400993E0F /* Scenes */,
 				340557341C6BD531001DD32E /* AudioSystem */,
 				485974561C6E6205003FBC7C /* Controller */,
+				340FB3791C629FDC00F4A3AC /* Sounds */,
 				340FB3771C629E9000F4A3AC /* Songs */,
 				920721D51C6E8A9700C929CB /* Models */,
 				920721B81C6E7B7A00C929CB /* Shaders */,
@@ -171,7 +173,6 @@
 				03A0C8031C498C7D004213DB /* AppDelegate.m */,
 				03A0C8051C498C7D004213DB /* Shader.fsh */,
 				03A0C8071C498C7D004213DB /* Shader.vsh */,
-				340FB37B1C62A35B00F4A3AC /* Crescendo-Bridging-Header.h */,
 				03A0C8091C498C7D004213DB /* GameViewController.h */,
 				03A0C80A1C498C7D004213DB /* GameViewController.m */,
 				03A0C80C1C498C7D004213DB /* Main.storyboard */,
@@ -194,7 +195,13 @@
 		03A0C81E1C49930D004213DB /* GameComponents */ = {
 			isa = PBXGroup;
 			children = (
-				D73542111C77BF6800274735 /* Planes */,
+				03A0C8301C49A13A004213DB /* PlaneContainer.h */,
+				03A0C8311C49A13A004213DB /* PlaneContainer.m */,
+				03A0C81B1C4992FD004213DB /* Plane.h */,
+				03A0C81C1C4992FD004213DB /* Plane.m */,
+				03A0C82D1C499CC2004213DB /* PlaneObject.h */,
+				03A0C82E1C499CC2004213DB /* PlaneObject.m */,
+				340FB37B1C62A35B00F4A3AC /* Crescendo-Bridging-Header.h */,
 				D75068361C6D98C6001FBCFD /* GameObject3D.h */,
 				D75068371C6D9971001FBCFD /* GameObject3D.m */,
 				D733D5571C6FB88A00854AE9 /* TimeSignature.h */,
@@ -216,6 +223,7 @@
 		03AD817C1C5928E100934E91 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				340FB3771C629E9000F4A3AC /* Songs */,
 				03CADDEA1C595500008BE459 /* Sounds */,
 			);
 			name = Resources;
@@ -224,8 +232,8 @@
 		340557341C6BD531001DD32E /* AudioSystem */ = {
 			isa = PBXGroup;
 			children = (
-				348326E51C779328003C22AC /* GameMusicPlayer.swift */,
 				3405573B1C6BD564001DD32E /* AudioProcessors */,
+				03AD81581C59267C00934E91 /* GameMusicPlayer.swift */,
 				340557351C6BD551001DD32E /* Conductor.swift */,
 				340557361C6BD551001DD32E /* CoreInstrument.swift */,
 				340557371C6BD551001DD32E /* CoreVoice.swift */,
@@ -275,7 +283,6 @@
 		920721D51C6E8A9700C929CB /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				927B9A891C778B0D005E3B67 /* Player */,
 				920721D61C6E8A9700C929CB /* mushroom */,
 			);
 			path = Models;
@@ -290,15 +297,6 @@
 			path = mushroom;
 			sourceTree = "<group>";
 		};
-		927B9A891C778B0D005E3B67 /* Player */ = {
-			isa = PBXGroup;
-			children = (
-				927B9A8A1C778B0D005E3B67 /* ._.DS_Store */,
-				927B9A8B1C778B0D005E3B67 /* playerModel.h */,
-			);
-			path = Player;
-			sourceTree = "<group>";
-		};
 		92EBA1171C6FACF400993E0F /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,21 +304,6 @@
 				92EBA1191C6FAD1900993E0F /* GameScene.m */,
 			);
 			path = Scenes;
-			sourceTree = "<group>";
-		};
-		D73542111C77BF6800274735 /* Planes */ = {
-			isa = PBXGroup;
-			children = (
-				03A0C8301C49A13A004213DB /* PlaneContainer.h */,
-				03A0C8311C49A13A004213DB /* PlaneContainer.m */,
-				03A0C81B1C4992FD004213DB /* Plane.h */,
-				03A0C81C1C4992FD004213DB /* Plane.m */,
-				03A0C82D1C499CC2004213DB /* PlaneObject.h */,
-				03A0C82E1C499CC2004213DB /* PlaneObject.m */,
-				D73542121C77BFCD00274735 /* Bar.h */,
-				D73542131C77BFE200274735 /* Bar.m */,
-			);
-			name = Planes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,7 +338,6 @@
 				TargetAttributes = {
 					03A0C7FB1C498C7C004213DB = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = Z7KQWKL5VF;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -392,7 +374,6 @@
 				920721DE1C6E8A9700C929CB /* mushroom.png in Resources */,
 				340FB3781C629E9000F4A3AC /* Songs in Resources */,
 				03A0C80E1C498C7D004213DB /* Main.storyboard in Resources */,
-				927B9A8D1C778B0D005E3B67 /* ._.DS_Store in Resources */,
 				920721BC1C6E7B7A00C929CB /* Shader.vsh in Resources */,
 				920721CC1C6E865600C929CB /* FragmentShader.glsl in Resources */,
 				920721CE1C6E868600C929CB /* VertexShader.glsl in Resources */,
@@ -410,7 +391,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				348326E61C779328003C22AC /* GameMusicPlayer.swift in Sources */,
+				03AD81591C59267C00934E91 /* GameMusicPlayer.swift in Sources */,
 				920721BF1C6E7BAD00C929CB /* BaseEffect.m in Sources */,
 				03A0C8041C498C7D004213DB /* AppDelegate.m in Sources */,
 				03A0C80B1C498C7D004213DB /* GameViewController.m in Sources */,
@@ -418,10 +399,12 @@
 				340557391C6BD551001DD32E /* CoreInstrument.swift in Sources */,
 				3405573F1C6BD575001DD32E /* Fatten.swift in Sources */,
 				03A0C82F1C499CC2004213DB /* PlaneObject.m in Sources */,
+<<<<<<< HEAD
 				34B673AF1C6E863800D7BD29 /* TempoKeeper.swift in Sources */,
-				D73542141C77BFE200274735 /* Bar.m in Sources */,
+=======
 				920721AA1C6E58A200C929CB /* Player.m in Sources */,
 				D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */,
+>>>>>>> ede33970115067feacaf4a978762bb349bb83b00
 				340557381C6BD551001DD32E /* Conductor.swift in Sources */,
 				03A0C8321C49A13A004213DB /* PlaneContainer.m in Sources */,
 				340557401C6BD575001DD32E /* FilterSection.swift in Sources */,
@@ -498,8 +481,6 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "Crescendo/Crescendo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -537,8 +518,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "Crescendo/Crescendo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -551,7 +530,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -560,10 +538,9 @@
 				INFOPLIST_FILE = Crescendo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ca.bcit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Comp8051.Equalizer.Crescendo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Crescendo/Crescendo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -576,7 +553,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -585,10 +561,9 @@
 				INFOPLIST_FILE = Crescendo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ca.bcit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Comp8051.Equalizer.Crescendo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Crescendo/Crescendo-Bridging-Header.h";
 			};
 			name = Release;

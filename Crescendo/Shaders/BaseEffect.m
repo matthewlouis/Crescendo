@@ -177,10 +177,11 @@
 
 - (void)render:(GameObject3D*)gameObject3D
 {
-    GLKMatrix4 cameraViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
-    cameraViewMatrix = GLKMatrix4Rotate(cameraViewMatrix, 0, 0.0f, 1.0f, 0.0f);
+    GLKMatrix4 cameraViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -5.0f);
+    //cameraViewMatrix = GLKMatrix4Rotate(cameraViewMatrix, 0, 0.0f, 1.0f, 0.0f);
     
     GLKMatrix4 modelViewMatrix = [gameObject3D GetModelViewMatrix];
+    modelViewMatrix = GLKMatrix4Multiply(cameraViewMatrix, modelViewMatrix);
     
     GLKMatrix3 _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
     
@@ -194,7 +195,20 @@
     glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
     
     glBindVertexArrayOES(gameObject3D->vao);
-    glDrawArrays(GL_TRIANGLES, 0, gameObject3D->vertexCount);
+    
+    // Check rendering mode of object
+    switch (gameObject3D->renderMode)
+    {
+        case GL_TRIANGLES:
+            glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
+            break;
+        case GL_LINES:
+            glLineWidth(gameObject3D->lineWidth);
+            glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
+            break;
+    }
+    
+    
     glBindVertexArrayOES(0);
     
     for (GameObject3D *child in gameObject3D->children) {

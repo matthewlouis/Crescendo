@@ -14,6 +14,6 @@
 @property (strong, nonatomic) HandleInputs *handleInput;
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput;
 
-- (void) update;
+- (void) updateWithDeltaTime:(float)timePassed;
 
 @end

@@ -32,16 +32,13 @@ enum
     
     GLuint _vertexArray;
     GLuint _vertexBuffer;
-    
-    GameMusicPlayer *musicPlayer;
-    AKReverb2 *reverbEffect;
-    
+        
     // Plane Container
     PlaneContainer *planeContainer;
     
     BaseEffect *_shader;
     GameScene *_scene;
-    
+    GLKMatrix4 projectionMatrix;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -61,7 +58,6 @@ enum
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    musicPlayer = [[GameMusicPlayer alloc] init];
     
     // Initialize plane container
     planeContainer = [[PlaneContainer alloc] init];
@@ -85,13 +81,6 @@ enum
     
     // Create the game scene
     [self setupScene];
-    
-    [musicPlayer load];
-    
-    //using this to show that we can affect sound from game code
-    //reverbEffect = (AKReverb2 *)[musicPlayer getFX:4 fxIndex:0];
-    
-    [musicPlayer play];
 }
 
 - (void)dealloc
@@ -128,7 +117,7 @@ enum
 - (void)setupScene
 {
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
+    projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
     
     [self.handleInput setProjectionMatrix:projectionMatrix];
     
@@ -167,16 +156,14 @@ enum
 
 - (void)update
 {
-    // Update Plane Container
-    [planeContainer update:self.timeSinceLastUpdate];
-    
-    [_scene update];
+    // Update Scene
+    [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     // Rendering Code for Jarred
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glBindVertexArrayOES(_vertexArray);

@@ -12,12 +12,10 @@
 #import "Plane.h"
 #import "TimeSignature.h"
 
+@class GameMusicPlayer;
 
-
-@interface PlaneContainer : NSObject
+@interface PlaneContainer : GameObject3D
 {
-
-    
 @public NSMutableArray *m_Planes;
 @public float m_BPM;
     
@@ -28,6 +26,10 @@
 @private float m_SpawnDistance;
 @private float m_PlaneVelocity;
 @private float m_TimeOnScreen;
+
+@private GameMusicPlayer *gameMusicPlayer;
+    
+@private bool buildBar;
 }
 
 -(void)CreatePlane;
@@ -39,5 +41,8 @@
 
 -(void)update:(float)timePassed;
 -(void)draw;
+
+-(void)startMusic;
+-(void)syncToBar;
 
 @end
