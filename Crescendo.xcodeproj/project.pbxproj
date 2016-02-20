@@ -48,6 +48,7 @@
 		92EBA11A1C6FAD1900993E0F /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 92EBA1191C6FAD1900993E0F /* GameScene.m */; };
 		D73542141C77BFE200274735 /* Bar.m in Sources */ = {isa = PBXBuildFile; fileRef = D73542131C77BFE200274735 /* Bar.m */; };
 		D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = D75068371C6D9971001FBCFD /* GameObject3D.m */; };
+		D7A2DC321C791BF500B802C4 /* MusicBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A2DC311C791BF500B802C4 /* MusicBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -127,6 +128,7 @@
 		D75068361C6D98C6001FBCFD /* GameObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		D75068371C6D9971001FBCFD /* GameObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject3D.m; sourceTree = "<group>"; };
 		D7A2DC301C78F37000B802C4 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		D7A2DC311C791BF500B802C4 /* MusicBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +240,7 @@
 				340557361C6BD551001DD32E /* CoreInstrument.swift */,
 				340557371C6BD551001DD32E /* CoreVoice.swift */,
 				34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */,
+				D7A2DC311C791BF500B802C4 /* MusicBar.swift */,
 			);
 			name = AudioSystem;
 			path = ..;
@@ -419,6 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				348326E61C779328003C22AC /* GameMusicPlayer.swift in Sources */,
+				D7A2DC321C791BF500B802C4 /* MusicBar.swift in Sources */,
 				920721BF1C6E7BAD00C929CB /* BaseEffect.m in Sources */,
 				03A0C8041C498C7D004213DB /* AppDelegate.m in Sources */,
 				34C445941C77B34C00654AD4 /* InteractiveSoundObject.swift in Sources */,
