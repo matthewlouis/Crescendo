@@ -61,7 +61,6 @@ enum
     
     // Initialize plane container
     planeContainer = [[PlaneContainer alloc] init];
-    [planeContainer CreatePlane];
     
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -123,7 +122,6 @@ enum
     _shader->projectionMatrix = projectionMatrix;
     
     _scene = [[GameScene alloc] initWithShader:_shader];
-    
 }
 
 - (void)setupGL

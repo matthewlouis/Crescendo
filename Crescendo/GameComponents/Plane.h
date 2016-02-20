@@ -15,15 +15,14 @@
 
 @interface Plane : GameObject3D
 {    
-@public float m_PlaneVelocity;
+@public float m_Velocity;
+@public float m_LineThickness;
+@public float m_LocalZOffset;
 }
 
-- (void)update:(float)TimePassed;
 - (void)move:(GLKVector3)amount;
 - (BOOL)checkCollision;
 
 - (void)updateLineWith;
-
-
 
 @end

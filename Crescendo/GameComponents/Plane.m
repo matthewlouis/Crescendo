@@ -34,30 +34,23 @@
         self->scale = GLKVector3Make(1, 1, 1);
         
         // Default Plane Velocity of 5 per second;
-        self->m_PlaneVelocity = 2.5;
+        self->m_Velocity = 0;
         
         // Specify line drawing mode and thickness.
         renderMode = GL_LINES;
-        [self updateLineWith];
+        lineWidth = 1;
     }
     return self;
 }
 
-/*
- * Update the plane based on the amount of time that has passed/
- */
-- (void)update:(float)TimePassed
-{
-    worldPosition.z += m_PlaneVelocity * TimePassed;
-    [self updateLineWith];
-}
+
 
 /*
  * Updates the line width to be rendered based on distance from origin (assumed camera position
  */
 - (void)updateLineWith
 {
-    lineWidth = (int)(20.0f / (-worldPosition.z + 5));
+    lineWidth = (float)(20.0f / (-worldPosition.z + 5)) * m_LineThickness;
     if (lineWidth < 1)
     {
         lineWidth = 1;
