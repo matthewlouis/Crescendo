@@ -13,7 +13,24 @@
 #import "GameViewController.h"
 #import "Player.h"
 
+typedef NS_ENUM(NSInteger, MoveDirection)
+{
+    MoveDirectionNone      = 0,
+    MoveDirectionUp        = 1,
+    MoveDirectionUpRight   = 2,
+    MoveDirectionRight     = 3,
+    MoveDirectionDownRight = 4,
+    MoveDirectionDown      = 5,
+    MoveDirectionDownLeft  = 6,
+    MoveDirectionLeft      = 7,
+    MoveDirectionUpLeft    = 8,
+};
+
 @interface HandleInputs : NSObject
+
+@property (nonatomic) bool isMoving;
+@property (nonatomic, assign) MoveDirection moveDirection;
+@property (nonatomic, readonly) GLKVector3 translation;
 
 /*!
  * @discussion Initialization
@@ -46,13 +63,7 @@
  * @param player A Player reference to be used for it's vectors data
  */
 - (void)setPlayer:(Player *)player;
-/*!
- * @discussion Gets the position of the player
- * @return A Vector3 of the position
- */
-- (GLKVector3)Translation;
-- (bool)isMoving;
-= (bool)setIsMoving:(bool)flag;
+
 /*!
  * @discussion First to respond to touch events occuring and setting start locations for pan gestures
  * @warning No longer used at the moment
