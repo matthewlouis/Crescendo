@@ -43,6 +43,7 @@ enum
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 @property (strong, nonatomic) HandleInputs *handleInput;
+@property (weak, nonatomic) IBOutlet MessageView *messageView;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -58,6 +59,8 @@ enum
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self.messageView sceneSetup];
     
     // Initialize plane container
     planeContainer = [[PlaneContainer alloc] init];
@@ -124,6 +127,7 @@ enum
     
     _scene = [[GameScene alloc] initWithShader:_shader];
     
+    [self.messageView displayTitle];
 }
 
 - (void)setupGL

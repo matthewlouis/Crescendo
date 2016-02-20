@@ -31,6 +31,8 @@
 		340FB3781C629E9000F4A3AC /* Songs in Resources */ = {isa = PBXBuildFile; fileRef = 340FB3771C629E9000F4A3AC /* Songs */; };
 		346671EC1C63D1C000583A6B /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 03CADDEA1C595500008BE459 /* Sounds */; };
 		348326E61C779328003C22AC /* GameMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348326E51C779328003C22AC /* GameMusicPlayer.swift */; };
+		34A9DD191C78E7B000A8CC7A /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A9DD181C78E7B000A8CC7A /* MessageView.swift */; };
+		34A9DD1C1C78F91200A8CC7A /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 34A9DD1B1C78F91200A8CC7A /* Fonts */; };
 		34B673AF1C6E863800D7BD29 /* TempoKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */; };
 		4801BF4F1C6D99F3001784B7 /* Transformations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF4E1C6D99F3001784B7 /* Transformations.m */; };
 		4801BF521C6DBB09001784B7 /* GridMovement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF511C6DBB09001784B7 /* GridMovement.m */; };
@@ -95,6 +97,8 @@
 		340FB3771C629E9000F4A3AC /* Songs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Songs; sourceTree = "<group>"; };
 		340FB37B1C62A35B00F4A3AC /* Crescendo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crescendo-Bridging-Header.h"; sourceTree = "<group>"; };
 		348326E51C779328003C22AC /* GameMusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameMusicPlayer.swift; path = Crescendo/GameMusicPlayer.swift; sourceTree = "<group>"; };
+		34A9DD181C78E7B000A8CC7A /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		34A9DD1B1C78F91200A8CC7A /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempoKeeper.swift; sourceTree = "<group>"; };
 		4801BF4D1C6D99F3001784B7 /* Transformations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transformations.h; path = Utilities/Transformations.h; sourceTree = "<group>"; };
 		4801BF4E1C6D99F3001784B7 /* Transformations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Transformations.m; path = Utilities/Transformations.m; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 		03A0C7F31C498C7C004213DB = {
 			isa = PBXGroup;
 			children = (
+				34A9DD181C78E7B000A8CC7A /* MessageView.swift */,
 				340FB3661C62976F00F4A3AC /* AudioKit.framework */,
 				03A0C81F1C499408004213DB /* Accelerate.framework */,
 				03A0C7FE1C498C7D004213DB /* Crescendo */,
@@ -216,6 +221,7 @@
 		03AD817C1C5928E100934E91 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				34A9DD1B1C78F91200A8CC7A /* Fonts */,
 				03CADDEA1C595500008BE459 /* Sounds */,
 			);
 			name = Resources;
@@ -392,6 +398,7 @@
 				920721DE1C6E8A9700C929CB /* mushroom.png in Resources */,
 				340FB3781C629E9000F4A3AC /* Songs in Resources */,
 				03A0C80E1C498C7D004213DB /* Main.storyboard in Resources */,
+				34A9DD1C1C78F91200A8CC7A /* Fonts in Resources */,
 				927B9A8D1C778B0D005E3B67 /* ._.DS_Store in Resources */,
 				920721BC1C6E7B7A00C929CB /* Shader.vsh in Resources */,
 				920721CC1C6E865600C929CB /* FragmentShader.glsl in Resources */,
@@ -426,6 +433,7 @@
 				03A0C8321C49A13A004213DB /* PlaneContainer.m in Sources */,
 				340557401C6BD575001DD32E /* FilterSection.swift in Sources */,
 				485974581C6E6391003FBC7C /* HandleInputs.m in Sources */,
+				34A9DD191C78E7B000A8CC7A /* MessageView.swift in Sources */,
 				03A0C81D1C4992FD004213DB /* Plane.m in Sources */,
 				340557411C6BD575001DD32E /* MultiDelay.swift in Sources */,
 				4801BF521C6DBB09001784B7 /* GridMovement.m in Sources */,
@@ -560,6 +568,11 @@
 				INFOPLIST_FILE = Crescendo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/freetype/2.6.3/lib,
+					"/usr/local/Cellar/ftgl/2.1.3-rc5/lib",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = ca.bcit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -585,6 +598,11 @@
 				INFOPLIST_FILE = Crescendo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/freetype/2.6.3/lib,
+					"/usr/local/Cellar/ftgl/2.1.3-rc5/lib",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = ca.bcit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
