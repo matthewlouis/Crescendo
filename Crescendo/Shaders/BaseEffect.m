@@ -177,10 +177,11 @@
 
 - (void)render:(GameObject3D*)gameObject3D
 {
-    GLKMatrix4 cameraViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
-    cameraViewMatrix = GLKMatrix4Rotate(cameraViewMatrix, 0, 0.0f, 1.0f, 0.0f);
+    GLKMatrix4 cameraViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -5.0f);
+    //cameraViewMatrix = GLKMatrix4Rotate(cameraViewMatrix, 0, 0.0f, 1.0f, 0.0f);
     
     GLKMatrix4 modelViewMatrix = [gameObject3D GetModelViewMatrix];
+    modelViewMatrix = GLKMatrix4Multiply(cameraViewMatrix, modelViewMatrix);
     
     GLKMatrix3 _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
     

@@ -30,8 +30,8 @@
         //self.rotationX = GLKMathDegreesToRadians(-20);
         
         // Create player near bottom center of screen
-        //_player = [[Player alloc] initWithShader:shader];
-        //[self->children addObject:_player];
+        _player = [[Player alloc] initWithShader:shader];
+        [self->children addObject:_player];
         
         planeContainer = [[PlaneContainer alloc]init];
         [self->children addObject:planeContainer];

@@ -122,6 +122,7 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
     
     
     result = GLKMatrix4Multiply(result, GLKMatrix4MakeRotation(rotation.x, 1, 0, 0));
+    result = GLKMatrix4Multiply(result, GLKMatrix4MakeRotation(rotation.y, 0, 1, 0));
     
     result = GLKMatrix4Multiply(result, [self GetScaleMatrix]);
     

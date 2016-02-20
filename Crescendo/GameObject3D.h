@@ -32,7 +32,6 @@
 -(GLKVector3)GetRight;
 -(GLKVector3)GetFoward;
 
-- (void)renderWithProgram:(GLuint)program WithProjectionMatrix:(GLKMatrix4)projectionMatrix;
 - (void)loadTexture:(NSString *)filename;
 
 -(GLKMatrix4)GetModelViewMatrix;

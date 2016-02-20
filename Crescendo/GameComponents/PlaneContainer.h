@@ -28,6 +28,8 @@
 @private float m_TimeOnScreen;
 
 @private GameMusicPlayer *gameMusicPlayer;
+    
+@private bool buildBar;
 }
 
 -(void)CreatePlane;

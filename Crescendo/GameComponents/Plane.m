@@ -57,7 +57,7 @@
  */
 - (void)updateLineWith
 {
-    lineWidth = (int)(20.0f / -worldPosition.z);
+    lineWidth = (int)(20.0f / (-worldPosition.z + 5));
     if (lineWidth < 1)
     {
         lineWidth = 1;

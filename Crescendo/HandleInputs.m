@@ -46,6 +46,13 @@
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer
 {
+    MessageView * topView = recognizer.view.subviews[0];
+    
+    if([topView messageIsDisplayed] == YES){
+        [topView messageConfirmed];
+        return;
+    }
+    
     CGPoint location = [recognizer locationInView:recognizer.view];
     
     GLKVector2 translation = [gridMovement gridLocation:GLKVector2Make(location.x, location.y)];
