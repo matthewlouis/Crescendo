@@ -114,7 +114,7 @@
  * Acts as a sort of "Tap Tempo" mechanism. When called, creates a plane in time with the music
  */
 -(void)syncToBar{
-    printf("start of bar!\n");
+    //printf("start of bar!\n");
     self->buildBar = true;
     
     [soundEffectController generateAndAddSection:1.0f/8.0f barLength:1.0f];

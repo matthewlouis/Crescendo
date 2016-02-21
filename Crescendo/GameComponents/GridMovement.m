@@ -57,7 +57,7 @@
     
     for (int i = 0; i < GLKVector2Length(_gridCount); i++)
     {
-        NSLog(@"Array Index: %f, %f", cellArray[i].x, cellArray[i].y);
+        //NSLog(@"Array Index: %f, %f", cellArray[i].x, cellArray[i].y);
     }
 }
 
@@ -71,8 +71,8 @@
     int x = (int)(screenLocation.x / _cellSize.x);
     int y = (int)(screenLocation.y / _cellSize.y);
  
-    NSLog(@"Accessing Array Index: %i", 3 * y + x + 1);
-    NSLog(@"Array Index: %f, %f", cellArray[3 * y + x + 1].x, cellArray[3 * y + x + 1].y);
+    //NSLog(@"Accessing Array Index: %i", 3 * y + x + 1);
+    //NSLog(@"Array Index: %f, %f", cellArray[3 * y + x + 1].x, cellArray[3 * y + x + 1].y);
 
     return cellArray[3 * y + x + 1];
 }

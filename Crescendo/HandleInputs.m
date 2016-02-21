@@ -101,7 +101,7 @@
         }
     }
     
-    NSLog(@"Move Direction: %li", (long)_moveDirection);
+    //NSLog(@"Move Direction: %li", (long)_moveDirection);
     //_translation = [transformations position:GLKVector2Make(translation.x, translation.y)];
 }
 
