@@ -110,7 +110,7 @@ static bool gameStarted;
 {
     //Matt: test code to make the game go faster and faster: WORKS!
     totalTimePassed += timePassed;
-    if(totalTimePassed > 6){
+    if(totalTimePassed > 4){
         totalTimePassed = 1;
         gameMusicPlayer.bpm *= 1.01;
     }
