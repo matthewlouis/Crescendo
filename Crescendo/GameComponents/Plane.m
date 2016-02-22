@@ -13,7 +13,14 @@
 @implementation Plane
 
 
-- (id)initWithPosition:(float)positon
+/**
+ * Provides default parameter to generate empty planes (so we can start the game with no obstacles
+ */
+- (id)initWithPosition:(float)position{
+    return [self initWithPosition:position isEmpty:false];
+}
+
+- (id)initWithPosition:(float)positon isEmpty:(bool)empty
 {
     const Vertex vertices[8] = {
     {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
@@ -32,7 +39,7 @@
     {
         self->worldPosition = GLKVector3Make(0, 0, positon);
         self->rotation = GLKVector3Make(0, 0, 0);
-        self->scale = GLKVector3Make(1, 1, 1);
+        self->scale = GLKVector3Make(2, 2, 2);
         
         // Default Plane Velocity of 5 per second;
         self->m_Velocity = 0;
@@ -41,13 +48,16 @@
         renderMode = GL_LINES;
         lineWidth = 1;
 
+        
         [self updateLineWith];
     }
     
-    // Initialize new plane object storage
-    self->m_PlaneObjects = [[NSMutableArray alloc] init];
-    
-    [self CreatePlaneObject];
+    if(!empty){
+        // Initialize new plane object storage
+        self->m_PlaneObjects = [[NSMutableArray alloc] init];
+        
+        [self CreatePlaneObject];
+    }
     
     
     return self;

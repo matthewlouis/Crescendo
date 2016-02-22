@@ -28,7 +28,8 @@
 
 - (void)move:(GLKVector3)amount;
 - (BOOL)checkCollision;
-- (id)initWithPosition:(float)positon;
+- (id)initWithPosition:(float)position;
+- (id)initWithPosition:(float)positon isEmpty: (bool)empty;
 - (void)update:(float)TimePassed;
 //- (void)move:(GLKVector3)amount;
 //- (BOOL)checkCollision;

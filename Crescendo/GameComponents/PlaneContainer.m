@@ -11,7 +11,9 @@
 
 @implementation PlaneContainer
 {
-@private SoundEffectController *soundEffectController;
+    @private SoundEffectController *soundEffectController;
+    float totalTimePassed;
+    bool gameStarted;
 }
 
 
@@ -48,7 +50,7 @@
  */
 - (void)CreateBar
 {
-    Bar* newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance];
+    Bar* newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance AtBPM:gameMusicPlayer.bpm];
     //newBar->worldPosition.z = self->m_SpawnDistance;
     newBar->m_Velocity = self->m_SpawnBarVelocity;
     [newBar updatePlanePositions];
@@ -79,6 +81,14 @@
  */
  -(void)update:(float)timePassed
 {
+    //Matt: test code to make the game go faster and faster: WORKS!
+    totalTimePassed += timePassed;
+    if(totalTimePassed > 5){
+        totalTimePassed = 4;
+        gameMusicPlayer.bpm += 15;
+    }
+    
+    if(timePassed)
     // Update all planes
     for (NSObject* o in m_Bars)
     {
