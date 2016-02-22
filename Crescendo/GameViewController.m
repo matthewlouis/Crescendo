@@ -186,7 +186,7 @@ enum
 {
     // Begin transformations
     [self.handleInput respondToTouchesBegan];
-    NSLog(@"Starting Gestures");
+    //NSLog(@"Starting Gestures");
 }
 
 - (void)initializeClasses
