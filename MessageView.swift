@@ -24,8 +24,9 @@ class MessageView: SCNView {
     
     required init?(coder aDecoder: NSCoder) {
         
-        fontMaterial.specular.contents = UIColor.whiteColor()
-        fontMaterial.diffuse.contents = UIColor.grayColor()
+        fontMaterial.specular.contents = UIColor.grayColor()
+        fontMaterial.shininess = 0.99
+        fontMaterial.diffuse.contents = UIColor.redColor()
         super.init(coder: aDecoder)
         sceneSetup()
     }
@@ -47,7 +48,8 @@ class MessageView: SCNView {
         part.particleVelocityVariation = 3
         part.particleSize = 0.5
         part.stretchFactor = 0.25
-        part.particleColor = UIColor.grayColor()
+        part.lightingEnabled = true
+        part.particleColor = UIColor.redColor()
         
         
         // 3
