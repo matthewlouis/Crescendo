@@ -12,7 +12,7 @@ import UIKit
 import SceneKit
 
 
-let DEFAULT_FONT = UIFont(name: "Asenine", size: 20)
+let DEFAULT_FONT:UIFont = UIFont(name: "Asenine", size: 20)!
 let part = SCNParticleSystem()
 let fontMaterial = SCNMaterial()
 internal var messageDisplayed:Bool = false
@@ -23,6 +23,7 @@ var currentMessage:SCNNode?
 class MessageView: SCNView {
     
     required init?(coder aDecoder: NSCoder) {
+        
         fontMaterial.specular.contents = UIColor.whiteColor()
         fontMaterial.diffuse.contents = UIColor.grayColor()
         super.init(coder: aDecoder)
@@ -32,6 +33,22 @@ class MessageView: SCNView {
     @objc func sceneSetup() {
         // 1
         let scene = SCNScene()
+        
+        part.loops = false
+        part.birthDirection = .SurfaceNormal
+        part.birthLocation = .Vertex
+        part.birthRate = 200
+        part.emissionDuration = 0.5
+        part.spreadingAngle = 20
+        part.particleDiesOnCollision = true
+        part.particleLifeSpan = 0.5
+        part.particleLifeSpanVariation = 0.3
+        part.particleVelocity = 100
+        part.particleVelocityVariation = 3
+        part.particleSize = 0.5
+        part.stretchFactor = 0.25
+        part.particleColor = UIColor.grayColor()
+        
         
         // 3
         self.scene = scene
@@ -49,25 +66,11 @@ class MessageView: SCNView {
         SCNTransaction.commit()
         
         let action = SCNAction.moveByX(0, y: 0, z: 100, duration: 2)
+        /*
+        var part = SCNParticleSystem()*/
         
-        var part = SCNParticleSystem()
-        part.loops = false
-        part.birthDirection = .SurfaceNormal
-        part.birthLocation = .Surface
-        part.birthRate = 500
-        part.emissionDuration = 0.5
-        part.lightingEnabled = true
-        part.spreadingAngle = 0
-        part.particleDiesOnCollision = true
-        part.particleLifeSpan = 0.5
-        part.particleLifeSpanVariation = 0.3
-        part.particleVelocity = 100
-        part.particleVelocityVariation = 3
-        part.particleSize = 0.1
-        part.stretchFactor = 0.25
-        part.particleColor = UIColor.grayColor()
+        part.reset()
         part.emitterShape = currentMessage?.geometry;
-        
         self.scene!.addParticleSystem(part, withTransform: SCNMatrix4MakeRotation(0, 0, 0, 0))
         currentMessage?.runAction(action)
         
@@ -91,6 +94,7 @@ class MessageView: SCNView {
     
     func displayTitle(){
         currentMessage = stringToSCNNode("Crescendo",   position:SCNVector3(0,0,0))
+        
         scene!.rootNode.addChildNode(currentMessage!)
         messageDisplayed = true;
         
@@ -104,6 +108,5 @@ class MessageView: SCNView {
     func messageIsDisplayed()->Bool{
         return messageDisplayed
     }
-
 
 }

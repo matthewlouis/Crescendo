@@ -11,7 +11,9 @@
 
 @implementation PlaneContainer
 {
-@private SoundEffectController *soundEffectController;
+    @private SoundEffectController *soundEffectController;
+    float totalTimePassed;
+    bool gameStarted;
 }
 
 
@@ -20,10 +22,10 @@
     self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
     if (self)
     {
-        self->m_SpawnDistance = -40.0f;
+        self->m_SpawnDistance = -80.0f;
         
         // Default Plane Velocity of 5 per seconds
-        [self setSpawnBarVelocity:5.0f];
+        [self setSpawnBarVelocity:10.0f];
     
         //Instantiate Music Player
         gameMusicPlayer = [[GameMusicPlayer alloc] initWithTempoListener:self];
@@ -43,12 +45,24 @@
     return self;
 }
 
+- (void)CleanUp
+{
+    // Clean up all the Bars
+    for (Bar* o in m_Bars)
+    {
+        [o CleanUp];
+    }
+    
+    // Clean up self
+    [super CleanUp];
+}
+
 /*
  * Creates a bar and places it in the queue
  */
 - (void)CreateBar
 {
-    Bar* newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance];
+    Bar* newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance AtBPM:gameMusicPlayer.bpm];
     //newBar->worldPosition.z = self->m_SpawnDistance;
     newBar->m_Velocity = self->m_SpawnBarVelocity;
     [newBar updatePlanePositions];
@@ -79,6 +93,14 @@
  */
  -(void)update:(float)timePassed
 {
+    //Matt: test code to make the game go faster and faster: WORKS!
+    totalTimePassed += timePassed;
+    if(totalTimePassed > 5){
+        totalTimePassed = 4;
+        gameMusicPlayer.bpm *= 1.01;
+    }
+    
+    if(timePassed)
     // Update all planes
     for (NSObject* o in m_Bars)
     {
@@ -94,6 +116,7 @@
         if (nextBar->worldPosition.z > 20)
         {
             [self->children removeObject:(Bar*)[m_Bars peek]];
+            [nextBar CleanUp];	
             [m_Bars dequeue];
         }
         else
