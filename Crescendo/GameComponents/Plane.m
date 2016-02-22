@@ -67,6 +67,8 @@
         [currentPlane updatePositionBasedOnPlane:self];
     }
     
+    
+    
     //[self updateLineWith];
 }
 
@@ -87,14 +89,21 @@
  */
 -(void)CreatePlaneObject
 {
+    if ([self getRandomNumberBetween:-1 to:1] == 1)
+    {
     PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self];
-    newPlaneObject->worldPosition.x = -1.0f;
-    //newPlaneObject->worldPosition.y = 0.0f;
-    //newPlaneObject->worldPosition.z = self->worldPosition.z;
+    //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
+    newPlaneObject->worldPosition.x = [self getRandomNumberBetween:-1 to:1];
+    newPlaneObject->worldPosition.y = [self getRandomNumberBetween:0 to:1] - 0.5f;
     
     [m_PlaneObjects enqueue: (newPlaneObject)];
     [self->children addObject:newPlaneObject];
+    }
 }
 
+-(int)getRandomNumberBetween:(int)from to:(int)to {
+    
+    return (int)from + arc4random() % (to-from+1);
+}
 
 @end
