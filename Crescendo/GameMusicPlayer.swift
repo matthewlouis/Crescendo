@@ -51,11 +51,12 @@ struct Track{
 class GameMusicPlayer : NSObject{
     static var theInstance:GameMusicPlayer?
     
+    //Original tempo for starting the music
     let DEFAULT_BPM:Float = 120
     
     var bpm:Float{
         didSet{
-            sequencer?.setBPM(bpm)
+            sequencer!.setRate(bpm/DEFAULT_BPM)
         }
     }
     var sequencer:AKSequencer?

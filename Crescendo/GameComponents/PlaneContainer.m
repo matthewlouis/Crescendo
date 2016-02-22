@@ -11,7 +11,9 @@
 
 @implementation PlaneContainer
 {
-@private SoundEffectController *soundEffectController;
+    @private SoundEffectController *soundEffectController;
+    float totalTimePassed;
+    bool gameStarted;
 }
 
 
@@ -79,6 +81,14 @@
  */
  -(void)update:(float)timePassed
 {
+    //Matt: test code to make the game go faster and faster: WORKS!
+    totalTimePassed += timePassed;
+    if(totalTimePassed > 5){
+        totalTimePassed = 4;
+        gameMusicPlayer.bpm += 1;
+    }
+    
+    if(timePassed)
     // Update all planes
     for (NSObject* o in m_Bars)
     {
@@ -114,7 +124,6 @@
  * Acts as a sort of "Tap Tempo" mechanism. When called, creates a plane in time with the music
  */
 -(void)syncToBar{
-    printf("start of bar!\n");
     self->buildBar = true;
     
     [soundEffectController generateAndAddSection:1.0f/8.0f barLength:1.0f];
