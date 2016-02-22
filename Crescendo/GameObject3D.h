@@ -27,6 +27,7 @@
 }
 
 - (instancetype)initWithName:(char *)name shader:(BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)vertexCount;
+- (void)CleanUp;
 
 -(GLKVector3)GetUp;
 -(GLKVector3)GetRight;

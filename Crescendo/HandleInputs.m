@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HandleInputs.h"
+#import "PlaneContainer.h"
 
 @interface HandleInputs ()
 {
@@ -42,6 +43,7 @@
     
     if([topView messageIsDisplayed] == YES){
         [topView messageConfirmed];
+        [PlaneContainer startGame];
         return;
     }
     
@@ -101,7 +103,7 @@
         }
     }
     
-    NSLog(@"Move Direction: %li", (long)_moveDirection);
+    //NSLog(@"Move Direction: %li", (long)_moveDirection);
     //_translation = [transformations position:GLKVector2Make(translation.x, translation.y)];
 }
 

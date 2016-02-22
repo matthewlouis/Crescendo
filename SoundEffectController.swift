@@ -24,7 +24,7 @@ class SoundEffectController: NSObject{
     
     var isMinorScale = true
     
-    var difficultyScale:Double = 50
+    var difficultyScale:Double = 90
     
     //var _musicTracks:[AKMusicTrack] //may not need to use this
     var _musicBars:[MusicBar]

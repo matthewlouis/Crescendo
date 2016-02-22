@@ -13,18 +13,20 @@
 {
     @private SoundEffectController *soundEffectController;
     float totalTimePassed;
-    bool gameStarted;
+    
 }
+
+static bool gameStarted;
 
 - (id)init
 {
     self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
     if (self)
     {
-        self->m_SpawnDistance = -40.0f;
+        self->m_SpawnDistance = -80.0f;
         
         // Default Plane Velocity of 5 per seconds
-        [self setSpawnBarVelocity:5.0f];
+        [self setSpawnBarVelocity:10.0f];
     
         //Instantiate Music Player
         gameMusicPlayer = [[GameMusicPlayer alloc] initWithTempoListener:self];
@@ -44,6 +46,18 @@
     return self;
 }
 
+- (void)CleanUp
+{
+    // Clean up all the Bars
+    for (Bar* o in m_Bars)
+    {
+        [o CleanUp];
+    }
+    
+    // Clean up self
+    [super CleanUp];
+}
+
 /*
  * Creates a bar and places it in the queue
  */
@@ -55,10 +69,16 @@
     
     [soundEffectController generateAndAddSection:step barLength:barLength];
     
+    Bar * newBar;
     //get musical info from soundeffectcontroller and remove it from the queue
-    Bar* newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance usingMusicBar: soundEffectController._musicBars[0]];
+    if(gameStarted){
+        newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance atBPM: gameMusicPlayer.bpm usingMusicBar: soundEffectController._musicBars[0]];
+    }else{
+        newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance atBPM: gameMusicPlayer.bpm usingMusicBar: nil];
+    }
     [soundEffectController removeSection];
     
+    //newBar->worldPosition.z = self->m_SpawnDistance;
     newBar->m_Velocity = self->m_SpawnBarVelocity;
     [newBar updatePlanePositions];
     [m_Bars enqueue:newBar];
@@ -90,9 +110,9 @@
 {
     //Matt: test code to make the game go faster and faster: WORKS!
     totalTimePassed += timePassed;
-    if(totalTimePassed > 5){
-        totalTimePassed = 4;
-        gameMusicPlayer.bpm += 1;
+    if(totalTimePassed > 6){
+        totalTimePassed = 1;
+        gameMusicPlayer.bpm *= 1.01;
     }
     
     if(timePassed)
@@ -111,6 +131,7 @@
         if (nextBar->worldPosition.z > 20)
         {
             [self->children removeObject:(Bar*)[m_Bars peek]];
+            [nextBar CleanUp];	
             [m_Bars dequeue];
         }
         else
@@ -131,6 +152,7 @@
  * Acts as a sort of "Tap Tempo" mechanism. When called, creates a plane in time with the music
  */
 -(void)syncToBar{
+    //printf("start of bar!\n");
     self->buildBar = true;
     /*
     NSArray<MusicBar*> *barbar = soundEffectController._musicBars;
@@ -151,7 +173,7 @@
 /**
  *Start game (start generating obstacles and objects
  */
--(void)startGame{
++(void)startGame{
     gameStarted = true;
 }
 

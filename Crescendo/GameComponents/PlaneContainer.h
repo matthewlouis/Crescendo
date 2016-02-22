@@ -45,6 +45,7 @@
 -(void)update:(float)timePassed;
 -(void)draw;
 
++(void)startGame;
 -(void)startMusic;
 -(void)syncToBar;
 

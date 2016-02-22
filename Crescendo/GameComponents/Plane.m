@@ -35,7 +35,7 @@
     {
         self->worldPosition = GLKVector3Make(0, 0, positon);
         self->rotation = GLKVector3Make(0, 0, 0);
-        self->scale = GLKVector3Make(1, 1, 1);
+        self->scale = GLKVector3Make(3.5, 3.5, 3.5);
         
         // Default Plane Velocity of 5 per second;
         self->m_Velocity = 0;
@@ -73,6 +73,8 @@
         [currentPlane updatePositionBasedOnPlane:self];
     }
     
+    
+    
     //[self updateLineWith];
 }
 
@@ -81,7 +83,7 @@
  */
 - (void)updateLineWith
 {
-    lineWidth = (float)(20.0f / (-worldPosition.z + 5)) * m_LineThickness;
+    lineWidth = (float)(80.0f / (-worldPosition.z + 5)) * m_LineThickness;
     if (lineWidth < 1)
     {
         lineWidth = 1;
@@ -93,13 +95,35 @@
  */
 -(void)CreatePlaneObject:(InteractiveSoundObject *)soundObject
 {
+    if ([self getRandomNumberBetween:-1 to:1] == 1)
+    {
     PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self];
-    newPlaneObject->worldPosition.x = -1.0f;
-    //newPlaneObject->worldPosition.y = 0.0f;
-    //newPlaneObject->worldPosition.z = self->worldPosition.z;
+    //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
+    newPlaneObject->worldPosition.x = [self getRandomNumberBetween:-1 to:1];
+    newPlaneObject->worldPosition.y = [self getRandomNumberBetween:0 to:1] - 0.5f;
     
     [m_PlaneObjects enqueue: (newPlaneObject)];
     [self->children addObject:newPlaneObject];
+    }
+}
+
+-(int)getRandomNumberBetween:(int)from to:(int)to {
+    
+    return (int)from + arc4random() % (to-from+1);
+}
+/*
+ * Cleans up Plane data
+ */
+-(void) CleanUp
+{
+    // Cleanup self
+    [super CleanUp];
+    
+    // Clean up all plane objects
+    for (GameObject3D* o in m_PlaneObjects)
+    {
+        [o CleanUp];
+    }
 }
 
 

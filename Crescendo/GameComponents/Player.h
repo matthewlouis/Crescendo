@@ -10,10 +10,13 @@
 
 @interface Player : GameObject3D
 
+@property (nonatomic, assign) float timeElapsed;
+@property (nonatomic, assign) GLKVector3 startPosition;
+@property (nonatomic, assign) GLKVector3 startRotation;
+
 - (instancetype)init;
-- (bool)moveUp:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time;
-- (bool)moveDown:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time;
-- (bool)moveLeft:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time;
-- (bool)moveRight:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time;
+- (bool)moveTo:(GLKVector3)moveToPosition;
+- (GLKVector3)lerpStartVector:(GLKVector3)startVector withEndVector:(GLKVector3)endVector lerpDistance:(float)percentage;
+- (float)lerp:(float)startValue withEndValue:(float)endValue lerpDistance:(float)percentage;
 
 @end

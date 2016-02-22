@@ -26,8 +26,12 @@
 @private float m_DelayPerBar;
 }
 
+<<<<<<< HEAD
+- (id)initWithPosition:(float)position usingMusicBar: (MusicBar *)musicBar;
+=======
 - (id)init;
-- (id)initWithPosition:(float)position atBPM:(float)bpm usingMusicBar: (MusicBar *)musicBar;
+- (id)initWithPosition:(float)position AtBPM:(float)bpm;
+>>>>>>> 74ef9a53fef6673c6216086fa6bcfd1c667d9821
 
 - (void)GeneratePlanes:(MusicBar *)musicBar;
 - (void)CreatePlane:(float)zOffset withSoundObject: (InteractiveSoundObject *)soundObject;
