@@ -60,6 +60,9 @@
                 self->rotation.y = [self lerp:_startRotation.y withEndValue:_startRotation.y + _rotateAmount lerpDistance:1.0f];
             }
         }
+        _startPosition = self->worldPosition;
+        _startRotation = self->rotation;
+        _timeElapsed = 0;
         return false;
     }
     else
