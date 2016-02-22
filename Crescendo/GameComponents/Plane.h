@@ -12,6 +12,8 @@
 #import <GLKit/GLKit.h>
 #import "PlaneObject.h"
 
+@class InteractiveSoundObject;
+
 
 @import GLKit;
 
@@ -28,13 +30,12 @@
 
 - (void)move:(GLKVector3)amount;
 - (BOOL)checkCollision;
-- (id)initWithPosition:(float)position;
-- (id)initWithPosition:(float)positon isEmpty: (bool)empty;
+- (id)initWithPosition:(float)positon soundObject: (InteractiveSoundObject *)soundObject;
 - (void)update:(float)TimePassed;
 //- (void)move:(GLKVector3)amount;
 //- (BOOL)checkCollision;
 
 - (void)updateLineWith;
-- (void)CreatePlaneObject;
+- (void)CreatePlaneObject:(InteractiveSoundObject *)soundObject;
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "Plane.h"
-
+#import "Crescendo-Swift.h"
 
 
 @implementation Plane
@@ -16,11 +16,7 @@
 /**
  * Provides default parameter to generate empty planes (so we can start the game with no obstacles
  */
-- (id)initWithPosition:(float)position{
-    return [self initWithPosition:position isEmpty:false];
-}
-
-- (id)initWithPosition:(float)positon isEmpty:(bool)empty
+- (id)initWithPosition:(float)positon soundObject:(InteractiveSoundObject *)soundObject
 {
     const Vertex vertices[8] = {
     {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
@@ -52,11 +48,11 @@
         [self updateLineWith];
     }
     
-    if(!empty){
+    if(soundObject != nil){
         // Initialize new plane object storage
         self->m_PlaneObjects = [[NSMutableArray alloc] init];
         
-        [self CreatePlaneObject];
+        [self CreatePlaneObject:soundObject];
     }
     
     
@@ -95,7 +91,7 @@
 /*
  * Creates a plane and places it in the queue
  */
--(void)CreatePlaneObject
+-(void)CreatePlaneObject:(InteractiveSoundObject *)soundObject
 {
     PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self];
     newPlaneObject->worldPosition.x = -1.0f;

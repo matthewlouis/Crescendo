@@ -14,6 +14,8 @@
 #import "TimeSignature.h"
 #import "NSMutableArray+Queue.h"
 
+@class MusicBar, InteractiveSoundObject;
+
 @interface Bar : Plane
 {
 @public NSMutableArray *m_Planes;
@@ -24,11 +26,10 @@
 @private float m_DelayPerBar;
 }
 
-- (id)init;
-- (id)initWithPosition:(float)position;
+- (id)initWithPosition:(float)position usingMusicBar: (MusicBar *)musicBar;
 
-- (void)GeneratePlanes;
-- (void)CreatePlane:(float)zOffset;
+- (void)GeneratePlanes:(MusicBar *)musicBar;
+- (void)CreatePlane:(float)zOffset withSoundObject: (InteractiveSoundObject *)soundObject;
 - (Plane*)GetNextPlane;
 
 - (void)update:(float)TimePassed;

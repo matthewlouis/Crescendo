@@ -9,12 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "Bar.h"
 #import "Constants.h"
+#import "Crescendo-Swift.h"
 
 @implementation Bar
 
-- (id)initWithPosition:(float)position
+- (id)initWithPosition:(float)position usingMusicBar:(MusicBar *)musicBar
 {
-    self = [super initWithPosition:position];
+    InteractiveSoundObject *soundObject = [musicBar getSoundObject: 0];
+    
+    self = [super initWithPosition:position soundObject:soundObject];
     if (self)
     {
         m_BarWidth = 10.0f;
@@ -23,7 +26,7 @@
         
         self->m_Planes = [[NSMutableArray alloc] init];
         
-        [self GeneratePlanes];
+        [self GeneratePlanes: musicBar];
         [self updatePlanePositions];
     }
     
@@ -33,23 +36,24 @@
 /*
  * Generates planes
  */
-- (void)GeneratePlanes
+- (void)GeneratePlanes:(MusicBar *)musicBar
 {
     float quarterNoteOffset = m_BarWidth / 5;
     
     // Generate Quarter Notes
     for(int i = 1; i < 4; ++i)
     {
-        [self CreatePlane:-quarterNoteOffset * i];
+        InteractiveSoundObject *soundObject = [musicBar getSoundObject: i / SoundEffectController.BAR_RESOLUTION];
+        [self CreatePlane:-quarterNoteOffset * i withSoundObject:soundObject];
     }
 }
 
 /*
  * Creates a plane and places it in the queue
  */
--(void)CreatePlane:(float)zOffset
+-(void)CreatePlane:(float)zOffset withSoundObject:(InteractiveSoundObject *)soundObject
 {
-    Plane* newPlane = [[Plane alloc]initWithPosition:worldPosition.z + zOffset];
+    Plane* newPlane = [[Plane alloc]initWithPosition:worldPosition.z + zOffset soundObject:soundObject];
     newPlane->m_LocalZOffset = zOffset;
     newPlane->m_Velocity = 0;
     newPlane->m_LineThickness = 1;

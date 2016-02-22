@@ -19,4 +19,16 @@ class MusicBar:NSObject{
         events = [InteractiveSoundObject]()
         super.init()
     }
+    
+    /**
+     * Given a step, returns the appropriate sound object
+     */
+    func getSoundObject(position: Float)->InteractiveSoundObject?{
+        for(var i = 0; i < events.count; ++i){
+            if(events[i]._position == Double(position)){
+                return events[i]
+            }
+        }
+        return nil
+    }
 }

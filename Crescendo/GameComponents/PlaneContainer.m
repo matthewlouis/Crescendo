@@ -16,7 +16,6 @@
     bool gameStarted;
 }
 
-
 - (id)init
 {
     self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
@@ -50,8 +49,16 @@
  */
 - (void)CreateBar
 {
-    Bar* newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance];
-    //newBar->worldPosition.z = self->m_SpawnDistance;
+    
+    float step = SoundEffectController.DEFAULT_STEP;
+    float barLength = SoundEffectController.SEQ_LENGTH;
+    
+    [soundEffectController generateAndAddSection:step barLength:barLength];
+    
+    //get musical info from soundeffectcontroller and remove it from the queue
+    Bar* newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance usingMusicBar: soundEffectController._musicBars[0]];
+    [soundEffectController removeSection];
+    
     newBar->m_Velocity = self->m_SpawnBarVelocity;
     [newBar updatePlanePositions];
     [m_Bars enqueue:newBar];
@@ -125,9 +132,6 @@
  */
 -(void)syncToBar{
     self->buildBar = true;
-    
-    [soundEffectController generateAndAddSection:1.0f/8.0f barLength:1.0f];
-    
     /*
     NSArray<MusicBar*> *barbar = soundEffectController._musicBars;
     for (MusicBar* bar in barbar)
@@ -142,6 +146,13 @@
         }
     }
      */
+}
+
+/**
+ *Start game (start generating obstacles and objects
+ */
+-(void)startGame{
+    gameStarted = true;
 }
 
 /*
