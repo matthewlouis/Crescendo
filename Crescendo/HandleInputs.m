@@ -17,6 +17,7 @@
     
     GLKMatrix4 _modelViewMatrix;
     GLKMatrix4 _projectionMatrix;
+    GLKVector3 _initialPosition;
     
     CGSize _view;
     float _aspectRatio;
@@ -41,15 +42,18 @@
 {
     MessageView * topView = recognizer.view.subviews[0];
     
+    //hack code to get player moving TODO: Steven please fix!
+    CGPoint pointToMoveTo = [recognizer locationInView:recognizer.view];
+    
     if([topView messageIsDisplayed] == YES){
         [topView messageConfirmed];
         [PlaneContainer startGame];
-        return;
+        pointToMoveTo = CGPointMake(recognizer.view.frame.size.width/2,recognizer.view.frame.size.width/2 - 20);
     }
     
     if (!self.isMoving)
     {
-        CGPoint location          = [recognizer locationInView:recognizer.view];
+        CGPoint location          = pointToMoveTo;
         GLKVector2 gridLocation   = [gridMovement gridLocation:GLKVector2Make(location.x, location.y)];
         GLKVector3 translation    = [self Vector3D:gridLocation Width:recognizer.view.frame.size.width Height: recognizer.view.frame.size.height];
         GLKVector3 playerLocation = player->worldPosition;
@@ -146,7 +150,8 @@
     translation = GLKVector3MultiplyScalar(translation, 5.0);
     //translation = GLKVector3Multiply(translation, player->scale);
     
-    _translation = GLKVector3Make(translation.x, translation.y, playerLocation.z);
+    //_initialPosition = translation;
+    _translation = GLKVector3Make(translation.x, translation.y - 5, playerLocation.z);
     _player->worldPosition = _translation;
     
 }
