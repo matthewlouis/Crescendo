@@ -12,12 +12,13 @@
 
 @implementation Bar
 
-- (id)initWithPosition:(float)position
+- (id)initWithPosition:(float)position AtBPM:(float)bpm
 {
     self = [super initWithPosition:position];
     if (self)
     {
-        m_BarWidth = 10.0f;
+        float bpmPercentage = DEFAULT_BPM/bpm;
+        m_BarWidth = 20.0f * (bpmPercentage);
         m_LineThickness = 1.5f;
         worldPosition.z = position;
         
@@ -30,12 +31,24 @@
     return self;
 }
 
+- (void)CleanUp
+{
+    // Clean up Self
+    [super CleanUp];
+    
+    // Clean up planes
+    for (Plane* o in m_Planes)
+    {
+        [o CleanUp];
+    }
+}
+
 /*
  * Generates planes
  */
 - (void)GeneratePlanes
 {
-    float quarterNoteOffset = m_BarWidth / 5;
+    float quarterNoteOffset = m_BarWidth / 5.0f;
     
     // Generate Quarter Notes
     for(int i = 1; i < 4; ++i)

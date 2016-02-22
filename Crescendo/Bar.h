@@ -25,7 +25,7 @@
 }
 
 - (id)init;
-- (id)initWithPosition:(float)position;
+- (id)initWithPosition:(float)position AtBPM:(float)bpm;
 
 - (void)GeneratePlanes;
 - (void)CreatePlane:(float)zOffset;

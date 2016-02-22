@@ -10,5 +10,6 @@
 #define Constants_h
 
 static float SECONDS_PER_MINUTE = 60.0f;
+static float DEFAULT_BPM = 120.0f;
 
 #endif /* Constants_h */
