@@ -14,16 +14,20 @@
 @interface Player ()
 {
     float _playerSpeed;
+    float _timeToAnimate;
+    float _rotateDefault;
+    float _rotateAmount;
 }
 
 @end
 
 @implementation Player
 
-
 - (instancetype)init {
     if ((self = [super initWithName:"player" shader:nil vertices:(Vertex*) player_Vertices vertexCount:sizeof(player_Vertices) / sizeof(player_Vertices[0])])) {
         _playerSpeed = 20.0f;
+        _timeToAnimate = 0.4f;
+        _rotateAmount = 1.0f;
         //[self loadTexture:@"mushroom.png"];
         //self.rotationY = M_PI;
         //self.rotationX = M_PI_2;
@@ -31,6 +35,7 @@
         self->rotation = GLKVector3Make(-1.25, 3.14, 0);
         self->scale = GLKVector3Make(0.5, 0.5, 0.5);
         
+        _rotateDefault = self->rotation.y;
         // Specify Drawing Mode
         renderMode = GL_TRIANGLES;
         
@@ -38,70 +43,58 @@
     return self;
 }
 
-- (bool)moveUp:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time
+- (bool)moveTo:(GLKVector3)moveToPosition
 {
-    float checkPlayPosition = self->worldPosition.y;
-    checkPlayPosition += time * _playerSpeed;
-    if (checkPlayPosition >= moveToPosition.y)
+    if (_timeElapsed / _timeToAnimate > 1.0f)
     {
-        self->worldPosition.y = moveToPosition.y;
+        self->worldPosition = [self lerpStartVector:_startPosition withEndVector:moveToPosition lerpDistance:1.0f];
+        
+        if (_startPosition.x != moveToPosition.x)
+        {
+            if (_startPosition.x < moveToPosition.x)
+            {
+                self->rotation.y = [self lerp:_startRotation.y withEndValue:_startRotation.y - _rotateAmount lerpDistance:1.0f];
+            }
+            else if (_startPosition.x > moveToPosition.x)
+            {
+                self->rotation.y = [self lerp:_startRotation.y withEndValue:_startRotation.y + _rotateAmount lerpDistance:1.0f];
+            }
+        }
+        _startPosition = self->worldPosition;
+        _startRotation = self->rotation;
+        _timeElapsed = 0;
         return false;
     }
     else
     {
-        self->worldPosition.y += time * _playerSpeed;
+        self->worldPosition = [self lerpStartVector:_startPosition withEndVector:moveToPosition lerpDistance:_timeElapsed/ _timeToAnimate];
+        
+        if (_startPosition.x != moveToPosition.x)
+        {
+            if (_startPosition.x < moveToPosition.x)
+            {
+                self->rotation.y = [self lerp:_startRotation.y withEndValue:_startRotation.y - _rotateAmount lerpDistance:_timeElapsed/ _timeToAnimate];
+            }
+            else
+            {
+                self->rotation.y = [self lerp:_startRotation.y withEndValue:_startRotation.y + _rotateAmount lerpDistance:_timeElapsed/ _timeToAnimate];
+            }
+        }
         return true;
     }
 }
 
-- (bool)moveDown:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time
+- (GLKVector3)lerpStartVector:(GLKVector3)startVector withEndVector:(GLKVector3)endVector lerpDistance:(float)percentage
 {
-    float checkPlayPosition = self->worldPosition.y;
-    checkPlayPosition -= time * _playerSpeed;
-    if (checkPlayPosition <= moveToPosition.y)
-    {
-        self->worldPosition.y = moveToPosition.y;
-        return false;
-    }
-    else
-    {
-        self->worldPosition.y -= time * _playerSpeed;
-        return true;
-    }
+    GLKVector3 result = GLKVector3Subtract(endVector, startVector);
+    result = GLKVector3MultiplyScalar(result, percentage);
+    result = GLKVector3Add(startVector, result);
+    return result;
 }
 
-- (bool)moveLeft:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time
+- (float)lerp:(float)startValue withEndValue:(float)endValue lerpDistance:(float)percentage
 {
-    float checkPlayPosition = self->worldPosition.x;
-    checkPlayPosition -= time * _playerSpeed;
-    if (checkPlayPosition <= moveToPosition.x)
-    {
-        self->worldPosition.x = moveToPosition.x;
-        return false;
-    }
-    else
-    {
-        self->worldPosition.x -= time * _playerSpeed;
-        return true;
-    }
+    return startValue + (endValue - startValue) * percentage;
 }
-
-- (bool)moveRight:(GLKVector3)moveToPosition timeSinceLastUpdate:(float)time
-{
-    float checkPlayPosition = self->worldPosition.x;
-    checkPlayPosition += time * _playerSpeed;
-    if (checkPlayPosition >= moveToPosition.x)
-    {
-        self->worldPosition.x = moveToPosition.x;
-        return false;
-    }
-    else
-    {
-        self->worldPosition.x += time * _playerSpeed;
-        return true;
-    }
-}
-
-
 
 @end

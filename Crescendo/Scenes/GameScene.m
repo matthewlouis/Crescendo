@@ -59,46 +59,21 @@
 
     if ([self.handleInput isMoving])
     {
+        _player.timeElapsed += timePassed;
         if ([self.handleInput moveDirection] == MoveDirectionNone)
         {
             
         }
-        else if ([self.handleInput moveDirection] == MoveDirectionUp)
+        else
         {
-            self.handleInput.isMoving = [_player moveUp:[self.handleInput translation] timeSinceLastUpdate:timePassed];
+            self.handleInput.isMoving = [_player moveTo:[self.handleInput translation]];
         }
-        else if ([self.handleInput moveDirection] == MoveDirectionUpRight)
-        {
-            self.handleInput.isMoving = [_player moveRight:[self.handleInput translation] timeSinceLastUpdate:timePassed];
-            [_player moveUp:[self.handleInput translation] timeSinceLastUpdate:timePassed];
-        }
-        else if ([self.handleInput moveDirection] == MoveDirectionRight)
-        {
-            self.handleInput.isMoving = [_player moveRight:[self.handleInput translation] timeSinceLastUpdate:timePassed];
-        }
-        else if ([self.handleInput moveDirection] == MoveDirectionDownRight)
-        {
-            self.handleInput.isMoving = [_player moveRight:[self.handleInput translation] timeSinceLastUpdate:timePassed];
-            [_player moveDown:[self.handleInput translation] timeSinceLastUpdate:timePassed];
-        }
-        else if ([self.handleInput moveDirection] == MoveDirectionDown)
-        {
-            self.handleInput.isMoving = [_player moveDown:[self.handleInput translation] timeSinceLastUpdate:timePassed];
-        }
-        else if ([self.handleInput moveDirection] == MoveDirectionDownLeft)
-        {
-            self.handleInput.isMoving = [_player moveLeft:[self.handleInput translation] timeSinceLastUpdate:timePassed];
-            [_player moveDown:[self.handleInput translation] timeSinceLastUpdate:timePassed];
-        }
-        else if ([self.handleInput moveDirection] == MoveDirectionLeft)
-        {
-            self.handleInput.isMoving = [_player moveLeft:[self.handleInput translation] timeSinceLastUpdate:timePassed];
-        }
-        else if ([self.handleInput moveDirection] == MoveDirectionUpLeft)
-        {
-            self.handleInput.isMoving = [_player moveLeft:[self.handleInput translation] timeSinceLastUpdate:timePassed];
-            [_player moveUp:[self.handleInput translation] timeSinceLastUpdate:timePassed];
-        }
+    }
+    else
+    {
+        _player.startPosition = _player->worldPosition;
+        _player.startRotation = _player->rotation;
+        _player.timeElapsed = 0.0f;
     }
     //NSLog(@"%f, %f, %f", [self.handleInput Translation].x, [self.handleInput Translation].y, [self.handleInput Translation].z);
     [planeContainer update:timePassed];
