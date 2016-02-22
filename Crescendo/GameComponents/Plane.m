@@ -39,7 +39,7 @@
     {
         self->worldPosition = GLKVector3Make(0, 0, positon);
         self->rotation = GLKVector3Make(0, 0, 0);
-        self->scale = GLKVector3Make(2, 2, 2);
+        self->scale = GLKVector3Make(3.5, 3.5, 3.5);
         
         // Default Plane Velocity of 5 per second;
         self->m_Velocity = 0;
@@ -85,7 +85,7 @@
  */
 - (void)updateLineWith
 {
-    lineWidth = (float)(20.0f / (-worldPosition.z + 5)) * m_LineThickness;
+    lineWidth = (float)(80.0f / (-worldPosition.z + 5)) * m_LineThickness;
     if (lineWidth < 1)
     {
         lineWidth = 1;
@@ -104,6 +104,21 @@
     
     [m_PlaneObjects enqueue: (newPlaneObject)];
     [self->children addObject:newPlaneObject];
+}
+
+/*
+ * Cleans up Plane data
+ */
+-(void) CleanUp
+{
+    // Cleanup self
+    [super CleanUp];
+    
+    // Clean up all plane objects
+    for (GameObject3D* o in m_PlaneObjects)
+    {
+        [o CleanUp];
+    }
 }
 
 

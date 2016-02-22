@@ -22,10 +22,10 @@
     self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
     if (self)
     {
-        self->m_SpawnDistance = -40.0f;
+        self->m_SpawnDistance = -80.0f;
         
         // Default Plane Velocity of 5 per seconds
-        [self setSpawnBarVelocity:5.0f];
+        [self setSpawnBarVelocity:10.0f];
     
         //Instantiate Music Player
         gameMusicPlayer = [[GameMusicPlayer alloc] initWithTempoListener:self];
@@ -43,6 +43,18 @@
     }
     
     return self;
+}
+
+- (void)CleanUp
+{
+    // Clean up all the Bars
+    for (Bar* o in m_Bars)
+    {
+        [o CleanUp];
+    }
+    
+    // Clean up self
+    [super CleanUp];
 }
 
 /*
@@ -85,7 +97,7 @@
     totalTimePassed += timePassed;
     if(totalTimePassed > 5){
         totalTimePassed = 4;
-        gameMusicPlayer.bpm += 15;
+        gameMusicPlayer.bpm *= 1.01;
     }
     
     if(timePassed)
@@ -104,6 +116,7 @@
         if (nextBar->worldPosition.z > 20)
         {
             [self->children removeObject:(Bar*)[m_Bars peek]];
+            [nextBar CleanUp];	
             [m_Bars dequeue];
         }
         else

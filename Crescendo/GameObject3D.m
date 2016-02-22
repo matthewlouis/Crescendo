@@ -51,7 +51,18 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
     return self;
 }
 
-
+- (void)CleanUp
+{
+    // Clean up all children
+    for (GameObject3D* o in children)
+    {
+        [o CleanUp];
+    }
+    
+    // Clean up self;
+    glDeleteBuffers(1, &_vertexBuffer);
+    glDeleteVertexArraysOES(1, &vao);
+}
 
 - (void)updateWithDelta:(NSTimeInterval)dt {
     for (GameObject3D *child in self->children) {
