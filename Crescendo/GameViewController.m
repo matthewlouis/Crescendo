@@ -119,7 +119,7 @@ enum
 - (void)setupScene
 {
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
-    projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 100.0f);
+    projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 85.0f);
     
     [self.handleInput setProjectionMatrix:projectionMatrix];
     
@@ -186,7 +186,7 @@ enum
 {
     // Begin transformations
     [self.handleInput respondToTouchesBegan];
-    NSLog(@"Starting Gestures");
+    //NSLog(@"Starting Gestures");
 }
 
 - (void)initializeClasses

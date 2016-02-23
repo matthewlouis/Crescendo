@@ -26,7 +26,7 @@ static bool gameStarted;
         self->m_SpawnDistance = -80.0f;
         
         // Default Plane Velocity of 5 per seconds
-        [self setSpawnBarVelocity:10.0f];
+        [self setSpawnBarVelocity:20.0f];
     
         //Instantiate Music Player
         gameMusicPlayer = [[GameMusicPlayer alloc] initWithTempoListener:self];

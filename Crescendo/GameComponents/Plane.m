@@ -83,7 +83,7 @@
  */
 - (void)updateLineWith
 {
-    lineWidth = (float)(80.0f / (-worldPosition.z + 5)) * m_LineThickness;
+    lineWidth = (float)((100.0f + 5) / -worldPosition.z) * m_LineThickness;
     if (lineWidth < 1)
     {
         lineWidth = 1;
