@@ -13,7 +13,7 @@
 {
     @private SoundEffectController *soundEffectController;
     float totalTimePassed;
-    
+    float timeAccumBeforeStart;
 }
 
 static bool gameStarted;
@@ -41,6 +41,8 @@ static bool gameStarted;
         self->m_Bars = [[NSMutableArray alloc] init];
         
         self->buildBar = false;
+        
+        timeAccumBeforeStart = 0.0f;
     }
     
     return self;
@@ -108,11 +110,17 @@ static bool gameStarted;
  */
  -(void)update:(float)timePassed
 {
-    //Matt: test code to make the game go faster and faster: WORKS!
-    totalTimePassed += timePassed;
-    if(totalTimePassed > 4){
-        totalTimePassed = 1;
-        gameMusicPlayer.bpm *= 1.01;
+    timeAccumBeforeStart += timePassed;
+    
+    if (timeAccumBeforeStart > 60)
+    {
+        //Matt: test code to make the game go faster and faster: WORKS!
+        totalTimePassed += timePassed;
+        if(totalTimePassed > 3){
+            totalTimePassed = 1;
+            gameMusicPlayer.bpm *= 1.01;
+        }
+
     }
     
     if(timePassed)
@@ -128,7 +136,7 @@ static bool gameStarted;
     {
         Bar* nextBar = ((Bar*)[m_Bars peek]);
         
-        if (nextBar->worldPosition.z > 20)
+        if (nextBar->worldPosition.z > 40)
         {
             [self->children removeObject:(Bar*)[m_Bars peek]];
             [nextBar CleanUp];	
