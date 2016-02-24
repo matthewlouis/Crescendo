@@ -7,8 +7,81 @@
 //
 
 #import "GameObject3D.h"
+#import "BaseEffect.h"
+#import <OpenGLES/ES2/glext.h>
 
-@implementation GameObject3D
+@implementation GameObject3D{
+    char *_name;
+    
+    GLuint _vertexBuffer;
+    
+    BaseEffect *_shader;
+}
+
+- (instancetype)initWithName:(char *)name shader:(
+BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vertexCount {
+    if ((self = [super init])) {
+        
+        vertexCount = p_vertexCount;
+        self->children = [NSMutableArray array];
+        
+        glGenVertexArraysOES(1, &vao);
+        glBindVertexArrayOES(vao);
+        
+        // Generate vertex buffer
+        glGenBuffers(1, &_vertexBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+        glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(Vertex), vertices, GL_STATIC_DRAW);
+        
+        // Enable vertex attributes
+        glEnableVertexAttribArray(VertexAttribPosition);
+        glVertexAttribPointer(VertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Position));
+        glEnableVertexAttribArray(VertexAttribColor);
+        glVertexAttribPointer(VertexAttribColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Color));
+        glEnableVertexAttribArray(VertexAttribTexCoord);
+        glVertexAttribPointer(VertexAttribTexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, TexCoord));
+        glEnableVertexAttribArray(VertexAttribNormal);
+        glVertexAttribPointer(VertexAttribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Normal));
+        
+        glBindVertexArrayOES(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        
+    }
+    return self;
+}
+
+- (void)CleanUp
+{
+    // Clean up all children
+    for (GameObject3D* o in children)
+    {
+        [o CleanUp];
+    }
+    
+    // Clean up self;
+    glDeleteBuffers(1, &_vertexBuffer);
+    glDeleteVertexArraysOES(1, &vao);
+}
+
+- (void)updateWithDelta:(NSTimeInterval)dt {
+    for (GameObject3D *child in self->children) {
+        [child updateWithDelta:dt];
+    }
+}
+
+- (void)loadTexture:(NSString *)filename {
+    NSError *error;
+    NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:nil];
+    
+    NSDictionary *options = @{ GLKTextureLoaderOriginBottomLeft: @YES };
+    GLKTextureInfo *info = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
+    if (info == nil) {
+        NSLog(@"Error loading file: %@", error.localizedDescription);
+    } else {
+        self->texture = info.name;
+    }
+}
 
 -(GLKVector3)GetFoward
 {
@@ -47,6 +120,24 @@
     GLKMatrix4 rotationZMat = GLKMatrix4MakeRotation(rotation.y, forwardVec.x, forwardVec.y, forwardVec.z);
     
     return GLKMatrix4Multiply(GLKMatrix4Multiply(rotationXMat, rotationYMat),rotationZMat);
+}
+
+-(GLKMatrix4)GetScaleMatrix
+{
+    return GLKMatrix4MakeScale(scale.x, scale.y, scale.z);
+}
+
+-(GLKMatrix4)GetModelViewMatrix
+{
+    GLKMatrix4 result = [self GetTranslationMatrix];
+    
+    
+    result = GLKMatrix4Multiply(result, GLKMatrix4MakeRotation(rotation.x, 1, 0, 0));
+    result = GLKMatrix4Multiply(result, GLKMatrix4MakeRotation(rotation.y, 0, 1, 0));
+    
+    result = GLKMatrix4Multiply(result, [self GetScaleMatrix]);
+    
+    return result;
 }
 
 @end

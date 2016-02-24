@@ -1,0 +1,474 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03A0C8011C498C7D004213DB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C8001C498C7D004213DB /* main.m */; };
+		03A0C8041C498C7D004213DB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C8031C498C7D004213DB /* AppDelegate.m */; };
+		03A0C8061C498C7D004213DB /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C8051C498C7D004213DB /* Shader.fsh */; };
+		03A0C8081C498C7D004213DB /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C8071C498C7D004213DB /* Shader.vsh */; };
+		03A0C80B1C498C7D004213DB /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C80A1C498C7D004213DB /* GameViewController.m */; };
+		03A0C80E1C498C7D004213DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C80C1C498C7D004213DB /* Main.storyboard */; };
+		03A0C8101C498C7D004213DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C80F1C498C7D004213DB /* Assets.xcassets */; };
+		03A0C8131C498C7D004213DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03A0C8111C498C7D004213DB /* LaunchScreen.storyboard */; };
+		03A0C81D1C4992FD004213DB /* Plane.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C81C1C4992FD004213DB /* Plane.m */; };
+		03A0C82C1C499B4C004213DB /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */; };
+		03A0C82F1C499CC2004213DB /* PlaneObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C82E1C499CC2004213DB /* PlaneObject.m */; };
+		03A0C8321C49A13A004213DB /* PlaneContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 03A0C8311C49A13A004213DB /* PlaneContainer.m */; };
+		03AD81591C59267C00934E91 /* GameMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AD81581C59267C00934E91 /* GameMusicPlayer.swift */; };
+		340557381C6BD551001DD32E /* Conductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340557351C6BD551001DD32E /* Conductor.swift */; };
+		340557391C6BD551001DD32E /* CoreInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340557361C6BD551001DD32E /* CoreInstrument.swift */; };
+		3405573A1C6BD551001DD32E /* CoreVoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340557371C6BD551001DD32E /* CoreVoice.swift */; };
+		3405573F1C6BD575001DD32E /* Fatten.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3405573C1C6BD575001DD32E /* Fatten.swift */; };
+		340557401C6BD575001DD32E /* FilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3405573D1C6BD575001DD32E /* FilterSection.swift */; };
+		340557411C6BD575001DD32E /* MultiDelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3405573E1C6BD575001DD32E /* MultiDelay.swift */; };
+		340FB36A1C62978000F4A3AC /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03A0C81F1C499408004213DB /* Accelerate.framework */; };
+		340FB36B1C62978800F4A3AC /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340FB3661C62976F00F4A3AC /* AudioKit.framework */; };
+		340FB36C1C62978800F4A3AC /* AudioKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 340FB3661C62976F00F4A3AC /* AudioKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		346671EB1C63D1C000583A6B /* Songs in Resources */ = {isa = PBXBuildFile; fileRef = 340FB3771C629E9000F4A3AC /* Songs */; };
+		346671EC1C63D1C000583A6B /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 03CADDEA1C595500008BE459 /* Sounds */; };
+		34B673AF1C6E863800D7BD29 /* TempoKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		340FB36D1C62978800F4A3AC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				340FB36C1C62978800F4A3AC /* AudioKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		03A0C7FC1C498C7D004213DB /* Crescendo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crescendo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		03A0C8001C498C7D004213DB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		03A0C8021C498C7D004213DB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		03A0C8031C498C7D004213DB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		03A0C8051C498C7D004213DB /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
+		03A0C8071C498C7D004213DB /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
+		03A0C8091C498C7D004213DB /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		03A0C80A1C498C7D004213DB /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		03A0C80D1C498C7D004213DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		03A0C80F1C498C7D004213DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		03A0C8121C498C7D004213DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		03A0C8141C498C7D004213DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03A0C81B1C4992FD004213DB /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Plane.h; path = GameComponents/Plane.h; sourceTree = "<group>"; };
+		03A0C81C1C4992FD004213DB /* Plane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Plane.m; path = GameComponents/Plane.m; sourceTree = "<group>"; };
+		03A0C81F1C499408004213DB /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		03A0C82A1C499B4C004213DB /* NSMutableArray+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+Queue.h"; path = "Utilities/NSMutableArray+Queue.h"; sourceTree = "<group>"; };
+		03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+Queue.m"; path = "Utilities/NSMutableArray+Queue.m"; sourceTree = "<group>"; };
+		03A0C82D1C499CC2004213DB /* PlaneObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaneObject.h; path = GameComponents/PlaneObject.h; sourceTree = "<group>"; };
+		03A0C82E1C499CC2004213DB /* PlaneObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaneObject.m; path = GameComponents/PlaneObject.m; sourceTree = "<group>"; };
+		03A0C8301C49A13A004213DB /* PlaneContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaneContainer.h; path = GameComponents/PlaneContainer.h; sourceTree = "<group>"; };
+		03A0C8311C49A13A004213DB /* PlaneContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaneContainer.m; path = GameComponents/PlaneContainer.m; sourceTree = "<group>"; };
+		03AD81581C59267C00934E91 /* GameMusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameMusicPlayer.swift; path = Crescendo/GameMusicPlayer.swift; sourceTree = "<group>"; };
+		03CADDEA1C595500008BE459 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
+		340557351C6BD551001DD32E /* Conductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conductor.swift; sourceTree = "<group>"; };
+		340557361C6BD551001DD32E /* CoreInstrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreInstrument.swift; sourceTree = "<group>"; };
+		340557371C6BD551001DD32E /* CoreVoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreVoice.swift; sourceTree = "<group>"; };
+		3405573C1C6BD575001DD32E /* Fatten.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fatten.swift; sourceTree = "<group>"; };
+		3405573D1C6BD575001DD32E /* FilterSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSection.swift; sourceTree = "<group>"; };
+		3405573E1C6BD575001DD32E /* MultiDelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiDelay.swift; sourceTree = "<group>"; };
+		340FB3661C62976F00F4A3AC /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AudioKit.framework; sourceTree = "<group>"; };
+		340FB3771C629E9000F4A3AC /* Songs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Songs; sourceTree = "<group>"; };
+		340FB37B1C62A35B00F4A3AC /* Crescendo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crescendo-Bridging-Header.h"; sourceTree = "<group>"; };
+		34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempoKeeper.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		03A0C7F91C498C7C004213DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				340FB36B1C62978800F4A3AC /* AudioKit.framework in Frameworks */,
+				340FB36A1C62978000F4A3AC /* Accelerate.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03A0C7F31C498C7C004213DB = {
+			isa = PBXGroup;
+			children = (
+				340FB3661C62976F00F4A3AC /* AudioKit.framework */,
+				03A0C81F1C499408004213DB /* Accelerate.framework */,
+				03A0C7FE1C498C7D004213DB /* Crescendo */,
+				03A0C7FD1C498C7D004213DB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		03A0C7FD1C498C7D004213DB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				03A0C7FC1C498C7D004213DB /* Crescendo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		03A0C7FE1C498C7D004213DB /* Crescendo */ = {
+			isa = PBXGroup;
+			children = (
+				340557341C6BD531001DD32E /* AudioSystem */,
+				03AD817C1C5928E100934E91 /* Resources */,
+				03A0C8251C4999AF004213DB /* Utilities */,
+				03A0C81E1C49930D004213DB /* GameComponents */,
+				03A0C8021C498C7D004213DB /* AppDelegate.h */,
+				03A0C8031C498C7D004213DB /* AppDelegate.m */,
+				03A0C8051C498C7D004213DB /* Shader.fsh */,
+				03A0C8071C498C7D004213DB /* Shader.vsh */,
+				03A0C8091C498C7D004213DB /* GameViewController.h */,
+				03A0C80A1C498C7D004213DB /* GameViewController.m */,
+				03A0C80C1C498C7D004213DB /* Main.storyboard */,
+				03A0C80F1C498C7D004213DB /* Assets.xcassets */,
+				03A0C8111C498C7D004213DB /* LaunchScreen.storyboard */,
+				03A0C8141C498C7D004213DB /* Info.plist */,
+				03A0C7FF1C498C7D004213DB /* Supporting Files */,
+			);
+			path = Crescendo;
+			sourceTree = "<group>";
+		};
+		03A0C7FF1C498C7D004213DB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				03A0C8001C498C7D004213DB /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		03A0C81E1C49930D004213DB /* GameComponents */ = {
+			isa = PBXGroup;
+			children = (
+				03A0C8301C49A13A004213DB /* PlaneContainer.h */,
+				03A0C8311C49A13A004213DB /* PlaneContainer.m */,
+				03A0C81B1C4992FD004213DB /* Plane.h */,
+				03A0C81C1C4992FD004213DB /* Plane.m */,
+				03A0C82D1C499CC2004213DB /* PlaneObject.h */,
+				03A0C82E1C499CC2004213DB /* PlaneObject.m */,
+				340FB37B1C62A35B00F4A3AC /* Crescendo-Bridging-Header.h */,
+			);
+			name = GameComponents;
+			sourceTree = "<group>";
+		};
+		03A0C8251C4999AF004213DB /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				03A0C82A1C499B4C004213DB /* NSMutableArray+Queue.h */,
+				03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		03AD817C1C5928E100934E91 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				340FB3771C629E9000F4A3AC /* Songs */,
+				03CADDEA1C595500008BE459 /* Sounds */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		340557341C6BD531001DD32E /* AudioSystem */ = {
+			isa = PBXGroup;
+			children = (
+				3405573B1C6BD564001DD32E /* AudioProcessors */,
+				03AD81581C59267C00934E91 /* GameMusicPlayer.swift */,
+				340557351C6BD551001DD32E /* Conductor.swift */,
+				340557361C6BD551001DD32E /* CoreInstrument.swift */,
+				340557371C6BD551001DD32E /* CoreVoice.swift */,
+				34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */,
+			);
+			name = AudioSystem;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		3405573B1C6BD564001DD32E /* AudioProcessors */ = {
+			isa = PBXGroup;
+			children = (
+				3405573C1C6BD575001DD32E /* Fatten.swift */,
+				3405573D1C6BD575001DD32E /* FilterSection.swift */,
+				3405573E1C6BD575001DD32E /* MultiDelay.swift */,
+			);
+			name = AudioProcessors;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		03A0C7FB1C498C7C004213DB /* Crescendo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03A0C8171C498C7D004213DB /* Build configuration list for PBXNativeTarget "Crescendo" */;
+			buildPhases = (
+				03A0C7F81C498C7C004213DB /* Sources */,
+				03A0C7F91C498C7C004213DB /* Frameworks */,
+				03A0C7FA1C498C7C004213DB /* Resources */,
+				340FB36D1C62978800F4A3AC /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Crescendo;
+			productName = Crescendo;
+			productReference = 03A0C7FC1C498C7D004213DB /* Crescendo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		03A0C7F41C498C7C004213DB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = Equalizer;
+				TargetAttributes = {
+					03A0C7FB1C498C7C004213DB = {
+						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 766LELC49N;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = 03A0C7F71C498C7C004213DB /* Build configuration list for PBXProject "Crescendo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 03A0C7F31C498C7C004213DB;
+			productRefGroup = 03A0C7FD1C498C7D004213DB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				03A0C7FB1C498C7C004213DB /* Crescendo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		03A0C7FA1C498C7C004213DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				346671EB1C63D1C000583A6B /* Songs in Resources */,
+				346671EC1C63D1C000583A6B /* Sounds in Resources */,
+				03A0C80E1C498C7D004213DB /* Main.storyboard in Resources */,
+				03A0C8081C498C7D004213DB /* Shader.vsh in Resources */,
+				03A0C8101C498C7D004213DB /* Assets.xcassets in Resources */,
+				03A0C8131C498C7D004213DB /* LaunchScreen.storyboard in Resources */,
+				03A0C8061C498C7D004213DB /* Shader.fsh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		03A0C7F81C498C7C004213DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03AD81591C59267C00934E91 /* GameMusicPlayer.swift in Sources */,
+				03A0C8041C498C7D004213DB /* AppDelegate.m in Sources */,
+				03A0C80B1C498C7D004213DB /* GameViewController.m in Sources */,
+				3405573A1C6BD551001DD32E /* CoreVoice.swift in Sources */,
+				340557391C6BD551001DD32E /* CoreInstrument.swift in Sources */,
+				3405573F1C6BD575001DD32E /* Fatten.swift in Sources */,
+				03A0C82F1C499CC2004213DB /* PlaneObject.m in Sources */,
+				34B673AF1C6E863800D7BD29 /* TempoKeeper.swift in Sources */,
+				340557381C6BD551001DD32E /* Conductor.swift in Sources */,
+				03A0C8321C49A13A004213DB /* PlaneContainer.m in Sources */,
+				340557401C6BD575001DD32E /* FilterSection.swift in Sources */,
+				03A0C81D1C4992FD004213DB /* Plane.m in Sources */,
+				340557411C6BD575001DD32E /* MultiDelay.swift in Sources */,
+				03A0C8011C498C7D004213DB /* main.m in Sources */,
+				03A0C82C1C499B4C004213DB /* NSMutableArray+Queue.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		03A0C80C1C498C7D004213DB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				03A0C80D1C498C7D004213DB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		03A0C8111C498C7D004213DB /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				03A0C8121C498C7D004213DB /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		03A0C8151C498C7D004213DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		03A0C8161C498C7D004213DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		03A0C8181C498C7D004213DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/AudioKit/Frameworks/AudioKit-iOS",
+				);
+				INFOPLIST_FILE = Crescendo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Comp8051.Equalizer.Crescendo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Crescendo/Crescendo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		03A0C8191C498C7D004213DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/AudioKit/Frameworks/AudioKit-iOS",
+				);
+				INFOPLIST_FILE = Crescendo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Comp8051.Equalizer.Crescendo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Crescendo/Crescendo-Bridging-Header.h";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		03A0C7F71C498C7C004213DB /* Build configuration list for PBXProject "Crescendo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03A0C8151C498C7D004213DB /* Debug */,
+				03A0C8161C498C7D004213DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		03A0C8171C498C7D004213DB /* Build configuration list for PBXNativeTarget "Crescendo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03A0C8181C498C7D004213DB /* Debug */,
+				03A0C8191C498C7D004213DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 03A0C7F41C498C7C004213DB /* Project object */;
+}

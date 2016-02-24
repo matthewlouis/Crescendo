@@ -46,12 +46,17 @@ struct Track{
     var midiInstrument:AKMIDIInstrument?
 }
 
+
+
 class GameMusicPlayer : NSObject{
+    static var theInstance:GameMusicPlayer?
+    
+    //Original tempo for starting the music
     let DEFAULT_BPM:Float = 120
     
     var bpm:Float{
         didSet{
-            sequencer?.setBPM(bpm)
+            sequencer!.setRate(bpm/DEFAULT_BPM)
         }
     }
     var sequencer:AKSequencer?
@@ -63,15 +68,19 @@ class GameMusicPlayer : NSObject{
     let midi = AKMIDI()
     var currentMidiLoop = "";
     
-    override init(){
-        currentMidiLoop = "Songs/test";
+    var tk:TempoKeeper
+    
+    init(tempoListener: PlaneContainer){
+        currentMidiLoop = "Songs/testTimeCode";
         self.bpm = DEFAULT_BPM
+        tk = TempoKeeper(listener:tempoListener)
         super.init()
     }
     
-    init(withMidiLoopFileName midiLoopFileName: NSString){
+    init(withMidiLoopFileName tempoListener: PlaneContainer, midiLoopFileName: NSString){
         currentMidiLoop = midiLoopFileName as String
         self.bpm = DEFAULT_BPM
+        tk = TempoKeeper(listener:tempoListener)
         super.init()
     }
     
@@ -79,9 +88,9 @@ class GameMusicPlayer : NSObject{
     func load(){
         AudioKit.output = mixer
         AudioKit.start()
-        
         sequencer = AKSequencer(filename: currentMidiLoop, engine: AudioKit.engine)
         sequencer?.setBPM(bpm)
+        
         
         loadSampler(3, fileName: "Sounds/Sampler Instruments/Drums", sampleFormat: SampleFormat.EXS24)
         
@@ -139,7 +148,15 @@ class GameMusicPlayer : NSObject{
         synth2.attackDuration = 0.2
         synth2.releaseDuration = 0.0
         
+        
+        tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
+        sequencer!.avTracks[sequencer!.avTracks.capacity-1].destinationMIDIEndpoint = tk.midiIn
+        
+        
         AudioKit.stop()
+        let vol = AKBooster(tk)
+        mixer.connect(vol)
+        
         //connects all tracks to mixer at default gain level
         for var index = 1; index < tracks.count; ++index {
             if(tracks[index] != nil){
@@ -157,9 +174,9 @@ class GameMusicPlayer : NSObject{
         tracks[1]?.volume?.gain = 0.3
         
         AudioKit.output = masterComp
+        
         AudioKit.start()
         
-        sequencer!.setLength(4.0)
         sequencer?.loopOn()
     }
     
@@ -290,6 +307,43 @@ class GameMusicPlayer : NSObject{
     //stop sequencer
     func stop(){
         sequencer!.stop();
+    }
+    
+    func getBPM() -> Float{
+        return bpm;
+    }
+    
+    
+    /**
+     * Plays a note on a given track
+     */
+    func playNoteOnInstrument(trackNumber:Int, note: Int, velocity: Int = 100, duration: Float){
+        if(tracks[trackNumber]?.midiInstrument != nil){ //if a polyphonic instrument
+            tracks[trackNumber]?.midiInstrument?.startNote(note, withVelocity: velocity, onChannel: 1)
+            
+            let qualityOfServiceClass = QOS_CLASS_USER_INITIATED
+            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+            dispatch_async(backgroundQueue, {
+                sleep(UInt32(60000/self.bpm * duration)) //wait to turn off note
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.tracks[trackNumber]?.midiInstrument?.stopNote(note, onChannel: 1)
+                })
+            })
+        }else{ //sampler instrument
+            var sampler = self.tracks[trackNumber]?.instrument as? AKSampler
+            sampler?.playNote(note, velocity: velocity, channel: 1)
+            
+            let qualityOfServiceClass = QOS_CLASS_USER_INITIATED
+            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+            dispatch_async(backgroundQueue, {
+                sleep(UInt32(60000/self.bpm * duration)) //wait to turn off note
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    sampler?.stopNote(note, channel: 1)
+                })
+            })
+        }
     }
     
     

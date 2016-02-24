@@ -6,20 +6,49 @@
 //  Copyright © 2016 Equalizer. All rights reserved.
 //
 
+#ifndef PlaneContainer_h
+#define PlaneContainer_h
+
 #import <Foundation/Foundation.h>
 #import "NSMutableArray+Queue.h"
 
 #import "Plane.h"
+#import "TimeSignature.h"
+#import "Constants.h"
+#import "Bar.h"
 
-@interface PlaneContainer : NSObject
+@class GameMusicPlayer;
+
+@interface PlaneContainer : GameObject3D
 {
-    @public NSMutableArray *Planes;
-    @private float timePassed;
+@public NSMutableArray *m_Bars;
+@public float m_BPM;
+    
+@private TimeSignature m_TimeSignature;
+@private float m_TimePassed;
+    
+@private float m_SpawnDistance;
+@private float m_SpawnBarVelocity;
+
+@private GameMusicPlayer *gameMusicPlayer;
+    
+@private bool buildBar;
 }
 
--(void)CreatePlane;
--(Plane*)GetPlane;
--(void)update:(float)TimePassed;
+- (void)CreateBar;
+- (Bar*)GetBar;
+
+- (void)setSpawnBarVelocity:(float)velocity;
+
+-(void)setTimeSignature:(TimeSignature)timeSig;
+
+-(void)update:(float)timePassed;
 -(void)draw;
 
++(void)startGame;
+-(void)startMusic;
+-(void)syncToBar;
+
 @end
+
+#endif
