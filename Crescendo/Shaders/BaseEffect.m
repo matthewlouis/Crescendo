@@ -208,7 +208,8 @@
             break;
     }
     
-    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArrayOES(0);
     
     for (GameObject3D *child in gameObject3D->children) {
