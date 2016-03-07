@@ -92,6 +92,7 @@
     //_player->rotation.x += 0.01f;
 }
 
+<<<<<<< HEAD
 -(void)checkForPlayerCollisions{
     Bar *bar = planeContainer->m_Bars[0];
     for (Plane *cPlane in bar->m_Planes) {
@@ -102,6 +103,8 @@
         }
     }
 }
+
+=======
 - (void)CleanUp
 {
     [self CleanUp];
@@ -111,7 +114,7 @@
         [o CleanUp];
     }
 }
-
+>>>>>>> 1765eb40ce318a2bb9b5ace5f7a03d8c010bcc16
 
 
 

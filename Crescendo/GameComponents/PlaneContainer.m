@@ -8,6 +8,7 @@
 
 #import "PlaneContainer.h"
 #import "Crescendo-Swift.h"
+#import "Constants.h"
 
 @implementation PlaneContainer
 {
@@ -22,10 +23,10 @@ static bool gameStarted;
     self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
     if (self)
     {
-        self->m_SpawnDistance = -80.0f;
+        self->m_SpawnDistance = -BAR_WIDTH * BARS_IN_SIGHT;
         
         // Default Plane Velocity of 5 per seconds
-        [self setSpawnBarVelocity:20.0f];
+        [self setSpawnBarVelocity:BAR_WIDTH / 2];
     
         //Instantiate Music Player
         gameMusicPlayer = [[GameMusicPlayer alloc] initWithTempoListener:self];
@@ -135,7 +136,7 @@ static bool gameStarted;
     {
         Bar* nextBar = ((Bar*)[m_Bars peek]);
         
-        if (nextBar->worldPosition.z > 40)
+        if (nextBar->worldPosition.z > BAR_WIDTH)
         {
             [self->children removeObject:(Bar*)[m_Bars peek]];
             [nextBar CleanUp];	

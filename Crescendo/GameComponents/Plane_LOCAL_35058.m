@@ -8,7 +8,7 @@
 
 #import "Plane.h"
 #import "Crescendo-Swift.h"
-#import "Constants.h"
+
 
 @implementation Plane
 
@@ -21,13 +21,10 @@
     const Vertex vertices[8] = {
     {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
     {{-1, 1, 0}, {1, 1, 1, 1}, {0.167902, 0.904787}, {-0.809017, 0.587785, 0.000000}},
-        
     {{-1, 1, 0}, {1, 1, 1, 1}, {0.167902, 0.904787}, {-0.809017, 0.587785, 0.000000}},
     {{-1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
-        
     {{-1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
     {{1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
-        
     {{1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
     {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
     };
@@ -40,7 +37,7 @@
         self->rotation = GLKVector3Make(0, 0, 0);
         self->scale = GLKVector3Make(3.5, 3.5, 3.5);
         
-        // Initialize velocity;
+        // Default Plane Velocity of 5 per second;
         self->m_Velocity = 0;
         
         // Specify line drawing mode and thickness.
@@ -86,7 +83,7 @@
  */
 - (void)updateLineWith
 {
-    lineWidth = (float)((BAR_WIDTH * 5) / (-worldPosition.z + BAR_WIDTH)) * m_LineThickness;
+    lineWidth = (float)((100.0f + 5) / -worldPosition.z) * m_LineThickness;
     if (lineWidth < 1)
     {
         lineWidth = 1;

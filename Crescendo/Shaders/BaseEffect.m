@@ -178,13 +178,11 @@
 - (void)render:(GameObject3D*)gameObject3D
 {
     GLKMatrix4 cameraViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -5.0f);
-    //cameraViewMatrix = GLKMatrix4Rotate(cameraViewMatrix, 0, 0.0f, 1.0f, 0.0f);
     
     GLKMatrix4 modelViewMatrix = [gameObject3D GetModelViewMatrix];
     modelViewMatrix = GLKMatrix4Multiply(cameraViewMatrix, modelViewMatrix);
     
     GLKMatrix3 _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
-    
     
     GLKMatrix4 _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
@@ -206,9 +204,21 @@
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
+        case GL_LINE_LOOP:
+            glLineWidth(gameObject3D->lineWidth);
+            glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
+            break;
+        case GL_LINE_STRIP:
+            glLineWidth(gameObject3D->lineWidth);
+            glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
+            break;
+        case GL_POINTS:
+            glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
+            break;
     }
     
-    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArrayOES(0);
     
     for (GameObject3D *child in gameObject3D->children) {
