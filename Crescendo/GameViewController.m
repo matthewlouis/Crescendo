@@ -150,6 +150,8 @@ enum
     glDeleteBuffers(1, &_vertexBuffer);
     glDeleteVertexArraysOES(1, &_vertexArray);
     
+    [_scene CleanUp];
+    
     if (_shader) {
         [_shader tearDown];
     }
