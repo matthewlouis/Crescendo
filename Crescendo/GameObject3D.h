@@ -24,6 +24,10 @@
 @public GLuint texture;
 @public GLenum renderMode;  // Determines how object is rendered.  Current uses are GL_TRIANGLES (regular 3D models) and GL_LINES (for planes)
 @public GLfloat lineWidth;  // Only used for GL_LINES rendering mode.
+    
+//bounding sphere collision detection
+@public float boundingSphereRadius;
+@public bool isCollidable;
 }
 
 - (instancetype)initWithName:(char *)name shader:(BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)vertexCount;
@@ -39,5 +43,7 @@
 -(GLKMatrix4)GetTranslationMatrix;
 -(GLKMatrix4)GetRotationMatrix;
 -(GLKMatrix4)GetScaleMatrix;
+
+-(BOOL)checkCollision:(GameObject3D *)object;
 
 @end

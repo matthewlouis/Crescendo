@@ -11,9 +11,8 @@
 
 @implementation PlaneContainer
 {
-    @private SoundEffectController *soundEffectController;
     float totalTimePassed;
-    bool openingEffect;
+    float timeAccumBeforeStart;
 }
 
 static bool gameStarted;
@@ -26,7 +25,7 @@ static bool gameStarted;
         self->m_SpawnDistance = -80.0f;
         
         // Default Plane Velocity of 5 per seconds
-        [self setSpawnBarVelocity:10.0f];
+        [self setSpawnBarVelocity:20.0f];
     
         //Instantiate Music Player
         gameMusicPlayer = [[GameMusicPlayer alloc] initWithTempoListener:self];
@@ -41,6 +40,8 @@ static bool gameStarted;
         self->m_Bars = [[NSMutableArray alloc] init];
         
         self->buildBar = false;
+        
+        timeAccumBeforeStart = 0.0f;
     }
     
     return self;
@@ -108,11 +109,17 @@ static bool gameStarted;
  */
  -(void)update:(float)timePassed
 {
-    //Matt: test code to make the game go faster and faster: WORKS!
-    totalTimePassed += timePassed;
-    if(totalTimePassed > 4){
-        totalTimePassed = 1;
-        gameMusicPlayer.bpm *= 1.01;
+    timeAccumBeforeStart += timePassed;
+    
+    if (timeAccumBeforeStart > 60)
+    {
+        //Matt: test code to make the game go faster and faster: WORKS!
+        totalTimePassed += timePassed;
+        if(totalTimePassed > 3){
+            totalTimePassed = 1;
+            gameMusicPlayer.bpm *= 1.01;
+        }
+
     }
     
     if(timePassed)
@@ -128,7 +135,7 @@ static bool gameStarted;
     {
         Bar* nextBar = ((Bar*)[m_Bars peek]);
         
-        if (nextBar->worldPosition.z > 20)
+        if (nextBar->worldPosition.z > 40)
         {
             [self->children removeObject:(Bar*)[m_Bars peek]];
             [nextBar CleanUp];	
@@ -152,12 +159,8 @@ static bool gameStarted;
  * Acts as a sort of "Tap Tempo" mechanism. When called, creates a plane in time with the music
  */
 -(void)syncToBar{
+    //printf("start of bar!\n");
     self->buildBar = true;
-    
-    if(!openingEffect && gameStarted){
-        [soundEffectController changeEQ:1 index:3 frequency:4000];
-        openingEffect = YES;
-    }
     /*
     NSArray<MusicBar*> *barbar = soundEffectController._musicBars;
     for (MusicBar* bar in barbar)

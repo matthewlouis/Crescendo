@@ -11,6 +11,8 @@
 #import "Player.h"
 #import "PlaneContainer.h"
 #import "HandleInputs.h"
+#import "Plane.h"
+#import "Bar.h"
 
 
 
@@ -22,9 +24,13 @@
     
     float _sceneOffset;
     float _playerSpeed;
+    
+    Plane *collisionPlane;
+    int i;
 }
 
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput {
+    i = 0;
     
     if ((self = [super initWithName:"GameScene" shader:shader vertices:nil vertexCount:0])) {
         
@@ -44,6 +50,10 @@
         planeContainer = [[PlaneContainer alloc]init];
         [self->children addObject:planeContainer];
         
+        collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil];
+        collisionPlane->lineWidth = 3;
+        [self->children addObject:collisionPlane];
+        
         _playerSpeed = 3.0f;
         [planeContainer startMusic];
     }
@@ -52,11 +62,10 @@
 
 - (void) updateWithDeltaTime:(float)timePassed;
 {
- 
-    
     //_player->worldPosition = [self.handleInput translation];
     
-
+    [self checkForPlayerCollisions];
+    
     if ([self.handleInput isMoving])
     {
         _player.timeElapsed += timePassed;
@@ -79,6 +88,17 @@
     [planeContainer update:timePassed];
     //[plane update:timePassed];
     //_player->rotation.x += 0.01f;
+}
+
+-(void)checkForPlayerCollisions{
+    Bar *bar = planeContainer->m_Bars[0];
+    for (Plane *cPlane in bar->m_Planes) {
+        for (PlaneObject *planeObject in cPlane->m_PlaneObjects) {
+            if ([_player checkCollision:planeObject]){
+                [planeContainer->soundEffectController playSound:planeObject->soundObject];
+            }
+        }
+    }
 }
 
 

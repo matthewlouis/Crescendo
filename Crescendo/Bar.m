@@ -21,7 +21,7 @@
     if (self)
     {
         float bpmPercentage = DEFAULT_BPM/bpm;
-        m_BarWidth = 20.0f * (bpmPercentage);
+        m_BarWidth = 40.0f * (bpmPercentage);
         m_LineThickness = 1.5f;
         worldPosition.z = position;
         

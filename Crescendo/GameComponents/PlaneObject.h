@@ -8,20 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import <GLKit/GLKit.h>
-
 #import "GameObject3D.h"
 
 
 @import GLKit;
 
 @class Plane;
+@class InteractiveSoundObject;
 
 @interface PlaneObject : GameObject3D
 {
-    
+    @public InteractiveSoundObject *soundObject;
 }
 
-- (instancetype)initWithPlane:(Plane*)plane ;
+- (instancetype)initWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)soundObject;
 -(void)updatePositionBasedOnPlane:(Plane *) plane;
 
 @end

@@ -83,7 +83,7 @@
  */
 - (void)updateLineWith
 {
-    lineWidth = (float)(80.0f / (-worldPosition.z + 5)) * m_LineThickness;
+    lineWidth = (float)((100.0f + 5) / -worldPosition.z) * m_LineThickness;
     if (lineWidth < 1)
     {
         lineWidth = 1;
@@ -97,10 +97,11 @@
 {
     if ([self getRandomNumberBetween:-1 to:1] == 1)
     {
-    PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self];
+    PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject];
     //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
     newPlaneObject->worldPosition.x = [self getRandomNumberBetween:-1 to:1];
     newPlaneObject->worldPosition.y = [self getRandomNumberBetween:0 to:1] - 0.5f;
+    newPlaneObject->boundingSphereRadius = 1;
     
     [m_PlaneObjects enqueue: (newPlaneObject)];
     [self->children addObject:newPlaneObject];

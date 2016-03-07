@@ -140,4 +140,19 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
     return result;
 }
 
+//check if this object has collided with another
+-(BOOL)checkCollision:(GameObject3D *)object{
+    float distance = sqrtf(
+                           (self->worldPosition.x - object->worldPosition.x) * (self->worldPosition.x - object->worldPosition.x) +
+                           (self->worldPosition.y - object->worldPosition.y) * (self->worldPosition.y - object->worldPosition.y) +
+                           (self->worldPosition.z - object->worldPosition.z) * (self->worldPosition.z - object->worldPosition.z)
+                           );
+    
+    if(distance <= object->boundingSphereRadius + self->boundingSphereRadius){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 @end

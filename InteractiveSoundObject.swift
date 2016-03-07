@@ -20,7 +20,7 @@ class InteractiveSoundObject:NSObject{
     var _type:ObjectType
     var _track:Int, _note:Int, _duration:Int, _position:Double
     
-    init(type: ObjectType = .OBSTACLE, track: Int = 0, note: Int, duration: Int, position: Double){
+    init(type: ObjectType = .OBSTACLE, track: Int = 16, note: Int, duration: Int, position: Double){
         self._type = type
         _track = track
         _note = note

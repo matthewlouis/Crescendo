@@ -17,7 +17,6 @@ let scale1:[Int] = [0,2,4,7,9]
 let scale2:[Int] = [0,3,5,7,10]
 
 class SoundEffectController: NSObject{
-    static var theInstance:SoundEffectController?
     static let SEQ_LENGTH:Float = 1.0 //1.0 = 1 bar
     static let ROOT_NOTE = 26 //D2
     static let BAR_RESOLUTION:Float = 4
@@ -30,6 +29,8 @@ class SoundEffectController: NSObject{
     //var _musicTracks:[AKMusicTrack] //may not need to use this
     var _musicBars:[MusicBar]
     
+    let _soundeffectInstrument:AKNode;
+    
     
     let _musicPlayer:GameMusicPlayer
     
@@ -39,8 +40,9 @@ class SoundEffectController: NSObject{
         
         _musicPlayer = musicPlayer
         
+        _soundeffectInstrument = (musicPlayer.tracks[16]?.instrument)!;
+        
         super.init()
-        SoundEffectController.theInstance = self
     }
     
     func generateAndAddSection(stepSize:Float = DEFAULT_STEP, barLength:Float = SEQ_LENGTH){
@@ -60,8 +62,8 @@ class SoundEffectController: NSObject{
                 let scaleOffset = random(0, Double(scale.count-1))
                 var octaveOffset = 0
                 for (var i = 0; i < 2; i++){
-                    octaveOffset += Int(12 * ((maybe()*2.0)+(-1.0)))
-                    octaveOffset = Int(maybe() * maybe() * Float(octaveOffset))
+                    octaveOffset += Int(12 * ((maybe()*2.0)+(-1.0)));
+                    octaveOffset = Int(maybe() * maybe() * Float(octaveOffset)) + 24;
                 }
                 //print("octave offset is \(octaveOffset)")
                 let noteToAdd = SoundEffectController.ROOT_NOTE + scale[Int(scaleOffset)] + octaveOffset
@@ -80,9 +82,23 @@ class SoundEffectController: NSObject{
         }
     }
     
-    func playSound(soundObject: InteractiveSoundObject){
-        print("\nPlay SOUND")
+    @objc func stopSound(timer:NSTimer){
+        let inst = _soundeffectInstrument as! CoreInstrument;
+        let so = timer.userInfo as! InteractiveSoundObject;
+        
+        inst.stopNote(so._note);
+        print("\nStopping note: %d", so._note);
     }
+    
+    func playSound(soundObject: InteractiveSoundObject){
+        let inst = _soundeffectInstrument as! CoreInstrument;
+        inst.playNote(soundObject._note, velocity: 100);
+        
+        print("\nPlaying note: %d", soundObject._note);
+        
+        NSTimer.scheduledTimerWithTimeInterval(60 / Double(_musicPlayer.bpm) * Double(soundObject._duration), target: self, selector: Selector("stopSound:"), userInfo: soundObject, repeats: false);
+    }
+    
     
     func maybe()->Float{
         let maybeVal = random(0,2)
@@ -90,47 +106,9 @@ class SoundEffectController: NSObject{
         return (outVal)
     }
     
-    func getEQFreq(track: Int, index: Int)->Double{
-        let eqFX:AKLowPassFilter = _musicPlayer.getFX(track, fxIndex: index) as! AKLowPassFilter
-        return eqFX.cutoffFrequency
-    }
-    
-    func timerEQ(timer: NSTimer){
-        var unpackedInfo:[AnyObject] = timer.userInfo as! [AnyObject]
-        let eqFX:AKLowPassFilter = unpackedInfo[2] as! AKLowPassFilter
-        eqFX.cutoffFrequency += unpackedInfo[1] as! Double
-        print("\n",eqFX.cutoffFrequency)
-        if(eqFX.cutoffFrequency >= unpackedInfo[0] as! Double){
-            timer.invalidate()
-        }
-
-    }
-    
-    func changeEQ(track: Int, index: Int, frequency: Double){
-        let eqFX:AKLowPassFilter = _musicPlayer.getFX(track, fxIndex: index) as! AKLowPassFilter
-        
-        let origFreq = self.getEQFreq(track, index: index)
-        let targetFreq:Double = origFreq + frequency
-        let freqStep:Double = (targetFreq - origFreq) / 8
-        let stepTime:Double = Double(60/self._musicPlayer.bpm * 0.5)
-
-        
-        let userInfo = [targetFreq, freqStep, eqFX]
-        
-        var timer = NSTimer.init(timeInterval: stepTime, target: self, selector: "timerEQ:", userInfo: userInfo, repeats: true)
-        NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
-        NSRunLoop.currentRunLoop().run()
-    }
-    
-    func test(){
-        print("test")
-    }
- 
     
     /*Can use this to get apple MusicTrack event information (midi)
     func getMusicTrackEventInfo(index: Int){
-    
-    
         
         //gets concrete object from pointer
         var musicTrack = _musicTracks[index].trackPtr.memory

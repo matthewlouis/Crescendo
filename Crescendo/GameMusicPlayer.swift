@@ -22,7 +22,6 @@ enum FXType {
     case BITCRUSH
     case COMPRESSOR
     case FATTEN
-    case FILTER
 }
 
 enum InstrumentType{
@@ -55,7 +54,7 @@ class GameMusicPlayer : NSObject{
     //Original tempo for starting the music
     let DEFAULT_BPM:Float = 120
     
-    var bpm:Float{
+    public var bpm:Float{
         didSet{
             sequencer!.setRate(bpm/DEFAULT_BPM)
         }
@@ -104,7 +103,6 @@ class GameMusicPlayer : NSObject{
         let drumsfx2 = addFX(3, fxType: .BITCRUSH) as! AKBitCrusher
         drumsfx2.bitDepth = 8
         
-        
         loadSampler(1, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24)
         let pianofx1 = addFX(1, fxType: .FATTEN) as! Fatten
         pianofx1.time = 0.05
@@ -114,10 +112,6 @@ class GameMusicPlayer : NSObject{
         pianofx2.dryWetMix = 0.5
         let pianofx3 = addFX(1, fxType: .COMPRESSOR) as! AKCompressor
         pianofx3.masterGain = 9
-        
-        let pianofx4 = addFX(1, fxType: .FILTER) as! AKLowPassFilter
-        pianofx4.cutoffFrequency = 300
-        pianofx4.resonance = 0.4
         
         let bass = loadPolySynth(7, instrumentType: .ANALOGX, voiceCount: 2) as! CoreInstrument
         bass.releaseDuration = 0.05
@@ -154,6 +148,14 @@ class GameMusicPlayer : NSObject{
         synth2.attackDuration = 0.2
         synth2.releaseDuration = 0.0
         
+        let synth3 = loadPolySynth(16, instrumentType: .ANALOGX, voiceCount: 2, soundEffect: true) as! CoreInstrument
+        synth3.waveform1 = Double(1)
+        synth3.waveform2 = Double(1)
+        synth3.detune = 0;
+        synth3.morph = 0;
+        synth3.attackDuration = 0.1
+        synth3.releaseDuration = 0.5
+        
         
         tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
         sequencer!.avTracks[sequencer!.avTracks.capacity-1].destinationMIDIEndpoint = tk.midiIn
@@ -178,6 +180,7 @@ class GameMusicPlayer : NSObject{
         
         tracks[4]?.volume?.gain = 0.1
         tracks[1]?.volume?.gain = 0.3
+        tracks[16]!.volume!.gain = 1.0;
         
         AudioKit.output = masterComp
         
@@ -210,7 +213,7 @@ class GameMusicPlayer : NSObject{
     }
     
     //loads a polyphonic instrument into the track
-    func loadPolySynth(intoTrackNumber:Int, instrumentType: InstrumentType, voiceCount: Int, whitePinkMix: Double? = nil, tableType: AKTableType? = nil, tableSize: Int? = nil) -> AKPolyphonicInstrument{
+    func loadPolySynth(intoTrackNumber:Int, instrumentType: InstrumentType, voiceCount: Int, whitePinkMix: Double? = nil, tableType: AKTableType? = nil, tableSize: Int? = nil, soundEffect: Bool = false) -> AKPolyphonicInstrument{
         var instrument: AKPolyphonicInstrument
         switch(instrumentType){
         case .FM:
@@ -242,9 +245,12 @@ class GameMusicPlayer : NSObject{
         //add add midiInstrument and physical instrument to newly generated track
         tracks[intoTrackNumber] = Track(instrument: instrument, fx: [AKNode?](), volume: nil, midiInstrument: midiInstrument)
         
-        //set sequencer track to output to midi instrument
-        sequencer!.avTracks[intoTrackNumber].destinationMIDIEndpoint = midiInstrument.midiIn
-        tracks[intoTrackNumber]?.midiInstrument = midiInstrument
+        
+        if(!soundEffect){
+            //set sequencer track to output to midi instrument
+            sequencer!.avTracks[intoTrackNumber].destinationMIDIEndpoint = midiInstrument.midiIn
+            tracks[intoTrackNumber]?.midiInstrument = midiInstrument
+        }
         
         //return the physical instrument
         return instrument
@@ -299,8 +305,6 @@ class GameMusicPlayer : NSObject{
         case .FATTEN:
             tracks[intoTrackNumber]!.fx.append(Fatten(lastNodeInChain))
             break
-        case .FILTER:
-            tracks[intoTrackNumber]!.fx.append(AKLowPassFilter(lastNodeInChain))
         }
         
         //return the newly added effect
@@ -339,7 +343,7 @@ class GameMusicPlayer : NSObject{
                 })
             })
         }else{ //sampler instrument
-            var sampler = self.tracks[trackNumber]?.instrument as? AKSampler
+            let sampler = self.tracks[trackNumber]?.instrument as? AKSampler
             sampler?.playNote(note, velocity: velocity, channel: 1)
             
             let qualityOfServiceClass = QOS_CLASS_USER_INITIATED
