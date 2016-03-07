@@ -41,10 +41,10 @@
         //self.rotationX = GLKMathDegreesToRadians(-20);
         
         // Create player near bottom center of screen
-
         _player = [[Player alloc] init];
         [self->children addObject:_player];
         
+        // Setup the handleinputs and grid size
         self.handleInput = handleInput;
         [self.handleInput setPlayer:_player];
         
@@ -52,11 +52,19 @@
         planeContainer = [[PlaneContainer alloc]init];
         [self->children addObject:planeContainer];
         
+<<<<<<< HEAD
         collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil];
         collisionPlane->lineWidth = 3;
         [self->children addObject:collisionPlane];
         
         _playerSpeed = 3.0f;
+=======
+        //debug to show where player collides with plane objects
+        Plane *collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil];
+        collisionPlane->lineWidth = 4;
+        [self->children addObject:collisionPlane];
+
+>>>>>>> a3a34b2f4ab9dc00af9fdbe236ffc9d21a1dd5df
         [planeContainer startMusic];
     }
     return self;
@@ -64,21 +72,18 @@
 
 - (void) updateWithDeltaTime:(float)timePassed;
 {
+<<<<<<< HEAD
     //_player->worldPosition = [self.handleInput translation];
     
     [self checkForPlayerCollisions];
     
+=======
+    
+>>>>>>> a3a34b2f4ab9dc00af9fdbe236ffc9d21a1dd5df
     if ([self.handleInput isMoving])
     {
         _player.timeElapsed += timePassed;
-        if ([self.handleInput moveDirection] == MoveDirectionNone)
-        {
-            
-        }
-        else
-        {
-            self.handleInput.isMoving = [_player moveTo:[self.handleInput translation]];
-        }
+        self.handleInput.isMoving = [_player moveTo:[self.handleInput translation]];
     }
     else
     {
@@ -86,13 +91,10 @@
         _player.startRotation = _player->rotation;
         _player.timeElapsed = 0.0f;
     }
-    //NSLog(@"%f, %f, %f", [self.handleInput Translation].x, [self.handleInput Translation].y, [self.handleInput Translation].z);
+    
     [planeContainer update:timePassed];
-    //[plane update:timePassed];
-    //_player->rotation.x += 0.01f;
 }
 
-<<<<<<< HEAD
 -(void)checkForPlayerCollisions{
     Bar *bar = planeContainer->m_Bars[0];
     for (Plane *cPlane in bar->m_Planes) {
@@ -103,8 +105,6 @@
         }
     }
 }
-
-=======
 - (void)CleanUp
 {
     [self CleanUp];
@@ -114,7 +114,7 @@
         [o CleanUp];
     }
 }
->>>>>>> 1765eb40ce318a2bb9b5ace5f7a03d8c010bcc16
+
 
 
 
