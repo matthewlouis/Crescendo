@@ -13,7 +13,7 @@
 {
     @private SoundEffectController *soundEffectController;
     float totalTimePassed;
-    
+    bool openingEffect;
 }
 
 static bool gameStarted;
@@ -152,8 +152,12 @@ static bool gameStarted;
  * Acts as a sort of "Tap Tempo" mechanism. When called, creates a plane in time with the music
  */
 -(void)syncToBar{
-    //printf("start of bar!\n");
     self->buildBar = true;
+    
+    if(!openingEffect && gameStarted){
+        [soundEffectController changeEQ:1 index:3 frequency:4000];
+        openingEffect = YES;
+    }
     /*
     NSArray<MusicBar*> *barbar = soundEffectController._musicBars;
     for (MusicBar* bar in barbar)

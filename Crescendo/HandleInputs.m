@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "HandleInputs.h"
 #import "PlaneContainer.h"
+#import "Crescendo-Swift.h"
+@import AudioKit;
+
 
 @interface HandleInputs ()
 {
@@ -21,6 +24,7 @@
     
     CGSize _view;
     float _aspectRatio;
+    SoundEffectController *sfxController;
 }
 
 @end
@@ -46,6 +50,7 @@
     CGPoint pointToMoveTo = [recognizer locationInView:recognizer.view];
     
     if([topView messageIsDisplayed] == YES){
+        sfxController = SoundEffectController.theInstance;
         [topView messageConfirmed];
         [PlaneContainer startGame];
         pointToMoveTo = CGPointMake(recognizer.view.frame.size.width/2,recognizer.view.frame.size.width/2 - 20);

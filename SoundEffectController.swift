@@ -17,6 +17,7 @@ let scale1:[Int] = [0,2,4,7,9]
 let scale2:[Int] = [0,3,5,7,10]
 
 class SoundEffectController: NSObject{
+    static var theInstance:SoundEffectController?
     static let SEQ_LENGTH:Float = 1.0 //1.0 = 1 bar
     static let ROOT_NOTE = 26 //D2
     static let BAR_RESOLUTION:Float = 4
@@ -39,6 +40,7 @@ class SoundEffectController: NSObject{
         _musicPlayer = musicPlayer
         
         super.init()
+        SoundEffectController.theInstance = self
     }
     
     func generateAndAddSection(stepSize:Float = DEFAULT_STEP, barLength:Float = SEQ_LENGTH){
@@ -88,9 +90,47 @@ class SoundEffectController: NSObject{
         return (outVal)
     }
     
+    func getEQFreq(track: Int, index: Int)->Double{
+        let eqFX:AKLowPassFilter = _musicPlayer.getFX(track, fxIndex: index) as! AKLowPassFilter
+        return eqFX.cutoffFrequency
+    }
+    
+    func timerEQ(timer: NSTimer){
+        var unpackedInfo:[AnyObject] = timer.userInfo as! [AnyObject]
+        let eqFX:AKLowPassFilter = unpackedInfo[2] as! AKLowPassFilter
+        eqFX.cutoffFrequency += unpackedInfo[1] as! Double
+        print("\n",eqFX.cutoffFrequency)
+        if(eqFX.cutoffFrequency >= unpackedInfo[0] as! Double){
+            timer.invalidate()
+        }
+
+    }
+    
+    func changeEQ(track: Int, index: Int, frequency: Double){
+        let eqFX:AKLowPassFilter = _musicPlayer.getFX(track, fxIndex: index) as! AKLowPassFilter
+        
+        let origFreq = self.getEQFreq(track, index: index)
+        let targetFreq:Double = origFreq + frequency
+        let freqStep:Double = (targetFreq - origFreq) / 8
+        let stepTime:Double = Double(60/self._musicPlayer.bpm * 0.5)
+
+        
+        let userInfo = [targetFreq, freqStep, eqFX]
+        
+        var timer = NSTimer.init(timeInterval: stepTime, target: self, selector: "timerEQ:", userInfo: userInfo, repeats: true)
+        NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+        NSRunLoop.currentRunLoop().run()
+    }
+    
+    func test(){
+        print("test")
+    }
+ 
     
     /*Can use this to get apple MusicTrack event information (midi)
     func getMusicTrackEventInfo(index: Int){
+    
+    
         
         //gets concrete object from pointer
         var musicTrack = _musicTracks[index].trackPtr.memory

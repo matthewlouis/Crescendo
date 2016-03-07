@@ -22,6 +22,7 @@ enum FXType {
     case BITCRUSH
     case COMPRESSOR
     case FATTEN
+    case FILTER
 }
 
 enum InstrumentType{
@@ -103,6 +104,7 @@ class GameMusicPlayer : NSObject{
         let drumsfx2 = addFX(3, fxType: .BITCRUSH) as! AKBitCrusher
         drumsfx2.bitDepth = 8
         
+        
         loadSampler(1, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24)
         let pianofx1 = addFX(1, fxType: .FATTEN) as! Fatten
         pianofx1.time = 0.05
@@ -112,6 +114,10 @@ class GameMusicPlayer : NSObject{
         pianofx2.dryWetMix = 0.5
         let pianofx3 = addFX(1, fxType: .COMPRESSOR) as! AKCompressor
         pianofx3.masterGain = 9
+        
+        let pianofx4 = addFX(1, fxType: .FILTER) as! AKLowPassFilter
+        pianofx4.cutoffFrequency = 300
+        pianofx4.resonance = 0.4
         
         let bass = loadPolySynth(7, instrumentType: .ANALOGX, voiceCount: 2) as! CoreInstrument
         bass.releaseDuration = 0.05
@@ -293,6 +299,8 @@ class GameMusicPlayer : NSObject{
         case .FATTEN:
             tracks[intoTrackNumber]!.fx.append(Fatten(lastNodeInChain))
             break
+        case .FILTER:
+            tracks[intoTrackNumber]!.fx.append(AKLowPassFilter(lastNodeInChain))
         }
         
         //return the newly added effect
