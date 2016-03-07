@@ -12,6 +12,11 @@
 #import <GLKit/GLKit.h>
 #import "PlaneObject.h"
 
+#define X_SCALE_FACTOR 3.5
+#define Y_SCALE_FACTOR 2.5
+#define Z_SCALE_FACTOR 3.5
+
+
 @class InteractiveSoundObject;
 
 

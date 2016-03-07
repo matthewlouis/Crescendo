@@ -191,17 +191,33 @@ enum
 
 - (void)initializeClasses
 {
-    self.handleInput = [[HandleInputs alloc] initWithViewSize:self.view.frame.size];
+    self.handleInput = [[HandleInputs alloc] initWithGameViewSize:self.view.frame.size];
 }
 
 - (void)createGestures
 {
     UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleTap:)];
     [self.view addGestureRecognizer:singleFingerTap];
+
+    UISwipeGestureRecognizer *swipeLeftFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeLeft:)];
+    swipeLeftFingerDrag.direction = UISwipeGestureRecognizerDirectionLeft;
+    [swipeLeftFingerDrag setNumberOfTouchesRequired:1];
+    [self.view addGestureRecognizer:swipeLeftFingerDrag];
     
-    // Drag model gesture
-    UIPanGestureRecognizer *singleFingerDrag = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleDrag:)];
-    [self.view addGestureRecognizer:singleFingerDrag];
+    UISwipeGestureRecognizer *swipeRightFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeRight:)];
+    swipeRightFingerDrag.direction = UISwipeGestureRecognizerDirectionRight;
+    [swipeRightFingerDrag setNumberOfTouchesRequired:1];
+    [self.view addGestureRecognizer:swipeRightFingerDrag];
+    
+    UISwipeGestureRecognizer *swipeUpFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeUp:)];
+    swipeUpFingerDrag.direction = UISwipeGestureRecognizerDirectionUp;
+    [swipeLeftFingerDrag setNumberOfTouchesRequired:1];
+    [self.view addGestureRecognizer:swipeUpFingerDrag];
+    
+    UISwipeGestureRecognizer *swipeDownFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeDown:)];
+    swipeDownFingerDrag.direction = UISwipeGestureRecognizerDirectionDown;
+    [swipeDownFingerDrag setNumberOfTouchesRequired:1];
+    [self.view addGestureRecognizer:swipeDownFingerDrag];
 }
 
 -(BaseEffect *)GetShader

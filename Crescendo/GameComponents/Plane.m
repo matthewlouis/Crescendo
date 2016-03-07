@@ -9,7 +9,6 @@
 #import "Plane.h"
 #import "Crescendo-Swift.h"
 
-
 @implementation Plane
 
 
@@ -35,7 +34,7 @@
     {
         self->worldPosition = GLKVector3Make(0, 0, positon);
         self->rotation = GLKVector3Make(0, 0, 0);
-        self->scale = GLKVector3Make(3.5, 3.5, 3.5);
+        self->scale = GLKVector3Make(X_SCALE_FACTOR, Y_SCALE_FACTOR, Z_SCALE_FACTOR);
         
         // Default Plane Velocity of 5 per second;
         self->m_Velocity = 0;
