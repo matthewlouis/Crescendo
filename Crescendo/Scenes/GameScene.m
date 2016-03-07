@@ -35,10 +35,10 @@
         //self.rotationX = GLKMathDegreesToRadians(-20);
         
         // Create player near bottom center of screen
-
         _player = [[Player alloc] init];
         [self->children addObject:_player];
         
+        // Setup the handleinputs and grid size
         self.handleInput = handleInput;
         [self.handleInput setPlayer:_player];
         
@@ -46,7 +46,11 @@
         planeContainer = [[PlaneContainer alloc]init];
         [self->children addObject:planeContainer];
         
-        _playerSpeed = 3.0f;
+        //debug to show where player collides with plane objects
+        Plane *collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil];
+        collisionPlane->lineWidth = 4;
+        [self->children addObject:collisionPlane];
+
         [planeContainer startMusic];
     }
     return self;
@@ -54,22 +58,11 @@
 
 - (void) updateWithDeltaTime:(float)timePassed;
 {
- 
     
-    //_player->worldPosition = [self.handleInput translation];
-    
-
     if ([self.handleInput isMoving])
     {
         _player.timeElapsed += timePassed;
-        if ([self.handleInput moveDirection] == MoveDirectionNone)
-        {
-            
-        }
-        else
-        {
-            self.handleInput.isMoving = [_player moveTo:[self.handleInput translation]];
-        }
+        self.handleInput.isMoving = [_player moveTo:[self.handleInput translation]];
     }
     else
     {
@@ -77,10 +70,8 @@
         _player.startRotation = _player->rotation;
         _player.timeElapsed = 0.0f;
     }
-    //NSLog(@"%f, %f, %f", [self.handleInput Translation].x, [self.handleInput Translation].y, [self.handleInput Translation].z);
+    
     [planeContainer update:timePassed];
-    //[plane update:timePassed];
-    //_player->rotation.x += 0.01f;
 }
 
 - (void)CleanUp
