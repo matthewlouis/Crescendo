@@ -49,7 +49,7 @@
     {
         self->worldPosition = [self lerpStartVector:_startPosition withEndVector:moveToPosition lerpDistance:1.0f];
         
-        if (_startPosition.x != moveToPosition.x)
+        if (roundf(100 * _startPosition.x) / 100 != roundf(100 * moveToPosition.x) / 100)
         {
             if (_startPosition.x < moveToPosition.x)
             {
@@ -68,8 +68,8 @@
     else
     {
         self->worldPosition = [self lerpStartVector:_startPosition withEndVector:moveToPosition lerpDistance:_timeElapsed/ _timeToAnimate];
-        
-        if (_startPosition.x != moveToPosition.x)
+        NSLog(@"start: %f, end: %f", roundf(100 * _startPosition.x) / 100, roundf(100 * moveToPosition.x) / 100);
+        if (roundf(100 * _startPosition.x) / 100 != roundf(100 * moveToPosition.x) / 100)
         {
             if (_startPosition.x < moveToPosition.x)
             {
