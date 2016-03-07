@@ -12,6 +12,8 @@
 #import "PlaneContainer.h"
 #import "HandleInputs.h"
 
+#import "Plane.h"
+
 
 
 @implementation GameScene{
