@@ -7,7 +7,7 @@
 //
 
 #import "Plane.h"
-
+#import "Crescendo-Swift.h"
 
 
 @implementation Plane
@@ -16,11 +16,7 @@
 /**
  * Provides default parameter to generate empty planes (so we can start the game with no obstacles
  */
-- (id)initWithPosition:(float)position{
-    return [self initWithPosition:position isEmpty:false];
-}
-
-- (id)initWithPosition:(float)positon isEmpty:(bool)empty
+- (id)initWithPosition:(float)positon soundObject:(InteractiveSoundObject *)soundObject
 {
     const Vertex vertices[8] = {
     {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
@@ -52,11 +48,11 @@
         [self updateLineWith];
     }
     
-    if(!empty){
+    if(soundObject != nil){
         // Initialize new plane object storage
         self->m_PlaneObjects = [[NSMutableArray alloc] init];
         
-        [self CreatePlaneObject];
+        [self CreatePlaneObject:soundObject];
     }
     
     
@@ -77,6 +73,8 @@
         [currentPlane updatePositionBasedOnPlane:self];
     }
     
+    
+    
     //[self updateLineWith];
 }
 
@@ -85,7 +83,7 @@
  */
 - (void)updateLineWith
 {
-    lineWidth = (float)(80.0f / (-worldPosition.z + 5)) * m_LineThickness;
+    lineWidth = (float)((100.0f + 5) / -worldPosition.z) * m_LineThickness;
     if (lineWidth < 1)
     {
         lineWidth = 1;
@@ -95,17 +93,24 @@
 /*
  * Creates a plane and places it in the queue
  */
--(void)CreatePlaneObject
+-(void)CreatePlaneObject:(InteractiveSoundObject *)soundObject
 {
+    if ([self getRandomNumberBetween:-1 to:1] == 1)
+    {
     PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self];
-    newPlaneObject->worldPosition.x = -1.0f;
-    //newPlaneObject->worldPosition.y = 0.0f;
-    //newPlaneObject->worldPosition.z = self->worldPosition.z;
+    //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
+    newPlaneObject->worldPosition.x = [self getRandomNumberBetween:-1 to:1];
+    newPlaneObject->worldPosition.y = [self getRandomNumberBetween:0 to:1] - 0.5f;
     
     [m_PlaneObjects enqueue: (newPlaneObject)];
     [self->children addObject:newPlaneObject];
+    }
 }
 
+-(int)getRandomNumberBetween:(int)from to:(int)to {
+    
+    return (int)from + arc4random() % (to-from+1);
+}
 /*
  * Cleans up Plane data
  */

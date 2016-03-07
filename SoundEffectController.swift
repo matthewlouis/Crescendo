@@ -12,17 +12,19 @@ import Foundation
 import AudioKit
 import AudioToolbox
 
-let SEQ_LENGTH:Float = 1.0 //1.0 = 1 bar
-let ROOT_NOTE = 26 //D2
-
 //Major and Minor scales
 let scale1:[Int] = [0,2,4,7,9]
 let scale2:[Int] = [0,3,5,7,10]
 
 class SoundEffectController: NSObject{
+    static let SEQ_LENGTH:Float = 1.0 //1.0 = 1 bar
+    static let ROOT_NOTE = 26 //D2
+    static let BAR_RESOLUTION:Float = 4
+    static let DEFAULT_STEP:Float = 1/BAR_RESOLUTION
+    
     var isMinorScale = true
     
-    var difficultyScale:Double = 10
+    var difficultyScale:Double = 90
     
     //var _musicTracks:[AKMusicTrack] //may not need to use this
     var _musicBars:[MusicBar]
@@ -39,14 +41,14 @@ class SoundEffectController: NSObject{
         super.init()
     }
     
-    func generateAndAddSection(stepSize:Float = 1/8, barLength:Float = SEQ_LENGTH){
+    func generateAndAddSection(stepSize:Float = DEFAULT_STEP, barLength:Float = SEQ_LENGTH){
         //let trackPtr = MusicTrack()
         //let musicTrack = AKMusicTrack(musicTrack: trackPtr)
         
         var barOfMusic:MusicBar
-        barOfMusic = MusicBar(length: SEQ_LENGTH)
+        barOfMusic = MusicBar(length: SoundEffectController.SEQ_LENGTH)
         
-        let numSteps = Int(SEQ_LENGTH/stepSize)
+        let numSteps = Int(SoundEffectController.SEQ_LENGTH/stepSize)
         
         //generate random note in scale
         for (var i:Int = 0; i < numSteps; i++){
@@ -60,7 +62,7 @@ class SoundEffectController: NSObject{
                     octaveOffset = Int(maybe() * maybe() * Float(octaveOffset))
                 }
                 //print("octave offset is \(octaveOffset)")
-                let noteToAdd = ROOT_NOTE + scale[Int(scaleOffset)] + octaveOffset
+                let noteToAdd = SoundEffectController.ROOT_NOTE + scale[Int(scaleOffset)] + octaveOffset
                 //musicTrack.addNote(noteToAdd, vel: 100, position: step, dur: 1)
                 barOfMusic.events.append(InteractiveSoundObject(note: noteToAdd, duration: 1, position: step))
             }

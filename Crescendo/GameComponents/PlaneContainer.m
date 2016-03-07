@@ -13,9 +13,10 @@
 {
     @private SoundEffectController *soundEffectController;
     float totalTimePassed;
-    bool gameStarted;
+    float timeAccumBeforeStart;
 }
 
+static bool gameStarted;
 
 - (id)init
 {
@@ -25,7 +26,7 @@
         self->m_SpawnDistance = -80.0f;
         
         // Default Plane Velocity of 5 per seconds
-        [self setSpawnBarVelocity:10.0f];
+        [self setSpawnBarVelocity:20.0f];
     
         //Instantiate Music Player
         gameMusicPlayer = [[GameMusicPlayer alloc] initWithTempoListener:self];
@@ -40,6 +41,8 @@
         self->m_Bars = [[NSMutableArray alloc] init];
         
         self->buildBar = false;
+        
+        timeAccumBeforeStart = 0.0f;
     }
     
     return self;
@@ -62,7 +65,21 @@
  */
 - (void)CreateBar
 {
-    Bar* newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance AtBPM:gameMusicPlayer.bpm];
+    
+    float step = SoundEffectController.DEFAULT_STEP;
+    float barLength = SoundEffectController.SEQ_LENGTH;
+    
+    [soundEffectController generateAndAddSection:step barLength:barLength];
+    
+    Bar * newBar;
+    //get musical info from soundeffectcontroller and remove it from the queue
+    if(gameStarted){
+        newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance atBPM: gameMusicPlayer.bpm usingMusicBar: soundEffectController._musicBars[0]];
+    }else{
+        newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance atBPM: gameMusicPlayer.bpm usingMusicBar: nil];
+    }
+    [soundEffectController removeSection];
+    
     //newBar->worldPosition.z = self->m_SpawnDistance;
     newBar->m_Velocity = self->m_SpawnBarVelocity;
     [newBar updatePlanePositions];
@@ -93,11 +110,17 @@
  */
  -(void)update:(float)timePassed
 {
-    //Matt: test code to make the game go faster and faster: WORKS!
-    totalTimePassed += timePassed;
-    if(totalTimePassed > 5){
-        totalTimePassed = 4;
-        gameMusicPlayer.bpm *= 1.01;
+    timeAccumBeforeStart += timePassed;
+    
+    if (timeAccumBeforeStart > 60)
+    {
+        //Matt: test code to make the game go faster and faster: WORKS!
+        totalTimePassed += timePassed;
+        if(totalTimePassed > 3){
+            totalTimePassed = 1;
+            gameMusicPlayer.bpm *= 1.01;
+        }
+
     }
     
     if(timePassed)
@@ -113,7 +136,7 @@
     {
         Bar* nextBar = ((Bar*)[m_Bars peek]);
         
-        if (nextBar->worldPosition.z > 20)
+        if (nextBar->worldPosition.z > 40)
         {
             [self->children removeObject:(Bar*)[m_Bars peek]];
             [nextBar CleanUp];	
@@ -139,9 +162,6 @@
 -(void)syncToBar{
     //printf("start of bar!\n");
     self->buildBar = true;
-    
-    [soundEffectController generateAndAddSection:1.0f/8.0f barLength:1.0f];
-    
     /*
     NSArray<MusicBar*> *barbar = soundEffectController._musicBars;
     for (MusicBar* bar in barbar)
@@ -156,6 +176,13 @@
         }
     }
      */
+}
+
+/**
+ *Start game (start generating obstacles and objects
+ */
++(void)startGame{
+    gameStarted = true;
 }
 
 /*

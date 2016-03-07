@@ -21,8 +21,7 @@
     
 }
 
-//Matt: texture property but unsure of types
 - (instancetype)initWithPlane:(Plane*)plane ;
-//-(void)move:(GLKVector3)amount;
 -(void)updatePositionBasedOnPlane:(Plane *) plane;
+
 @end
