@@ -35,7 +35,7 @@
 //- (void)move:(GLKVector3)amount;
 //- (BOOL)checkCollision;
 
-- (void)updateLineWith;
+- (void)updateLineWidth;
 - (void)CreatePlaneObject:(InteractiveSoundObject *)soundObject;
 
 @end

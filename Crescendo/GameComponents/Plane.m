@@ -44,11 +44,14 @@
         self->m_Velocity = 0;
         
         // Specify line drawing mode and thickness.
-        renderMode = GL_LINES;
-        lineWidth = 1;
-
+        self->renderMode = GL_LINES;
+        self->lineWidth = 0;
         
-        [self updateLineWith];
+        self->m_LineThickness = 0;
+
+        self->color = GLKVector4Make(0.1, 1.0, 0.1, 1);
+        
+        [self updateLineWidth];
     }
     
     if(soundObject != nil){
@@ -67,6 +70,10 @@
  */
 - (void)update:(float)TimePassed
 {
+    [super update:TimePassed];
+    
+    [self updateLineWidth];
+    
     worldPosition.z += m_Velocity * TimePassed;
     
     // Update all planeObjects
@@ -75,16 +82,12 @@
         PlaneObject* currentPlane = (PlaneObject*)o;
         [currentPlane updatePositionBasedOnPlane:self];
     }
-    
-    
-    
-    //[self updateLineWith];
 }
 
 /*
  * Updates the line width to be rendered based on distance from origin (assumed camera position
  */
-- (void)updateLineWith
+- (void)updateLineWidth
 {
     lineWidth = (float)((BAR_WIDTH * 5) / (-worldPosition.z + BAR_WIDTH)) * m_LineThickness;
     if (lineWidth < 1)

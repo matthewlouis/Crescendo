@@ -81,6 +81,7 @@
     // Get uniform locations.
     uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX] = glGetUniformLocation(_program, "modelViewProjectionMatrix");
     uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
+    uniforms[UNIFORM_COLOR] = glGetUniformLocation(_program, "color");
     
     // Fail Case: Release vertex and fragment shaders.
     if (vertShader) {
@@ -191,6 +192,7 @@
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
     glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    glUniform4fv(uniforms[UNIFORM_COLOR], 1, gameObject3D->color.v);
     
     glBindVertexArrayOES(gameObject3D->vao);
     

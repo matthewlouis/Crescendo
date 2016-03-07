@@ -19,6 +19,7 @@
     {
         UNIFORM_MODELVIEWPROJECTION_MATRIX,
         UNIFORM_NORMAL_MATRIX,
+        UNIFORM_COLOR,
         NUM_UNIFORMS
     };
     
