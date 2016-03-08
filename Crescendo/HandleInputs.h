@@ -13,6 +13,7 @@
 #import "GameViewController.h"
 #import "Player.h"
 #import "Crescendo-Swift.h"//
+#import "NSMutableArray+Queue.h"
 
 typedef NS_ENUM(NSInteger, MoveDirection)
 {
@@ -32,7 +33,7 @@ typedef NS_ENUM(NSInteger, MoveDirection)
 @property (nonatomic) bool isMoving;
 @property (nonatomic, assign) MoveDirection moveDirection;
 @property (nonatomic, readonly) GLKVector3 translation;
-
+- (void)updateMovement;
 /*!
  * @discussion Initialization
  * @param size The size of the device's view to setup grid locations
