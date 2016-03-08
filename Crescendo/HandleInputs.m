@@ -18,6 +18,8 @@
     GLKMatrix4 _projectionMatrix;
     GLKVector3 _initialPosition;
     
+    NSMutableArray *_moveBuffer;
+    
     CGSize _view;
     float _aspectRatio;
 }
@@ -31,6 +33,7 @@
     if(self = [super init])
     {
         _view = view;
+        _moveBuffer = [NSMutableArray array];
         gridMovement = [[GridMovement alloc] initWithGridCount:GLKVector2Make(3.0, 3.0) deviceSize:_view planeSize:CGSizeMake(X_SCALE_FACTOR * 2, Y_SCALE_FACTOR * 2)];
     }
     
@@ -39,43 +42,64 @@
 
 - (void)handleSwipeLeft:(UISwipeGestureRecognizer *)recognizer
 {
-    if (!self.isMoving)
-    {
-        _isMoving = true;
-        GLKVector2 gridLocation = [gridMovement gridLocationWithMoveDirection:GLKVector2Make(-1, 0)];
-        _translation = GLKVector3Make(gridLocation.x, gridLocation.y, player->worldPosition.z);
-        player->worldPosition = _translation;
-    }
+    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionLeft];
+    [_moveBuffer enqueue:direction];
 }
 
 - (void)handleSwipeUp:(UISwipeGestureRecognizer *)recognizer
 {
-    if (!self.isMoving)
-    {
-        _isMoving = true;
-        GLKVector2 gridLocation = [gridMovement gridLocationWithMoveDirection:GLKVector2Make(0, 2)];
-        _translation = GLKVector3Make(gridLocation.x, gridLocation.y, player->worldPosition.z);
-        player->worldPosition = _translation;
-    }
+    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionUp];
+    [_moveBuffer enqueue:direction];
 }
 
 - (void)handleSwipeRight:(UISwipeGestureRecognizer *)recognizer
 {
-    if (!self.isMoving)
-    {
-        _isMoving = true;
-        GLKVector2 gridLocation = [gridMovement gridLocationWithMoveDirection:GLKVector2Make(1, 0)];
-        _translation = GLKVector3Make(gridLocation.x, gridLocation.y, player->worldPosition.z);
-        player->worldPosition = _translation;
-    }
+    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionRight];
+    [_moveBuffer enqueue:direction];
 }
 
 - (void)handleSwipeDown:(UISwipeGestureRecognizer *)recognizer
 {
-    if (!self.isMoving)
+    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionDown];
+    [_moveBuffer enqueue:direction];
+}
+
+- (void)updateMovement
+{
+    GLKVector2 moveDirection;
+    
+    NSNumber *numberDirection = [_moveBuffer peek];
+    
+    if (numberDirection == nil)
+    {
+        return;
+    }
+    
+    if (!_isMoving)
+    numberDirection = [_moveBuffer dequeue];
+    
+    if ([numberDirection longValue] == (long)MoveDirectionUp)
+    {
+        moveDirection = GLKVector2Make(0, 2);
+    }
+    else if ([numberDirection longValue] == (long)MoveDirectionRight)
+    {
+        moveDirection = GLKVector2Make(1, 0);
+    }
+    else if ([numberDirection longValue] == (long)MoveDirectionDown)
+    {
+        moveDirection = GLKVector2Make(0, -2);
+    }
+    else if ([numberDirection longValue] == (long)MoveDirectionLeft)
+    {
+        moveDirection = GLKVector2Make(-1, 0);
+    }
+    
+
+    if (!_isMoving)
     {
         _isMoving = true;
-        GLKVector2 gridLocation = [gridMovement gridLocationWithMoveDirection:GLKVector2Make(0, -2)];
+        GLKVector2 gridLocation = [gridMovement gridLocationWithMoveDirection:moveDirection];
         _translation = GLKVector3Make(gridLocation.x, gridLocation.y, player->worldPosition.z);
         player->worldPosition = _translation;
     }

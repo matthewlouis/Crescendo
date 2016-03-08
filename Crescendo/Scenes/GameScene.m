@@ -58,6 +58,7 @@
 
 - (void) updateWithDeltaTime:(float)timePassed;
 {
+    [self.handleInput updateMovement];
     
     if ([self.handleInput isMoving])
     {
