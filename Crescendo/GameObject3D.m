@@ -22,9 +22,13 @@
 BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vertexCount {
     if ((self = [super init])) {
         
-        vertexCount = p_vertexCount;
+        // Instantiate children array
         self->children = [NSMutableArray array];
         
+        // Store vertex count
+        vertexCount = p_vertexCount;
+        
+        // Generate VAO
         glGenVertexArraysOES(1, &vao);
         glBindVertexArrayOES(vao);
         
@@ -43,10 +47,17 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
         glEnableVertexAttribArray(VertexAttribNormal);
         glVertexAttribPointer(VertexAttribNormal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Normal));
         
+        // Free VAO and Buffers
         glBindVertexArrayOES(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         
+        // Instantiate color parameters
+        color = GLKVector4Make(0, 0, 0, 1); // Default color is black;
+        m_ColorState = COLOR_STATIC;        // Default state is no operation;
+        colorTimePassed = 0;                // Set all timers to nothing
+        colorTimeStrobePassed = 0;
+        colorTimeLimit = 0;
     }
     return self;
 }
@@ -64,62 +75,20 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
     glDeleteVertexArraysOES(1, &vao);
 }
 
+- (void)update:(float)TimePassed
+{
+    
+}
+
 - (void)updateWithDelta:(NSTimeInterval)dt {
     for (GameObject3D *child in self->children) {
         [child updateWithDelta:dt];
     }
 }
 
-- (void)loadTexture:(NSString *)filename {
-    NSError *error;
-    NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:nil];
-    
-    NSDictionary *options = @{ GLKTextureLoaderOriginBottomLeft: @YES };
-    GLKTextureInfo *info = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
-    if (info == nil) {
-        NSLog(@"Error loading file: %@", error.localizedDescription);
-    } else {
-        self->texture = info.name;
-    }
-}
-
--(GLKVector3)GetFoward
-{
-    GLKVector3 forwardVector = GLKVector3Make(0, 0, 1);
-    GLKMatrix4 transformation = GLKMatrix4Multiply([self GetTranslationMatrix], [self GetRotationMatrix]);
-    return GLKMatrix4MultiplyVector3(transformation, forwardVector);
-}
-
--(GLKVector3)GetRight
-{
-    GLKVector3 rightVector = GLKVector3Make(1, 0, 0);
-    GLKMatrix4 transformation = GLKMatrix4Multiply([self GetTranslationMatrix], [self GetRotationMatrix]);
-    return GLKMatrix4MultiplyVector3(transformation, rightVector);
-}
-
--(GLKVector3)GetUp
-{
-    GLKVector3 upVector = GLKVector3Make(0, 1, 0);
-    GLKMatrix4 transformation = GLKMatrix4Multiply([self GetTranslationMatrix], [self GetRotationMatrix]);
-    return GLKMatrix4MultiplyVector3(transformation, upVector);
-}
-
 -(GLKMatrix4)GetTranslationMatrix
 {
     return GLKMatrix4MakeTranslation(worldPosition.x, worldPosition.y, worldPosition.z);
-}
-
--(GLKMatrix4)GetRotationMatrix
-{
-    GLKVector3 forwardVec = [self GetFoward];
-    GLKVector3 rightVec = [self GetRight];
-    GLKVector3 upVec = [self GetUp];
-    
-    GLKMatrix4 rotationXMat = GLKMatrix4MakeRotation(rotation.x, rightVec.x, rightVec.y, rightVec.z);
-    GLKMatrix4 rotationYMat = GLKMatrix4MakeRotation(rotation.y, upVec.x, upVec.y, upVec.z);
-    GLKMatrix4 rotationZMat = GLKMatrix4MakeRotation(rotation.y, forwardVec.x, forwardVec.y, forwardVec.z);
-    
-    return GLKMatrix4Multiply(GLKMatrix4Multiply(rotationXMat, rotationYMat),rotationZMat);
 }
 
 -(GLKMatrix4)GetScaleMatrix
@@ -129,12 +98,14 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
 
 -(GLKMatrix4)GetModelViewMatrix
 {
+    // Get Translation
     GLKMatrix4 result = [self GetTranslationMatrix];
     
-    
+    // Apply Rotation
     result = GLKMatrix4Multiply(result, GLKMatrix4MakeRotation(rotation.x, 1, 0, 0));
     result = GLKMatrix4Multiply(result, GLKMatrix4MakeRotation(rotation.y, 0, 1, 0));
-    
+
+    // Apply scale
     result = GLKMatrix4Multiply(result, [self GetScaleMatrix]);
     
     return result;
@@ -155,6 +126,18 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
     }else{
         return false;
     }
+}
+
+// The transition towards a destination color in the specified amount of time
+- (void)fadeToColor:(GLKVector4)color In:(float)timeToFade
+{
+    
+    
+}
+
+- (void)strobeBetweenColor:(GLKVector4)firstColor And:(GLKVector4)secondColor Every:(float)timeBetweenFlashes For:(float)timeToStrobe
+{
+    
 }
 
 @end

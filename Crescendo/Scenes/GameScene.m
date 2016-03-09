@@ -11,8 +11,6 @@
 #import "Player.h"
 #import "PlaneContainer.h"
 #import "HandleInputs.h"
-#import "Plane.h"
-#import "Bar.h"
 
 #import "Plane.h"
 
@@ -64,7 +62,7 @@
 
 - (void) updateWithDeltaTime:(float)timePassed;
 {
-    //_player->worldPosition = [self.handleInput translation];
+    [self.handleInput updateMovement];
     
     [self checkForPlayerCollisions];
     

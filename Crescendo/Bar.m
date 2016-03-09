@@ -69,7 +69,6 @@
     Plane* newPlane = [[Plane alloc]initWithPosition:worldPosition.z + zOffset soundObject:soundObject];
     newPlane->m_LocalZOffset = zOffset;
     newPlane->m_Velocity = 0;
-    newPlane->m_LineThickness = 1;
     [m_Planes enqueue: (newPlane)];
     [self->children addObject:newPlane];
 }
@@ -101,26 +100,18 @@
  * Update the plane based on the amount of time that has passed/
  */
 - (void)update:(float)TimePassed
-{
-    worldPosition.z += m_Velocity * TimePassed;
-    [self updateLineWith];
+{    
+    [super update:TimePassed];
     
     // Update all plane positions
     [self updatePlanePositions];
     
+    // Update all planes
     for (NSObject* o in m_Planes)
     {
         Plane* currentPlane = (Plane*)o;
         [currentPlane update:TimePassed];
     }
-
-    // Update all planeObjects
-    for (NSObject* o in m_PlaneObjects)
-    {
-        PlaneObject* currentPlane = (PlaneObject*)o;
-        [currentPlane updatePositionBasedOnPlane:self];
-    }
-    
 }
 
 /*

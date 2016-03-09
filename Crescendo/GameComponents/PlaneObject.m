@@ -9,6 +9,7 @@
 #import "PlaneObject.h"
 #import "cube.h"
 #import "Crescendo-Swift.h"
+
 #import "Plane.h"
 
 @implementation PlaneObject
@@ -24,11 +25,10 @@
         renderMode = GL_TRIANGLES;
         
         self->soundObject = sound;
+        self->color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
     }
     return self;
 }
-
-
 
 /*
  * Updates position on each plane object based on plane movement and object behaviour
