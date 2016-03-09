@@ -38,7 +38,7 @@
         _rotateDefault = self->rotation.y;
         // Specify Drawing Mode
         renderMode = GL_TRIANGLES;
-        self->boundingSphereRadius = 1;
+        self->boundingSphereRadius = 0.2;
     }
     return self;
 }

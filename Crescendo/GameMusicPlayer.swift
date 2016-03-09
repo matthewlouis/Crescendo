@@ -148,13 +148,20 @@ class GameMusicPlayer : NSObject{
         synth2.attackDuration = 0.2
         synth2.releaseDuration = 0.0
         
-        let synth3 = loadPolySynth(16, instrumentType: .ANALOGX, voiceCount: 2, soundEffect: true) as! CoreInstrument
-        synth3.waveform1 = Double(1)
-        synth3.waveform2 = Double(1)
-        synth3.detune = 0;
-        synth3.morph = 0;
-        synth3.attackDuration = 0.1
-        synth3.releaseDuration = 0.5
+        
+        /****SOUND EFFECTS********/
+        
+        //piano
+        let cue1 = loadSampler(16, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24, soundEffect: true)
+        let cueFX1 = addFX(16, fxType: .FATTEN) as! Fatten
+        cueFX1.time = 0.2
+        let cuefx2 = addFX(16, fxType: .REVERB) as! AKReverb2
+        cuefx2.decayTimeAt0Hz = 5
+        cuefx2.decayTimeAtNyquist = 10
+        cuefx2.dryWetMix = 0.5
+        let cuefx3 = addFX(16, fxType: .COMPRESSOR) as! AKCompressor
+        cuefx3.threshold = -20
+        cuefx3.masterGain = 12
         
         
         tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
@@ -180,7 +187,6 @@ class GameMusicPlayer : NSObject{
         
         tracks[4]?.volume?.gain = 0.1
         tracks[1]?.volume?.gain = 0.3
-        tracks[16]!.volume!.gain = 1.0;
         
         AudioKit.output = masterComp
         
@@ -190,7 +196,7 @@ class GameMusicPlayer : NSObject{
     }
     
     //loads a sampler instrument into the track
-    func loadSampler(intoTrackNumber:Int, fileName: String, sampleFormat: SampleFormat) -> AKSampler{
+    func loadSampler(intoTrackNumber:Int, fileName: String, sampleFormat: SampleFormat, soundEffect: Bool = false) -> AKSampler{
         
         let sampler = AKSampler()
         
@@ -207,9 +213,14 @@ class GameMusicPlayer : NSObject{
         }
         
         sampler.loadEXS24(fileName)
-        sequencer!.avTracks[intoTrackNumber].destinationAudioUnit = sampler.samplerUnit
+        
+        //soundEffects are played musical cues and are not connected to the sequencer.
+        if(!soundEffect){
+            sequencer!.avTracks[intoTrackNumber].destinationAudioUnit = sampler.samplerUnit
+        }
         tracks[intoTrackNumber] = Track(instrument: sampler, fx: [AKNode?](), volume: nil, midiInstrument: nil)
         return sampler
+            
     }
     
     //loads a polyphonic instrument into the track
@@ -245,7 +256,7 @@ class GameMusicPlayer : NSObject{
         //add add midiInstrument and physical instrument to newly generated track
         tracks[intoTrackNumber] = Track(instrument: instrument, fx: [AKNode?](), volume: nil, midiInstrument: midiInstrument)
         
-        
+        //soundEffects are played musical cues and are not connected to the sequencer.
         if(!soundEffect){
             //set sequencer track to output to midi instrument
             sequencer!.avTracks[intoTrackNumber].destinationMIDIEndpoint = midiInstrument.midiIn

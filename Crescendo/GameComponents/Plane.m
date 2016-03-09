@@ -104,7 +104,7 @@
     //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
     newPlaneObject->worldPosition.x = [self getRandomNumberBetween:-1 to:1];
     newPlaneObject->worldPosition.y = [self getRandomNumberBetween:0 to:1] - 0.5f;
-    newPlaneObject->boundingSphereRadius = 1;
+    newPlaneObject->boundingSphereRadius = 2;
     
     [m_PlaneObjects enqueue: (newPlaneObject)];
     [self->children addObject:newPlaneObject];

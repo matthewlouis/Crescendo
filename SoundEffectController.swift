@@ -83,20 +83,24 @@ class SoundEffectController: NSObject{
     }
     
     @objc func stopSound(timer:NSTimer){
-        let inst = _soundeffectInstrument as! CoreInstrument;
+        let inst = _soundeffectInstrument as! AKSampler;
         let so = timer.userInfo as! InteractiveSoundObject;
         
         inst.stopNote(so._note);
-        print("\nStopping note: %d", so._note);
     }
     
     func playSound(soundObject: InteractiveSoundObject){
-        let inst = _soundeffectInstrument as! CoreInstrument;
-        inst.playNote(soundObject._note, velocity: 100);
+        let ref = Mirror(reflecting:_soundeffectInstrument) //check type of instrument
         
-        print("\nPlaying note: %d", soundObject._note);
+        if(ref.subjectType == AKPolyphonicInstrument.self){
+            let polyphonicInst = _soundeffectInstrument as! AKPolyphonicInstrument
+            polyphonicInst.playNote(soundObject._note, velocity: 100)
+        }else{ //must be a sampler
+            let samplerInst = _soundeffectInstrument as! AKSampler
+            samplerInst.playNote(soundObject._note, velocity: 100)
+        }
         
-        NSTimer.scheduledTimerWithTimeInterval(60 / Double(_musicPlayer.bpm) * Double(soundObject._duration), target: self, selector: Selector("stopSound:"), userInfo: soundObject, repeats: false);
+        NSTimer.scheduledTimerWithTimeInterval(60 / Double(_musicPlayer.bpm) * Double(soundObject._duration), target: self, selector: Selector("stopSound:"), userInfo: soundObject, repeats: false)
     }
     
     

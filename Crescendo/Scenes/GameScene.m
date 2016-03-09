@@ -88,7 +88,8 @@
     for (Plane *cPlane in bar->m_Planes) {
         for (PlaneObject *planeObject in cPlane->m_PlaneObjects) {
             if ([_player checkCollision:planeObject]){
-                [planeContainer->soundEffectController playSound:planeObject->soundObject];
+                [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
+                [cPlane->children removeObject:planeObject]; //remove object
             }
         }
     }
