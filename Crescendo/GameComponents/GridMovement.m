@@ -7,7 +7,7 @@
 //
 
 #import "GridMovement.h"
-
+#import "Plane.h"
 
 @interface GridMovement ()
 {
@@ -24,6 +24,18 @@
 @end
 
 @implementation GridMovement
+
++ (id)sharedClass
+{
+    static GridMovement *sharedMyClass = nil;
+    static dispatch_once_t onceToken;
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    dispatch_once(&onceToken, ^{
+        sharedMyClass = [[self alloc] initWithGridCount:GLKVector2Make(3.0, 3.0) deviceSize:screenRect.size planeSize:CGSizeMake(X_SCALE_FACTOR * 2, Y_SCALE_FACTOR * 2)];
+    });
+    
+    return sharedMyClass;
+}
 
 - (id)initWithGridCount:(GLKVector2)count deviceSize:(CGSize)deviceSize planeSize:(CGSize)planeSize
 {
