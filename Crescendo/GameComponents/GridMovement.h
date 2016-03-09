@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, GridQuadrant)
 
 @interface GridMovement : NSObject
 
++ (id)sharedClass;
+
 /*!
  * @discussion Initializes and constructs the cells sizes based on device and plane size
  * @param deviceSize The view's size of the device
@@ -36,7 +38,7 @@ typedef NS_ENUM(NSInteger, GridQuadrant)
  * @discussion Calculates each quadrants' center location in terms of world positions
  */
 - (void)calculateCellsCenter;
-
+- (GLKVector3)getGridLocation:(GridQuadrant)quadrant;
 
 /*!
  * @discussion Random debug loop
