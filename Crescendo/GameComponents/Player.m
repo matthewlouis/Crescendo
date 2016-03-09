@@ -38,7 +38,10 @@
         _rotateDefault = self->rotation.y;
         // Specify Drawing Mode
         renderMode = GL_TRIANGLES;
+        self->boundingSphereRadius = 0.2;
         
+        // Set default color of red
+        self->color = GLKVector4Make(1.0f, 0.1f, 0.2f, 1);
     }
     return self;
 }

@@ -54,7 +54,7 @@ class GameMusicPlayer : NSObject{
     //Original tempo for starting the music
     let DEFAULT_BPM:Float = 120
     
-    var bpm:Float{
+    public var bpm:Float{
         didSet{
             sequencer!.setRate(bpm/DEFAULT_BPM)
         }
@@ -149,6 +149,21 @@ class GameMusicPlayer : NSObject{
         synth2.releaseDuration = 0.0
         
         
+        /****SOUND EFFECTS********/
+        
+        //piano
+        let cue1 = loadSampler(16, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24, soundEffect: true)
+        let cueFX1 = addFX(16, fxType: .FATTEN) as! Fatten
+        cueFX1.time = 0.2
+        let cuefx2 = addFX(16, fxType: .REVERB) as! AKReverb2
+        cuefx2.decayTimeAt0Hz = 5
+        cuefx2.decayTimeAtNyquist = 10
+        cuefx2.dryWetMix = 0.5
+        let cuefx3 = addFX(16, fxType: .COMPRESSOR) as! AKCompressor
+        cuefx3.threshold = -20
+        cuefx3.masterGain = 12
+        
+        
         tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
         sequencer!.avTracks[sequencer!.avTracks.capacity-1].destinationMIDIEndpoint = tk.midiIn
         
@@ -181,7 +196,7 @@ class GameMusicPlayer : NSObject{
     }
     
     //loads a sampler instrument into the track
-    func loadSampler(intoTrackNumber:Int, fileName: String, sampleFormat: SampleFormat) -> AKSampler{
+    func loadSampler(intoTrackNumber:Int, fileName: String, sampleFormat: SampleFormat, soundEffect: Bool = false) -> AKSampler{
         
         let sampler = AKSampler()
         
@@ -198,13 +213,18 @@ class GameMusicPlayer : NSObject{
         }
         
         sampler.loadEXS24(fileName)
-        sequencer!.avTracks[intoTrackNumber].destinationAudioUnit = sampler.samplerUnit
+        
+        //soundEffects are played musical cues and are not connected to the sequencer.
+        if(!soundEffect){
+            sequencer!.avTracks[intoTrackNumber].destinationAudioUnit = sampler.samplerUnit
+        }
         tracks[intoTrackNumber] = Track(instrument: sampler, fx: [AKNode?](), volume: nil, midiInstrument: nil)
         return sampler
+            
     }
     
     //loads a polyphonic instrument into the track
-    func loadPolySynth(intoTrackNumber:Int, instrumentType: InstrumentType, voiceCount: Int, whitePinkMix: Double? = nil, tableType: AKTableType? = nil, tableSize: Int? = nil) -> AKPolyphonicInstrument{
+    func loadPolySynth(intoTrackNumber:Int, instrumentType: InstrumentType, voiceCount: Int, whitePinkMix: Double? = nil, tableType: AKTableType? = nil, tableSize: Int? = nil, soundEffect: Bool = false) -> AKPolyphonicInstrument{
         var instrument: AKPolyphonicInstrument
         switch(instrumentType){
         case .FM:
@@ -236,9 +256,12 @@ class GameMusicPlayer : NSObject{
         //add add midiInstrument and physical instrument to newly generated track
         tracks[intoTrackNumber] = Track(instrument: instrument, fx: [AKNode?](), volume: nil, midiInstrument: midiInstrument)
         
-        //set sequencer track to output to midi instrument
-        sequencer!.avTracks[intoTrackNumber].destinationMIDIEndpoint = midiInstrument.midiIn
-        tracks[intoTrackNumber]?.midiInstrument = midiInstrument
+        //soundEffects are played musical cues and are not connected to the sequencer.
+        if(!soundEffect){
+            //set sequencer track to output to midi instrument
+            sequencer!.avTracks[intoTrackNumber].destinationMIDIEndpoint = midiInstrument.midiIn
+            tracks[intoTrackNumber]?.midiInstrument = midiInstrument
+        }
         
         //return the physical instrument
         return instrument
@@ -331,7 +354,7 @@ class GameMusicPlayer : NSObject{
                 })
             })
         }else{ //sampler instrument
-            var sampler = self.tracks[trackNumber]?.instrument as? AKSampler
+            let sampler = self.tracks[trackNumber]?.instrument as? AKSampler
             sampler?.playNote(note, velocity: velocity, channel: 1)
             
             let qualityOfServiceClass = QOS_CLASS_USER_INITIATED

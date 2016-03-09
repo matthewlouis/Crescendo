@@ -8,8 +8,7 @@
 
 #import "Plane.h"
 #import "Crescendo-Swift.h"
-#import "Constants.h"
-#import "GridMovement.h"
+
 
 @implementation Plane
 
@@ -22,13 +21,10 @@
     const Vertex vertices[8] = {
     {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
     {{-1, 1, 0}, {1, 1, 1, 1}, {0.167902, 0.904787}, {-0.809017, 0.587785, 0.000000}},
-        
     {{-1, 1, 0}, {1, 1, 1, 1}, {0.167902, 0.904787}, {-0.809017, 0.587785, 0.000000}},
     {{-1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
-        
     {{-1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
     {{1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
-        
     {{1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
     {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
     };
@@ -39,22 +35,17 @@
     {
         self->worldPosition = GLKVector3Make(0, 0, positon);
         self->rotation = GLKVector3Make(0, 0, 0);
-        self->scale = GLKVector3Make(X_SCALE_FACTOR, Y_SCALE_FACTOR, Z_SCALE_FACTOR);
+        self->scale = GLKVector3Make(3.5, 3.5, 3.5);
         
-        // Initialize velocity;
+        // Default Plane Velocity of 5 per second;
         self->m_Velocity = 0;
         
-        // Specify line drawing mode and thickness.     
-        _gridMovement = [GridMovement sharedClass];
-        
-        self->renderMode = GL_LINES;
-        self->lineWidth = 0;
-        
-        self->m_LineThickness = 0;
+        // Specify line drawing mode and thickness.
+        renderMode = GL_LINES;
+        lineWidth = 1;
 
-        self->color = GLKVector4Make(0.1, 1.0, 0.1, 1);
         
-        [self updateLineWidth];
+        [self updateLineWith];
     }
     
     if(soundObject != nil){
@@ -73,10 +64,6 @@
  */
 - (void)update:(float)TimePassed
 {
-    [super update:TimePassed];
-    
-    [self updateLineWidth];
-    
     worldPosition.z += m_Velocity * TimePassed;
     
     // Update all planeObjects
@@ -85,14 +72,18 @@
         PlaneObject* currentPlane = (PlaneObject*)o;
         [currentPlane updatePositionBasedOnPlane:self];
     }
+    
+    
+    
+    //[self updateLineWith];
 }
 
 /*
  * Updates the line width to be rendered based on distance from origin (assumed camera position
  */
-- (void)updateLineWidth
+- (void)updateLineWith
 {
-    lineWidth = (float)((BAR_WIDTH * 5) / (-worldPosition.z + BAR_WIDTH)) * m_LineThickness;
+    lineWidth = (float)((100.0f + 5) / -worldPosition.z) * m_LineThickness;
     if (lineWidth < 1)
     {
         lineWidth = 1;
@@ -106,26 +97,14 @@
 {
     if ([self getRandomNumberBetween:-1 to:1] == 1)
     {
-        // create new object
-        //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
     PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject];
-    newPlaneObject->boundingSphereRadius = 2;
+    //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
+    newPlaneObject->worldPosition.x = [self getRandomNumberBetween:-1 to:1];
+    newPlaneObject->worldPosition.y = [self getRandomNumberBetween:0 to:1] - 0.5f;
+    newPlaneObject->boundingSphereRadius = 1;
     
-        int row = [self getRandomNumberBetween:1 to:2];
-        int quadrant = [self getRandomNumberBetween:1 to:3];
-        
-        if(row == 2)
-        {
-            quadrant += 6;
-        }
-        
-        
-        GLKVector3 position = [_gridMovement getGridLocation:quadrant];
-        newPlaneObject->worldPosition.x = position.x;
-        newPlaneObject->worldPosition.y = position.y;
-    
-        [m_PlaneObjects enqueue: (newPlaneObject)];
-        [self->children addObject:newPlaneObject];
+    [m_PlaneObjects enqueue: (newPlaneObject)];
+    [self->children addObject:newPlaneObject];
     }
 }
 

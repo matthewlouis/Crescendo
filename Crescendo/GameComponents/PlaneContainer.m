@@ -12,7 +12,6 @@
 
 @implementation PlaneContainer
 {
-    @private SoundEffectController *soundEffectController;
     float totalTimePassed;
     float timeAccumBeforeStart;
 }

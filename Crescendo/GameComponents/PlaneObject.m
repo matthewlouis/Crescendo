@@ -8,12 +8,13 @@
 
 #import "PlaneObject.h"
 #import "cube.h"
+#import "Crescendo-Swift.h"
 
 #import "Plane.h"
 
 @implementation PlaneObject
 
-- (instancetype)initWithPlane:(Plane*)plane {
+- (instancetype)initWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)sound{
     if ((self = [super initWithName:"cube" shader:nil vertices:(Vertex*) cube_Vertices vertexCount:sizeof(cube_Vertices) / sizeof(cube_Vertices[0])])) {
         
         self->worldPosition = GLKVector3Make(0, 0, plane->worldPosition.z);
@@ -23,11 +24,11 @@
         // Specify Drawing Mode
         renderMode = GL_TRIANGLES;
         
+        self->soundObject = sound;
+        self->color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
     }
     return self;
 }
-
-
 
 /*
  * Updates position on each plane object based on plane movement and object behaviour
