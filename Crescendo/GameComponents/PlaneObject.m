@@ -18,7 +18,7 @@
         
         self->worldPosition = GLKVector3Make(0, 0, plane->worldPosition.z);
         //self->rotation = GLKVector3Make(-1.25, 3.14, 0);
-        self->scale = GLKVector3Make(0.25, 0.25, 0.25);
+        self->scale = GLKVector3Make(0.75, 0.75, 0.75);
         
         // Specify Drawing Mode
         renderMode = GL_TRIANGLES;

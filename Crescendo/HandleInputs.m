@@ -34,7 +34,7 @@
     {
         _view = view;
         _moveBuffer = [NSMutableArray array];
-        gridMovement = [[GridMovement alloc] initWithGridCount:GLKVector2Make(3.0, 3.0) deviceSize:_view planeSize:CGSizeMake(X_SCALE_FACTOR * 2, Y_SCALE_FACTOR * 2)];
+        gridMovement = [GridMovement sharedClass];
     }
     
     return self;

@@ -46,6 +46,10 @@
         // Specify line drawing mode and thickness.
         renderMode = GL_LINES;
         lineWidth = 1;
+        
+        
+        _gridMovement = [GridMovement sharedClass];
+        
 
         
         [self updateLineWith];
@@ -100,13 +104,25 @@
 {
     if ([self getRandomNumberBetween:-1 to:1] == 1)
     {
-    PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self];
-    //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
-    newPlaneObject->worldPosition.x = [self getRandomNumberBetween:-1 to:1];
-    newPlaneObject->worldPosition.y = [self getRandomNumberBetween:0 to:1] - 0.5f;
+        // create new object
+        PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self];
+        //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
     
-    [m_PlaneObjects enqueue: (newPlaneObject)];
-    [self->children addObject:newPlaneObject];
+        int row = [self getRandomNumberBetween:1 to:2];
+        int quadrant = [self getRandomNumberBetween:1 to:3];
+        
+        if(row == 2)
+        {
+            quadrant += 6;
+        }
+        
+        
+        GLKVector3 position = [_gridMovement getGridLocation:quadrant];
+        newPlaneObject->worldPosition.x = position.x;
+        newPlaneObject->worldPosition.y = position.y;
+    
+        [m_PlaneObjects enqueue: (newPlaneObject)];
+        [self->children addObject:newPlaneObject];
     }
 }
 

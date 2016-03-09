@@ -11,6 +11,7 @@
 #import "GameObject3D.h"
 #import <GLKit/GLKit.h>
 #import "PlaneObject.h"
+#import "GridMovement.h"
 
 #define X_SCALE_FACTOR 3.5
 #define Y_SCALE_FACTOR 2.5
@@ -31,6 +32,8 @@
     
 @public NSMutableArray *m_PlaneObjects;
 @public float m_PlaneVelocity;
+    
+@private GridMovement *_gridMovement;
 }
 
 - (void)move:(GLKVector3)amount;
