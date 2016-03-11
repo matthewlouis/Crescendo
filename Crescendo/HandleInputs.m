@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "HandleInputs.h"
 #import "PlaneContainer.h"
-
 @interface HandleInputs ()
 {
     GridMovement *gridMovement;
@@ -19,6 +18,8 @@
     GLKMatrix4 _projectionMatrix;
     GLKVector3 _initialPosition;
     
+    NSMutableArray *_moveBuffer;
+    
     CGSize _view;
     float _aspectRatio;
 }
@@ -27,15 +28,81 @@
 
 @implementation HandleInputs
 
-- (id)initWithViewSize:(CGSize)size
+- (id)initWithGameViewSize:(CGSize)view
 {
     if(self = [super init])
     {
-        gridMovement = [[GridMovement alloc] initWithGridCount:GLKVector2Make(3.0f, 2.0f) Size:GLKVector2Make(size.width, size.height)];
-        _view = size;
+        _view = view;
+        _moveBuffer = [NSMutableArray array];
+        gridMovement = [GridMovement sharedClass];
     }
     
     return self;
+}
+
+- (void)handleSwipeLeft:(UISwipeGestureRecognizer *)recognizer
+{
+    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionLeft];
+    [_moveBuffer enqueue:direction];
+}
+
+- (void)handleSwipeUp:(UISwipeGestureRecognizer *)recognizer
+{
+    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionUp];
+    [_moveBuffer enqueue:direction];
+}
+
+- (void)handleSwipeRight:(UISwipeGestureRecognizer *)recognizer
+{
+    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionRight];
+    [_moveBuffer enqueue:direction];
+}
+
+- (void)handleSwipeDown:(UISwipeGestureRecognizer *)recognizer
+{
+    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionDown];
+    [_moveBuffer enqueue:direction];
+}
+
+- (void)updateMovement
+{
+    GLKVector2 moveDirection;
+    
+    NSNumber *numberDirection = [_moveBuffer peek];
+    
+    if (numberDirection == nil)
+    {
+        return;
+    }
+    
+    if (!_isMoving)
+    numberDirection = [_moveBuffer dequeue];
+    
+    if ([numberDirection longValue] == (long)MoveDirectionUp)
+    {
+        moveDirection = GLKVector2Make(0, 2);
+    }
+    else if ([numberDirection longValue] == (long)MoveDirectionRight)
+    {
+        moveDirection = GLKVector2Make(1, 0);
+    }
+    else if ([numberDirection longValue] == (long)MoveDirectionDown)
+    {
+        moveDirection = GLKVector2Make(0, -2);
+    }
+    else if ([numberDirection longValue] == (long)MoveDirectionLeft)
+    {
+        moveDirection = GLKVector2Make(-1, 0);
+    }
+    
+
+    if (!_isMoving)
+    {
+        _isMoving = true;
+        GLKVector2 gridLocation = [gridMovement gridLocationWithMoveDirection:moveDirection];
+        _translation = GLKVector3Make(gridLocation.x, gridLocation.y, player->worldPosition.z);
+        player->worldPosition = _translation;
+    }
 }
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer
@@ -54,15 +121,17 @@
     if (!self.isMoving)
     {
         CGPoint location          = pointToMoveTo;
-        GLKVector2 gridLocation   = [gridMovement gridLocation:GLKVector2Make(location.x, location.y)];
-        GLKVector3 translation    = [self Vector3D:gridLocation Width:recognizer.view.frame.size.width Height: recognizer.view.frame.size.height];
+//        GLKVector2 gridLocation   = [gridMovement gridLocation:GLKVector2Make(location.x, location.y)];
+        GLKVector2 gridLocation   = [gridMovement gridLocationWithGridQuadrant:GridQuadrantBottom];
+
+        //GLKVector3 translation    = [self Vector3D:gridLocation Width:recognizer.view.frame.size.width Height: recognizer.view.frame.size.height];
         GLKVector3 playerLocation = player->worldPosition;
 
-        translation = GLKVector3MultiplyScalar(translation, 5.0);
+        //translation = GLKVector3MultiplyScalar(translation, 5.0);
         //translation = GLKVector3Multiply(translation, player->scale);
-        
+        GLKVector3 translation    = GLKVector3Make(gridLocation.x, gridLocation.y, playerLocation.z);
         _translation = GLKVector3Make(translation.x, translation.y, playerLocation.z);
-        
+
         _isMoving = true;
         
         if (playerLocation.x == _translation.x && playerLocation.y == _translation.y)
@@ -105,20 +174,8 @@
                 _moveDirection = MoveDirectionUpLeft;
             }
         }
+        recognizer.enabled = false; // Disabling the tap recognizer after the title is gone
     }
-    
-    //NSLog(@"Move Direction: %li", (long)_moveDirection);
-    //_translation = [transformations position:GLKVector2Make(translation.x, translation.y)];
-}
-
-- (void)handleSingleDrag:(UIPanGestureRecognizer *)recognizer
-{
-    //CGPoint translation = [recognizer translationInView:recognizer.view];
-    //float x = translation.x/recognizer.view.frame.size.width;
-    //float y = translation.y/recognizer.view.frame.size.height;
-    //float aspectRatio = recognizer.view.frame.size.width / recognizer.view.frame.size.height;
-
-    //[transformations translate:GLKVector2Make(x, y) withMultiplier:1.0f aspectRatio:aspectRatio];
 }
 
 - (GLKVector3)Vector3D:(GLKVector2)point2D Width:(int)w Height:(int)h
@@ -137,20 +194,14 @@
     return GLKMatrix4MultiplyVector3(viewProjInv, point3D);
 }
 
-
-
 - (void)setPlayer:(Player *)_player
 {
     player = _player;
-    GLKVector2 location       = GLKVector2Make(_view.width / 2, _view.height / 2);
-    GLKVector2 gridLocation   = [gridMovement gridLocation:location];
-    GLKVector3 translation    = [self Vector3D:gridLocation Width:_view.width Height: _view.height];
+
+    GLKVector2 gridLocation   = [gridMovement gridLocationWithGridQuadrant:GridQuadrantBottom];
     GLKVector3 playerLocation = player->worldPosition;
-    
-    translation = GLKVector3MultiplyScalar(translation, 5.0);
-    //translation = GLKVector3Multiply(translation, player->scale);
-    
-    //_initialPosition = translation;
+    GLKVector3 translation    = GLKVector3Make(gridLocation.x, gridLocation.y, playerLocation.z);
+
     _translation = GLKVector3Make(translation.x, translation.y - 5, playerLocation.z);
     _player->worldPosition = _translation;
     

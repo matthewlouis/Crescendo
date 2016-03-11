@@ -29,6 +29,8 @@ class SoundEffectController: NSObject{
     //var _musicTracks:[AKMusicTrack] //may not need to use this
     var _musicBars:[MusicBar]
     
+    let _soundeffectInstrument:AKNode;
+    
     
     let _musicPlayer:GameMusicPlayer
     
@@ -37,6 +39,8 @@ class SoundEffectController: NSObject{
         _musicBars   = [MusicBar]()
         
         _musicPlayer = musicPlayer
+        
+        _soundeffectInstrument = (musicPlayer.tracks[16]?.instrument)!;
         
         super.init()
     }
@@ -58,8 +62,8 @@ class SoundEffectController: NSObject{
                 let scaleOffset = random(0, Double(scale.count-1))
                 var octaveOffset = 0
                 for (var i = 0; i < 2; i++){
-                    octaveOffset += Int(12 * ((maybe()*2.0)+(-1.0)))
-                    octaveOffset = Int(maybe() * maybe() * Float(octaveOffset))
+                    octaveOffset += Int(12 * ((maybe()*2.0)+(-1.0)));
+                    octaveOffset = Int(maybe() * maybe() * Float(octaveOffset)) + 24;
                 }
                 //print("octave offset is \(octaveOffset)")
                 let noteToAdd = SoundEffectController.ROOT_NOTE + scale[Int(scaleOffset)] + octaveOffset
@@ -78,9 +82,27 @@ class SoundEffectController: NSObject{
         }
     }
     
-    func playSound(soundObject: InteractiveSoundObject){
-        print("\nPlay SOUND")
+    @objc func stopSound(timer:NSTimer){
+        let inst = _soundeffectInstrument as! AKSampler;
+        let so = timer.userInfo as! InteractiveSoundObject;
+        
+        inst.stopNote(so._note);
     }
+    
+    func playSound(soundObject: InteractiveSoundObject){
+        let ref = Mirror(reflecting:_soundeffectInstrument) //check type of instrument
+        
+        if(ref.subjectType == AKPolyphonicInstrument.self){
+            let polyphonicInst = _soundeffectInstrument as! AKPolyphonicInstrument
+            polyphonicInst.playNote(soundObject._note, velocity: 100)
+        }else{ //must be a sampler
+            let samplerInst = _soundeffectInstrument as! AKSampler
+            samplerInst.playNote(soundObject._note, velocity: 100)
+        }
+        
+        NSTimer.scheduledTimerWithTimeInterval(60 / Double(_musicPlayer.bpm) * Double(soundObject._duration), target: self, selector: Selector("stopSound:"), userInfo: soundObject, repeats: false)
+    }
+    
     
     func maybe()->Float{
         let maybeVal = random(0,2)

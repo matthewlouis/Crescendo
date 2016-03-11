@@ -25,8 +25,8 @@
 
 - (instancetype)init {
     if ((self = [super initWithName:"player" shader:nil vertices:(Vertex*) player_Vertices vertexCount:sizeof(player_Vertices) / sizeof(player_Vertices[0])])) {
-        _playerSpeed = 20.0f;
-        _timeToAnimate = 0.4f;
+        _playerSpeed = 30.0f;
+        _timeToAnimate = 0.2f;
         _rotateAmount = 1.0f;
         //[self loadTexture:@"mushroom.png"];
         //self.rotationY = M_PI;
@@ -38,7 +38,10 @@
         _rotateDefault = self->rotation.y;
         // Specify Drawing Mode
         renderMode = GL_TRIANGLES;
+        self->boundingSphereRadius = 0.2;
         
+        // Set default color of red
+        self->color = GLKVector4Make(1.0f, 0.1f, 0.2f, 0.2);
     }
     return self;
 }
@@ -49,7 +52,7 @@
     {
         self->worldPosition = [self lerpStartVector:_startPosition withEndVector:moveToPosition lerpDistance:1.0f];
         
-        if (_startPosition.x != moveToPosition.x)
+        if (roundf(100 * _startPosition.x) / 100 != roundf(100 * moveToPosition.x) / 100)
         {
             if (_startPosition.x < moveToPosition.x)
             {
@@ -68,8 +71,8 @@
     else
     {
         self->worldPosition = [self lerpStartVector:_startPosition withEndVector:moveToPosition lerpDistance:_timeElapsed/ _timeToAnimate];
-        
-        if (_startPosition.x != moveToPosition.x)
+
+        if (roundf(100 * _startPosition.x) / 100 != roundf(100 * moveToPosition.x) / 100)
         {
             if (_startPosition.x < moveToPosition.x)
             {

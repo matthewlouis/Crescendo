@@ -81,6 +81,7 @@
     // Get uniform locations.
     uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX] = glGetUniformLocation(_program, "modelViewProjectionMatrix");
     uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
+    uniforms[UNIFORM_COLOR] = glGetUniformLocation(_program, "color");
     
     // Fail Case: Release vertex and fragment shaders.
     if (vertShader) {
@@ -178,13 +179,11 @@
 - (void)render:(GameObject3D*)gameObject3D
 {
     GLKMatrix4 cameraViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -5.0f);
-    //cameraViewMatrix = GLKMatrix4Rotate(cameraViewMatrix, 0, 0.0f, 1.0f, 0.0f);
     
     GLKMatrix4 modelViewMatrix = [gameObject3D GetModelViewMatrix];
     modelViewMatrix = GLKMatrix4Multiply(cameraViewMatrix, modelViewMatrix);
     
     GLKMatrix3 _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
-    
     
     GLKMatrix4 _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
@@ -193,6 +192,7 @@
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
     glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
+    glUniform4fv(uniforms[UNIFORM_COLOR], 1, gameObject3D->color.v);
     
     glBindVertexArrayOES(gameObject3D->vao);
     
@@ -206,9 +206,21 @@
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
+        case GL_LINE_LOOP:
+            glLineWidth(gameObject3D->lineWidth);
+            glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
+            break;
+        case GL_LINE_STRIP:
+            glLineWidth(gameObject3D->lineWidth);
+            glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
+            break;
+        case GL_POINTS:
+            glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
+            break;
     }
     
-    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArrayOES(0);
     
     for (GameObject3D *child in gameObject3D->children) {

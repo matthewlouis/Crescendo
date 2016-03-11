@@ -6,3 +6,8 @@ Crescendo.xcodeproj/project_LOCAL_14266.pbxproj
 Crescendo.xcodeproj/project_REMOTE_14266.pbxproj
 Crescendo/Bar.m.orig
 Crescendo/GameComponents/PlaneContainer.m.orig
+*.orig
+Crescendo/GameComponents/Plane_BACKUP_7095.m
+Crescendo/GameComponents/Plane_BASE_7095.m
+Crescendo/GameComponents/Plane_LOCAL_7095.m
+Crescendo/GameComponents/Plane_REMOTE_7095.m
