@@ -14,7 +14,6 @@
 @interface Player ()
 {
     float _playerSpeed;
-    float _timeToAnimate;
     float _rotateDefault;
     float _rotateAmount;
 }
@@ -26,7 +25,7 @@
 - (instancetype)init {
     if ((self = [super initWithName:"player" shader:nil vertices:(Vertex*) player_Vertices vertexCount:sizeof(player_Vertices) / sizeof(player_Vertices[0])])) {
         _playerSpeed = 30.0f;
-        _timeToAnimate = 0.2f;
+        _timeToAnimate = 0.8f;
         _rotateAmount = 1.0f;
         //[self loadTexture:@"mushroom.png"];
         //self.rotationY = M_PI;

@@ -8,9 +8,12 @@
 
 #import "GameObject3D.h"
 
+#define PLAYER_ANIMATE_SPEED 0.2f
+
 @interface Player : GameObject3D
 
 @property (nonatomic, assign) float timeElapsed;
+@property (nonatomic, assign) float timeToAnimate;
 @property (nonatomic, assign) GLKVector3 startPosition;
 @property (nonatomic, assign) GLKVector3 startRotation;
 

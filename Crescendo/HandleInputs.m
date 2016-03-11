@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "HandleInputs.h"
 #import "PlaneContainer.h"
+#import "Player.h"
+
 @interface HandleInputs ()
 {
     GridMovement *gridMovement;
@@ -77,6 +79,7 @@
     if (!_isMoving)
     {
         numberDirection = [_moveBuffer dequeue];
+        player.timeToAnimate = PLAYER_ANIMATE_SPEED;
     }
     
     // The direction the player should head in by the amount of quadrants
