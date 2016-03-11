@@ -8,7 +8,7 @@
 
 #import "GameObject3D.h"
 
-#define PLAYER_ANIMATE_SPEED 0.2f
+#define PLAYER_ANIMATE_SPEED 2.0f
 
 @interface Player : GameObject3D
 

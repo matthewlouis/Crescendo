@@ -8,6 +8,7 @@
 
 #import "Player.h"
 #import "playerModel.h"
+#import "Easing.h"
 
 //#import "mushroom.h"
 
@@ -46,6 +47,8 @@
 {
     if (_timeElapsed / _timeToAnimate > 1.0f)
     {
+        NSLog(@"What is this:");
+        
         self->worldPosition = [self lerpStartVector:_startPosition withEndVector:moveToPosition lerpDistance:1.0f];
         
         if (roundf(100 * _startPosition.x) / 100 != roundf(100 * moveToPosition.x) / 100)
@@ -66,8 +69,9 @@
     }
     else
     {
-        self->worldPosition = [self lerpStartVector:_startPosition withEndVector:moveToPosition lerpDistance:_timeElapsed/ _timeToAnimate];
-
+        NSLog(@"Time[%f]: %f", _timeElapsed/_timeToAnimate, QuinticEaseIn(_timeElapsed/_timeToAnimate, 1, _startPosition.x - moveToPosition.x));
+        //self->worldPosition = [self lerpStartVector:_startPosition withEndVector:moveToPosition lerpDistance:_timeElapsed/ _timeToAnimate];
+        self->worldPosition.x = _startPosition.x - CubicEaseInOut(_timeElapsed/_timeToAnimate, 1, _startPosition.x - moveToPosition.x);
         if (roundf(100 * _startPosition.x) / 100 != roundf(100 * moveToPosition.x) / 100)
         {
             if (_startPosition.x < moveToPosition.x)
@@ -95,5 +99,6 @@
 {
     return startValue + (endValue - startValue) * percentage;
 }
+
 
 @end
