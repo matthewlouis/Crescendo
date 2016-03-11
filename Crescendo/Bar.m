@@ -17,12 +17,12 @@
 {
     InteractiveSoundObject *soundObject = [musicBar getSoundObject: 0];
     
-    self = [super initWithPosition:position soundObject:soundObject];
+    self = [super initWithName:"bar" shader:nil vertices:nil vertexCount:0];
+    
     if (self)
     {
         float bpmPercentage = DEFAULT_BPM/bpm;
         m_BarWidth = 40.0f * (bpmPercentage);
-        m_LineThickness = 1.5f;
         worldPosition.z = position;
         
         self->m_Planes = [[NSMutableArray alloc] init];
@@ -53,20 +53,24 @@
 {
     float quarterNoteOffset = m_BarWidth / 5.0f;
     
+    // Generate first plane
+    InteractiveSoundObject *soundObject = [musicBar getSoundObject: 0 / SoundEffectController.BAR_RESOLUTION];
+    [self CreatePlane:0 withSoundObject:soundObject withThickness:1.5f];
+    
     // Generate Quarter Notes
     for(int i = 1; i < 4; ++i)
     {
         InteractiveSoundObject *soundObject = [musicBar getSoundObject: i / SoundEffectController.BAR_RESOLUTION];
-        [self CreatePlane:-quarterNoteOffset * i withSoundObject:soundObject];
+        [self CreatePlane:-quarterNoteOffset * i withSoundObject:soundObject withThickness:0];
     }
 }
 
 /*
  * Creates a plane and places it in the queue
  */
--(void)CreatePlane:(float)zOffset withSoundObject:(InteractiveSoundObject *)soundObject
+-(void)CreatePlane:(float)zOffset withSoundObject:(InteractiveSoundObject *)soundObject withThickness:(float)thickness
 {
-    Plane* newPlane = [[Plane alloc]initWithPosition:worldPosition.z + zOffset soundObject:soundObject];
+    Plane* newPlane = [[Plane alloc]initWithPosition:worldPosition.z + zOffset soundObject:soundObject withThickness:thickness];
     newPlane->m_LocalZOffset = zOffset;
     newPlane->m_Velocity = 0;
     [m_Planes enqueue: (newPlane)];
@@ -101,7 +105,7 @@
  */
 - (void)update:(float)TimePassed
 {    
-    [super update:TimePassed];
+    worldPosition.z += m_Velocity * TimePassed;
     
     // Update all plane positions
     [self updatePlanePositions];

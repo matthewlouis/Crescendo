@@ -38,7 +38,7 @@
 
 - (void)move:(GLKVector3)amount;
 - (BOOL)checkCollision;
-- (id)initWithPosition:(float)positon soundObject: (InteractiveSoundObject *)soundObject;
+- (id)initWithPosition:(float)positon soundObject: (InteractiveSoundObject *)soundObject withThickness:(float)thickness;
 - (void)update:(float)TimePassed;
 //- (void)move:(GLKVector3)amount;
 //- (BOOL)checkCollision;

@@ -26,6 +26,8 @@
 @public float m_BPM;
 @public SoundEffectController *soundEffectController;
     
+@public Plane* nextPlane;
+    
 @private TimeSignature m_TimeSignature;
 @private float m_TimePassed;
     
@@ -46,6 +48,8 @@
 
 -(void)update:(float)timePassed;
 -(void)draw;
+
+- (void)findNextPlane;
 
 +(void)startGame;
 -(void)startMusic;

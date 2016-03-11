@@ -80,7 +80,7 @@ static bool gameStarted;
     }
     [soundEffectController removeSection];
     
-    //newBar->worldPosition.z = self->m_SpawnDistance;
+    newBar->worldPosition.z = self->m_SpawnDistance;
     newBar->m_Velocity = self->m_SpawnBarVelocity;
     [newBar updatePlanePositions];
     [m_Bars enqueue:newBar];
@@ -124,7 +124,7 @@ static bool gameStarted;
     }
     
     if(timePassed)
-    // Update all planes
+    // Update all Bars
     for (NSObject* o in m_Bars)
     {
         Bar* currentBar = (Bar*)o;
@@ -154,6 +154,8 @@ static bool gameStarted;
         [self CreateBar];
         buildBar = false;
     }
+    
+    [self findNextPlane];
 }
 
 /*
@@ -176,6 +178,29 @@ static bool gameStarted;
         }
     }
      */
+}
+
+- (void)findNextPlane
+{
+    bool done = false;
+    
+    // Iterate through all bars
+    for (Bar* bar in m_Bars)
+    {
+        for (Plane* plane in bar->m_Planes)
+        {
+            if (plane->worldPosition.z < 0)
+            {
+                nextPlane = plane;
+                done = true;
+                break;
+            }
+        }
+        if (done)
+        {
+            break;
+        }
+    }
 }
 
 /**

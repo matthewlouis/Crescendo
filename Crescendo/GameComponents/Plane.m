@@ -17,7 +17,7 @@
 /**
  * Provides default parameter to generate empty planes (so we can start the game with no obstacles
  */
-- (id)initWithPosition:(float)positon soundObject:(InteractiveSoundObject *)soundObject
+- (id)initWithPosition:(float)positon soundObject:(InteractiveSoundObject *)soundObject withThickness:(float)thickness
 {
     const Vertex vertices[8] = {
     {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
@@ -50,7 +50,7 @@
         self->renderMode = GL_LINES;
         self->lineWidth = 0;
         
-        self->m_LineThickness = 0;
+        self->m_LineThickness = thickness;
 
         self->color = GLKVector4Make(0.1, 1.0, 0.1, 1);
         

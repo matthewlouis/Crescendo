@@ -51,8 +51,7 @@
         [self->children addObject:planeContainer];
         
         //debug to show where player collides with plane objects
-        Plane *collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil];
-        collisionPlane->lineWidth = 4;
+        Plane *collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil withThickness:4];
         [self->children addObject:collisionPlane];
 
         [planeContainer startMusic];
@@ -63,8 +62,6 @@
 - (void) updateWithDeltaTime:(float)timePassed;
 {
     [self.handleInput updateMovement];
-    
-    [self checkForPlayerCollisions];
     
     if ([self.handleInput isMoving])
     {
@@ -79,10 +76,18 @@
     }
     
     [planeContainer update:timePassed];
+    
+    [self checkForPlayerCollisions];
 }
 
 -(void)checkForPlayerCollisions{
-    Bar *bar = planeContainer->m_Bars[0];
+    for (PlaneObject *planeObject in planeContainer->nextPlane->m_PlaneObjects) {
+        if ([_player checkCollision:planeObject]){
+            [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
+            [planeContainer->nextPlane->children removeObject:planeObject]; //remove object
+        }
+    }
+    /*Bar *bar = planeContainer->m_Bars[0];
     for (Plane *cPlane in bar->m_Planes) {
         for (PlaneObject *planeObject in cPlane->m_PlaneObjects) {
             if ([_player checkCollision:planeObject]){
@@ -90,7 +95,7 @@
                 [cPlane->children removeObject:planeObject]; //remove object
             }
         }
-    }
+    }*/
 }
 - (void)CleanUp
 {
