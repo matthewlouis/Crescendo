@@ -136,7 +136,7 @@ static bool gameStarted;
     {
         Bar* nextBar = ((Bar*)[m_Bars peek]);
         
-        if (nextBar->worldPosition.z > BAR_WIDTH)
+        if (nextBar->worldPosition.z > nextBar->m_BarWidth)
         {
             [self->children removeObject:(Bar*)[m_Bars peek]];
             [nextBar CleanUp];	

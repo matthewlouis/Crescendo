@@ -108,22 +108,27 @@
     {
         // create new object
         //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
-    PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject];
-    newPlaneObject->boundingSphereRadius = 2;
-    
-        int row = [self getRandomNumberBetween:1 to:2];
-        int quadrant = [self getRandomNumberBetween:1 to:3];
+        PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject];
         
+    
+        int row = [self getRandomNumberBetween:1 to:2]; // used to calculate row of object
+        int quadrant = [self getRandomNumberBetween:1 to:3]; // random quadrant between 1 and 3
+        
+        // calculates quadrant on second row between 7-9.
         if(row == 2)
         {
             quadrant += 6;
         }
         
+        // bounding sphere for collision detection
+        newPlaneObject->boundingSphereRadius = 2;
         
+        // gets position based on quadrant
         GLKVector3 position = [_gridMovement getGridLocation:quadrant];
         newPlaneObject->worldPosition.x = position.x;
         newPlaneObject->worldPosition.y = position.y;
-    
+        
+        // add new object to world
         [m_PlaneObjects enqueue: (newPlaneObject)];
         [self->children addObject:newPlaneObject];
     }
