@@ -191,7 +191,7 @@ enum
 
 - (void)initializeClasses
 {
-    self.handleInput = [[HandleInputs alloc] initWithGameViewSize:self.view.frame.size];
+    self.handleInput = [[HandleInputs alloc] init];
 }
 
 - (void)createGestures
@@ -203,21 +203,26 @@ enum
     swipeLeftFingerDrag.direction = UISwipeGestureRecognizerDirectionLeft;
     [swipeLeftFingerDrag setNumberOfTouchesRequired:1];
     [self.view addGestureRecognizer:swipeLeftFingerDrag];
+    swipeLeftFingerDrag.enabled = false;
     
     UISwipeGestureRecognizer *swipeRightFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeRight:)];
     swipeRightFingerDrag.direction = UISwipeGestureRecognizerDirectionRight;
     [swipeRightFingerDrag setNumberOfTouchesRequired:1];
     [self.view addGestureRecognizer:swipeRightFingerDrag];
+    swipeRightFingerDrag.enabled = false;
     
     UISwipeGestureRecognizer *swipeUpFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeUp:)];
     swipeUpFingerDrag.direction = UISwipeGestureRecognizerDirectionUp;
     [swipeLeftFingerDrag setNumberOfTouchesRequired:1];
     [self.view addGestureRecognizer:swipeUpFingerDrag];
+    swipeUpFingerDrag.enabled = false;
     
     UISwipeGestureRecognizer *swipeDownFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeDown:)];
     swipeDownFingerDrag.direction = UISwipeGestureRecognizerDirectionDown;
     [swipeDownFingerDrag setNumberOfTouchesRequired:1];
     [self.view addGestureRecognizer:swipeDownFingerDrag];
+    swipeDownFingerDrag = false;
+    
 }
 
 -(BaseEffect *)GetShader

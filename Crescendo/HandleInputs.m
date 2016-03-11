@@ -19,20 +19,17 @@
     GLKVector3 _initialPosition;
     
     NSMutableArray *_moveBuffer;
-    
-    CGSize _view;
-    float _aspectRatio;
+
 }
 
 @end
 
 @implementation HandleInputs
 
-- (id)initWithGameViewSize:(CGSize)view
+- (id)init
 {
     if(self = [super init])
     {
-        _view = view;
         _moveBuffer = [NSMutableArray array];
         gridMovement = [GridMovement sharedClass];
     }
@@ -70,14 +67,19 @@
     
     NSNumber *numberDirection = [_moveBuffer peek];
     
+    // Checks the player movement buffer
     if (numberDirection == nil)
     {
         return;
     }
     
+    // Pop the movement stored
     if (!_isMoving)
-    numberDirection = [_moveBuffer dequeue];
+    {
+        numberDirection = [_moveBuffer dequeue];
+    }
     
+    // The direction the player should head in by the amount of quadrants
     if ([numberDirection longValue] == (long)MoveDirectionUp)
     {
         moveDirection = GLKVector2Make(0, 2);
@@ -95,7 +97,7 @@
         moveDirection = GLKVector2Make(-1, 0);
     }
     
-
+    // Updates the player's position
     if (!_isMoving)
     {
         _isMoving = true;
@@ -109,71 +111,25 @@
 {
     MessageView * topView = recognizer.view.subviews[0];
     
-    //hack code to get player moving TODO: Steven please fix!
-    CGPoint pointToMoveTo = [recognizer locationInView:recognizer.view];
-    
-    if([topView messageIsDisplayed] == YES){
+    if([topView messageIsDisplayed] == YES)
+    {
         [topView messageConfirmed];
         [PlaneContainer startGame];
-        pointToMoveTo = CGPointMake(recognizer.view.frame.size.width/2,recognizer.view.frame.size.width/2 - 20);
-    }
-    
-    if (!self.isMoving)
-    {
-        CGPoint location          = pointToMoveTo;
-//        GLKVector2 gridLocation   = [gridMovement gridLocation:GLKVector2Make(location.x, location.y)];
-        GLKVector2 gridLocation   = [gridMovement gridLocationWithGridQuadrant:GridQuadrantBottom];
-
-        //GLKVector3 translation    = [self Vector3D:gridLocation Width:recognizer.view.frame.size.width Height: recognizer.view.frame.size.height];
-        GLKVector3 playerLocation = player->worldPosition;
-
-        //translation = GLKVector3MultiplyScalar(translation, 5.0);
-        //translation = GLKVector3Multiply(translation, player->scale);
-        GLKVector3 translation    = GLKVector3Make(gridLocation.x, gridLocation.y, playerLocation.z);
-        _translation = GLKVector3Make(translation.x, translation.y, playerLocation.z);
-
+        
         _isMoving = true;
         
-        if (playerLocation.x == _translation.x && playerLocation.y == _translation.y)
+        GLKVector2 gridLocation   = [gridMovement gridLocationWithGridQuadrant:GridQuadrantBottom];
+        _translation = GLKVector3Make(gridLocation.x, gridLocation.y, player->worldPosition.z);
+        
+        // Enables all the swipe gestures once the title is gone
+        for (UIGestureRecognizer *gesture in recognizer.view.gestureRecognizers)
         {
-            _moveDirection = MoveDirectionNone;
-            _isMoving = false;
-        }
-        else
-        {
-            if (playerLocation.x == _translation.x && playerLocation.y < _translation.y)
+            if ([gesture isKindOfClass:[UISwipeGestureRecognizer class]])
             {
-                _moveDirection = MoveDirectionUp;
-            }
-            else if (playerLocation.x < _translation.x && playerLocation.y < _translation.y)
-            {
-                _moveDirection = MoveDirectionUpRight;
-            }
-            else if (playerLocation.x < _translation.x && playerLocation.y == _translation.y)
-            {
-                _moveDirection = MoveDirectionRight;
-            }
-            else if (playerLocation.x < _translation.x && playerLocation.y > _translation.y)
-            {
-                _moveDirection = MoveDirectionDownRight;
-            }
-            else if (playerLocation.x == _translation.x && playerLocation.y > _translation.y)
-            {
-                _moveDirection = MoveDirectionDown;
-            }
-            else if (playerLocation.x > _translation.x && playerLocation.y > _translation.y)
-            {
-                _moveDirection = MoveDirectionDownLeft;
-            }
-            else if (playerLocation.x > _translation.x && playerLocation.y == _translation.y)
-            {
-                _moveDirection = MoveDirectionLeft;
-            }
-            else if (playerLocation.x > _translation.x && playerLocation.y < _translation.y)
-            {
-                _moveDirection = MoveDirectionUpLeft;
+                gesture.enabled = true;
             }
         }
+        
         recognizer.enabled = false; // Disabling the tap recognizer after the title is gone
     }
 }
