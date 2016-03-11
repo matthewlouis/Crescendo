@@ -23,7 +23,7 @@ static bool gameStarted;
     self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
     if (self)
     {
-        self->m_SpawnDistance = -BAR_WIDTH * BARS_IN_SIGHT;
+        self->m_SpawnDistance = -BAR_WIDTH * BARS_IN_SIGHT + (BAR_WIDTH / 4);
         
         // Default Plane Velocity of 5 per seconds
         [self setSpawnBarVelocity:BAR_WIDTH / 2];

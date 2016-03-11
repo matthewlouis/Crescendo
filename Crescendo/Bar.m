@@ -22,7 +22,7 @@
     if (self)
     {
         float bpmPercentage = DEFAULT_BPM/bpm;
-        m_BarWidth = 40.0f * (bpmPercentage);
+        m_BarWidth = BAR_WIDTH * (bpmPercentage);
         worldPosition.z = position;
         
         self->m_Planes = [[NSMutableArray alloc] init];
