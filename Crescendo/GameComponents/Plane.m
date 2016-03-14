@@ -52,7 +52,7 @@
         
         self->m_LineThickness = thickness;
 
-        self->color = GLKVector4Make(0.1, 1.0, 0.1, 1);
+        self->color = GLKVector4Make(0.0, 0.0, 0.0, 1);
         
         [self updateLineWidth];
     }
