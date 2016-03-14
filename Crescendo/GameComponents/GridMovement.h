@@ -8,20 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <GLKit/GLKit.h>
+#import "Constants.h"   
 
 
-typedef NS_ENUM(NSInteger, GridQuadrant)
-{
-    GridQuadrantBottomLeft  = 1,
-    GridQuadrantBottom      = 2,
-    GridQuadrantBottomRight = 3,
-    GridQuadrantLeft        = 4,
-    GridQuadrantCenter      = 5,
-    GridQuadrantRight       = 6,
-    GridQuadrantTopLeft     = 7,
-    GridQuadrantTop         = 8,
-    GridQuadrantTopRight    = 9,
-};
 
 @interface GridMovement : NSObject
 

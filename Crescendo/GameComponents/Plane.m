@@ -17,7 +17,7 @@
 /**
  * Provides default parameter to generate empty planes (so we can start the game with no obstacles
  */
-- (id)initWithPosition:(float)positon soundObject:(InteractiveSoundObject *)soundObject withThickness:(float)thickness
+- (id)initWithPosition:(float)positon soundObject:(InteractiveSoundObject *)soundObject withThickness:(float)thickness soundQuadrant:(NSMutableArray *)soundQuadrants
 {
     const Vertex vertices[8] = {
     {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
@@ -53,6 +53,8 @@
         self->m_LineThickness = thickness;
 
         self->color = GLKVector4Make(0.1, 1.0, 0.1, 1);
+        
+        self->soundQuadrants = soundQuadrants;
         
         [self updateLineWidth];
     }
@@ -104,6 +106,14 @@
  */
 -(void)CreatePlaneObject:(InteractiveSoundObject *)soundObject
 {
+    int quadrant;
+    for(int i = 0 ; i < soundQuadrants.count; i++)
+    {
+        quadrant = [soundQuadrants[i] intValue];
+        [self CreateSoundPickupwithSoundObject:soundObject withQuadrant:quadrant];
+    }
+    /*
+        
     if ([self getRandomNumberBetween:-1 to:1] == 1)
     {
         // create new object
@@ -111,8 +121,8 @@
         PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject];
         
     
-        int row = [self getRandomNumberBetween:1 to:2]; // used to calculate row of object
-        int quadrant = [self getRandomNumberBetween:1 to:3]; // random quadrant between 1 and 3
+        int row = [self getRandomNumberBetween:1 to:GRID_ROWS]; // used to calculate row of object
+         quadrant = [self getRandomNumberBetween:1 to:GRID_COLS]; // random quadrant between 1 and 3
         
         // calculates quadrant on second row between 7-9.
         if(row == 2)
@@ -131,7 +141,25 @@
         // add new object to world
         [m_PlaneObjects enqueue: (newPlaneObject)];
         [self->children addObject:newPlaneObject];
-    }
+    }*/
+}
+
+-(void)CreateSoundPickupwithSoundObject:(InteractiveSoundObject *)soundObject withQuadrant:(int)quadrant
+{
+    // create new object
+    //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
+    PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject];
+    // bounding sphere for collision detection
+    newPlaneObject->boundingSphereRadius = 2;
+    
+    // gets position based on quadrant
+    GLKVector3 position = [_gridMovement getGridLocation:quadrant];
+    newPlaneObject->worldPosition.x = position.x;
+    newPlaneObject->worldPosition.y = position.y;
+    
+    // add new object to world
+    [m_PlaneObjects enqueue: (newPlaneObject)];
+    [self->children addObject:newPlaneObject];
 }
 
 -(int)getRandomNumberBetween:(int)from to:(int)to {

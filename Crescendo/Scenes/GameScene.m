@@ -51,7 +51,7 @@
         [self->children addObject:planeContainer];
         
         //debug to show where player collides with plane objects
-        Plane *collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil withThickness:4];
+        Plane *collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil withThickness:4 soundQuadrant:nil];
         [self->children addObject:collisionPlane];
 
         [planeContainer startMusic];

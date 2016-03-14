@@ -34,11 +34,12 @@
 @public float m_PlaneVelocity;
     
 @private GridMovement *_gridMovement;
+@private NSMutableArray *soundQuadrants;
 }
 
 - (void)move:(GLKVector3)amount;
 - (BOOL)checkCollision;
-- (id)initWithPosition:(float)positon soundObject: (InteractiveSoundObject *)soundObject withThickness:(float)thickness;
+- (id)initWithPosition:(float)positon soundObject: (InteractiveSoundObject *)soundObject withThickness:(float)thickness soundQuadrant:(NSMutableArray *)soundQuadrants;
 - (void)update:(float)TimePassed;
 //- (void)move:(GLKVector3)amount;
 //- (BOOL)checkCollision;
