@@ -35,6 +35,7 @@
     
 @private GridMovement *_gridMovement;
 @private NSMutableArray *soundQuadrants;
+@private NSMutableArray *availableQuadrants;
 }
 
 - (void)move:(GLKVector3)amount;

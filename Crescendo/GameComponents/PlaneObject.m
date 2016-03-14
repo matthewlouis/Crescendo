@@ -9,13 +9,15 @@
 #import "PlaneObject.h"
 #import "cube.h"
 #import "Crescendo-Swift.h"
-
+#import "Constants.h"
 #import "Plane.h"
 
 @implementation PlaneObject
 
-- (instancetype)initWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)sound{
-    if ((self = [super initWithName:"cube" shader:nil vertices:(Vertex*) cube_Vertices vertexCount:sizeof(cube_Vertices) / sizeof(cube_Vertices[0])])) {
+- (instancetype)initWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)sound objectType:(int)type{
+    self->type = type;
+    Vertex  *vertices = [self selectModelBasedOnObjectType];
+    if ((self = [super initWithName:"cube" shader:nil vertices:(Vertex*)cube_Vertices vertexCount:sizeof(cube_Vertices) / sizeof(cube_Vertices[0])])) {
         
         self->worldPosition = GLKVector3Make(0, 0, plane->worldPosition.z);
         //self->rotation = GLKVector3Make(-1.25, 3.14, 0);
@@ -36,7 +38,46 @@
 -(void)updatePositionBasedOnPlane:(Plane *) plane
 {
     worldPosition.z = plane->worldPosition.z;
+    //[self updateActionBasedOnObjectType];
 }
 
+-(Vertex *)selectModelBasedOnObjectType
+{
+    switch (type) {
+        case SoundPickup:
+            return cube_Vertices;
+            break;
+        case Collideable:
+            return cube_Vertices;
+            break;
+        case PowerPickup:
+            return cube_Vertices;
+            break;
+            
+        default:
+            break;
+    }
+    // default incase no return;
+    return cube_Vertices;
+    
+}
+
+-(void)updateActionBasedOnObjectType
+{
+    switch (type) {
+        case SoundPickup:
+            
+            break;
+        case Collideable:
+            
+            break;
+        case PowerPickup:
+            
+            break;
+            
+        default:
+            break;
+    }
+}
 
 @end

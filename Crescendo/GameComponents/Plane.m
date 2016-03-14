@@ -102,6 +102,20 @@
 }
 
 /*
+ * Populates a list of available quadrants based on a 2x3 grid. top and bottom, left center and right.
+ */
+-(void)PopulateAvailableQuadrants
+{
+    
+    [availableQuadrants addObject:@(GridQuadrantBottom)];
+    [availableQuadrants addObject:@(GridQuadrantBottomLeft)];
+    [availableQuadrants addObject:@(GridQuadrantBottomRight)];
+    [availableQuadrants addObject:@(GridQuadrantTop)];
+    [availableQuadrants addObject:@(GridQuadrantTopLeft)];
+    [availableQuadrants addObject:@(GridQuadrantTopRight)];
+}
+
+/*
  * Creates a plane and places it in the queue
  */
 -(void)CreatePlaneObject:(InteractiveSoundObject *)soundObject
@@ -111,44 +125,17 @@
     {
         quadrant = [soundQuadrants[i] intValue];
         [self CreateSoundPickupwithSoundObject:soundObject withQuadrant:quadrant];
+        [availableQuadrants removeObject:@(quadrant)];
+        
     }
-    /*
-        
-    if ([self getRandomNumberBetween:-1 to:1] == 1)
-    {
-        // create new object
-        //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
-        PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject];
-        
-    
-        int row = [self getRandomNumberBetween:1 to:GRID_ROWS]; // used to calculate row of object
-         quadrant = [self getRandomNumberBetween:1 to:GRID_COLS]; // random quadrant between 1 and 3
-        
-        // calculates quadrant on second row between 7-9.
-        if(row == 2)
-        {
-            quadrant += 6;
-        }
-        
-        // bounding sphere for collision detection
-        newPlaneObject->boundingSphereRadius = 2;
-        
-        // gets position based on quadrant
-        GLKVector3 position = [_gridMovement getGridLocation:quadrant];
-        newPlaneObject->worldPosition.x = position.x;
-        newPlaneObject->worldPosition.y = position.y;
-        
-        // add new object to world
-        [m_PlaneObjects enqueue: (newPlaneObject)];
-        [self->children addObject:newPlaneObject];
-    }*/
+
 }
 
 -(void)CreateSoundPickupwithSoundObject:(InteractiveSoundObject *)soundObject withQuadrant:(int)quadrant
 {
     // create new object
     //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
-    PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject];
+    PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject objectType:SoundPickup];
     // bounding sphere for collision detection
     newPlaneObject->boundingSphereRadius = 2;
     
@@ -160,6 +147,40 @@
     // add new object to world
     [m_PlaneObjects enqueue: (newPlaneObject)];
     [self->children addObject:newPlaneObject];
+}
+
+-(void)CreateCollideableObjectwithSoundObject:(InteractiveSoundObject *)soundObject
+{
+    int quadrant;
+    
+     if ([self getRandomNumberBetween:-1 to:1] == 1)
+     {
+         // create new object
+         //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
+         PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject objectType:Collideable];
+     
+     
+     int row = [self getRandomNumberBetween:1 to:GRID_ROWS]; // used to calculate row of object
+     quadrant = [self getRandomNumberBetween:1 to:GRID_COLS]; // random quadrant between 1 and 3
+     
+     // calculates quadrant on second row between 7-9.
+     if(row == 2)
+     {
+     quadrant += 6;
+     }
+     
+     // bounding sphere for collision detection
+     newPlaneObject->boundingSphereRadius = 2;
+     
+     // gets position based on quadrant
+     GLKVector3 position = [_gridMovement getGridLocation:quadrant];
+     newPlaneObject->worldPosition.x = position.x;
+     newPlaneObject->worldPosition.y = position.y;
+     
+     // add new object to world
+     [m_PlaneObjects enqueue: (newPlaneObject)];
+     [self->children addObject:newPlaneObject];
+     }
 }
 
 -(int)getRandomNumberBetween:(int)from to:(int)to {

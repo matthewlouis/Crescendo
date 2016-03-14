@@ -30,6 +30,13 @@ typedef NS_ENUM(NSInteger, GridQuadrant)
     GridQuadrantTopRight    = 9,
 };
 
+typedef NS_ENUM(NSInteger, ObjectType)
+{
+    SoundPickup             = 1,
+    Collideable             = 2,
+    PowerPickup             = 3,
+};
+
 
 // sound quadrant generation max number
 static int MAX_SOUND_QUADRANT = 2;
