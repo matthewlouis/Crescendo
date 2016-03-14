@@ -17,20 +17,20 @@
 /**
  * Provides default parameter to generate empty planes (so we can start the game with no obstacles
  */
-- (id)initWithPosition:(float)positon soundObject:(InteractiveSoundObject *)soundObject withThickness:(float)thickness
+- (id)initWithPosition:(float)positon soundObject:(InteractiveSoundObject *)soundObject withThickness:(float)thickness inColor:(GLKVector4)color
 {
     const Vertex vertices[8] = {
-    {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
-    {{-1, 1, 0}, {1, 1, 1, 1}, {0.167902, 0.904787}, {-0.809017, 0.587785, 0.000000}},
+    {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188},     {0, 0, 1}},
+    {{-1, 1, 0}, {1, 1, 1, 1}, {0.167902, 0.904787},    {0, 0, 1}},
+       
+    {{-1, 1, 0}, {1, 1, 1, 1}, {0.167902, 0.904787},    {0, 0, 1}},
+    {{-1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958},   {0, 0, 1}},
         
-    {{-1, 1, 0}, {1, 1, 1, 1}, {0.167902, 0.904787}, {-0.809017, 0.587785, 0.000000}},
-    {{-1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
+    {{-1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958},   {0, 0, 1}},
+    {{1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958},    {0, 0, 1}},
         
-    {{-1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
-    {{1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
-        
-    {{1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958}, {-0.809017, 0.587785, 0.000000}},
-    {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188}, {-0.809017, 0.587785, 0.000000}},
+    {{1, -1, 0}, {1, 1, 1, 1}, {0.170951, 0.594958},    {0, 0, 1}},
+    {{1, 1, 0}, {1, 1, 1, 1}, {0.206538, 0.909188},     {0, 0, 1}},
     };
     
     self = [super initWithName:"plane" shader:nil vertices:(Vertex*)vertices vertexCount:sizeof(vertices)/sizeof(Vertex)];
@@ -52,8 +52,9 @@
         
         self->m_LineThickness = thickness;
 
-        self->color = GLKVector4Make(0.1, 1.0, 0.1, 1);
+        self->_color = color;
         
+        [self resetColorState];
         [self updateLineWidth];
     }
     

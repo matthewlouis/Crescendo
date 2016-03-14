@@ -28,6 +28,8 @@
     
 @public Plane* nextPlane;
     
+@public GLKVector4 spawnColor;
+    
 @private TimeSignature m_TimeSignature;
 @private float m_TimePassed;
     
@@ -54,6 +56,9 @@
 +(void)startGame;
 -(void)startMusic;
 -(void)syncToBar;
+
+// Color methods
+- (void)fadeAllBarsTo:(GLKVector4)color In:(float)time;
 
 @end
 

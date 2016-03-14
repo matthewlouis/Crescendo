@@ -39,7 +39,7 @@ typedef enum color_states
 @public bool isCollidable;
     
 // Color variables
-@public GLKVector4 color;               // Current Color
+@public GLKVector4 _color;               // Current Color
 @public GLKVector4 previousColor;       // The color that was before operations
 @private GLKVector4 targetColor;        // The color to become in operations
 @private ColorStates m_ColorState;      // Current color operation being performed
@@ -65,5 +65,7 @@ typedef enum color_states
 // Color Changing Methods
 - (void)fadeToColor:(GLKVector4)color In:(float)timeToFade;
 - (void)strobeBetweenColor:(GLKVector4)firstColor And:(GLKVector4)secondColor Every:(float)timeBetweenFlashes For:(float)timeToStrobe;
+- (void)updateColor:(float)timePassed;
+- (void)resetColorState;
 
 @end
