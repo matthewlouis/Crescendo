@@ -112,13 +112,14 @@ static bool gameStarted;
 {
     timeAccumBeforeStart += timePassed;
     
-    if (timeAccumBeforeStart > 60)
+    if (timeAccumBeforeStart > TIME_BEFORE_SPEEDUP)
     {
         //Matt: test code to make the game go faster and faster: WORKS!
         totalTimePassed += timePassed;
-        if(totalTimePassed > 3){
+        if(totalTimePassed > SPEEDUP_INTERVAL){
             totalTimePassed = 1;
-            gameMusicPlayer.bpm *= 1.01;
+            gameMusicPlayer.bpm *= SPEEDUP_AMOUNT;
+            m_SpawnBarVelocity *= SPEEDUP_AMOUNT;
         }
 
     }

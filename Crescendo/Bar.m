@@ -21,8 +21,8 @@
     
     if (self)
     {
-        float bpmPercentage = DEFAULT_BPM/bpm;
-        m_BarWidth = BAR_WIDTH * (bpmPercentage);
+        //No longer scaling bars float bpmPercentage = DEFAULT_BPM/bpm;
+        m_BarWidth = BAR_WIDTH; // No longer scaling bars * (bpmPercentage);
         worldPosition.z = position;
         
         self->m_Planes = [[NSMutableArray alloc] init];

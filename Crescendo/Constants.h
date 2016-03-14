@@ -14,4 +14,9 @@ static float DEFAULT_BPM = 120.0f;
 static float BAR_WIDTH = 40.0f;
 static float BARS_IN_SIGHT = 2;
 
+// SPEEDUP CONSTANTS
+static float TIME_BEFORE_SPEEDUP = 60;
+static float SPEEDUP_INTERVAL = 3;
+static float SPEEDUP_AMOUNT = 1.01f;
+
 #endif /* Constants_h */
