@@ -140,4 +140,13 @@
     }
 }
 
+- (void)strobeAllPlanesBetweenColors:(GLKVector4)color1 And:(GLKVector4)color2 Every:(float)timeBetweenFlashes For:(float)timeLimit
+{
+    for (NSObject* o in m_Planes)
+    {
+        Plane* currentPlane = (Plane*)o;
+        [currentPlane strobeBetweenColor:color1 And:color2 Every:timeBetweenFlashes For:timeLimit];
+    }
+}
+
 @end

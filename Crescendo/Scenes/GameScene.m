@@ -88,18 +88,23 @@
             
             // Fade on collide
             /* Random color */
-            srand48(arc4random());  // Set seed for random
-            float r = drand48();
-            srand48(arc4random());
-            float g = drand48();
-            srand48(arc4random());
-            float b = drand48();
+            //srand48(arc4random());  // Set seed for random
+            //float r = drand48();
+            //srand48(arc4random());
+            //float g = drand48();
+            //srand48(arc4random());
+            //float b = drand48();
             
-            GLKVector4 newColor = GLKVector4Make(r, g, b, 1);
+            //GLKVector4 newColor = GLKVector4Make(r, g, b, 1);
             
             // Fade all bars and planes to random color. Spawn in new color
-            [planeContainer fadeAllBarsTo:newColor In:1.0f];
-            planeContainer->spawnColor = newColor;
+            //[planeContainer fadeAllBarsTo:newColor In:1.0f];
+            //planeContainer->spawnColor = newColor;
+            
+            GLKVector4 red = GLKVector4Make(1, 0, 0, 1);
+            GLKVector4 black = GLKVector4Make(0, 0, 0, 1);
+            
+            [planeContainer strobeAllBarsBetweenColors:red And:black Every:0.25f For:5.0];
         }
     }
     

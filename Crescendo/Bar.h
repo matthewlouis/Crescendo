@@ -42,6 +42,7 @@
 
 // Color methods
 - (void)fadeAllPlaneColorsTo:(GLKVector4)color In:(float)time;
+- (void)strobeAllPlanesBetweenColors:(GLKVector4)color1 And:(GLKVector4)color2 Every:(float)timeBetweenFlashes For:(float)timeLimit;
 
 @end
 

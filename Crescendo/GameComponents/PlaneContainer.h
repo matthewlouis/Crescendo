@@ -59,6 +59,7 @@
 
 // Color methods
 - (void)fadeAllBarsTo:(GLKVector4)color In:(float)time;
+- (void)strobeAllBarsBetweenColors:(GLKVector4)color1 And:(GLKVector4)color2 Every:(float)timeBetweenFlashes For:(float)timeLimit;
 
 @end
 

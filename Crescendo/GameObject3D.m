@@ -148,7 +148,20 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
 
 - (void)strobeBetweenColor:(GLKVector4)firstColor And:(GLKVector4)secondColor Every:(float)timeBetweenFlashes For:(float)timeToStrobe
 {
-    
+    if (m_ColorState == COLOR_STATIC)
+    {
+        strobeColor1 = firstColor;
+        strobeColor2 = secondColor;
+        
+        colorTimePassed = 0;
+        colorTimeLimit = timeToStrobe;
+        colorTimeStrobePassed = 0;
+        colorTimeStrobeLimit = timeBetweenFlashes;
+        
+        _color = strobeColor1;
+        
+        m_ColorState = COLOR_STROBE;
+    }
 }
 
 - (void)updateColor:(float)timePassed
@@ -176,6 +189,32 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
             break;
             
         case COLOR_STROBE:
+            colorTimePassed += timePassed;
+            colorTimeStrobePassed += timePassed;
+            
+            if (colorTimePassed < colorTimeLimit)
+            {
+                if (colorTimeStrobePassed > colorTimeStrobeLimit)
+                {
+                    colorTimeStrobePassed = 0;
+                    
+                    if (GLKVector4AllEqualToVector4(_color, strobeColor1))
+                    {
+                        _color = strobeColor2;
+                    }
+                    else
+                    {
+                        _color = strobeColor1;
+                    }
+
+                }
+            }
+            else
+            {
+                _color = previousColor;
+                [self resetColorState];
+            }
+            
             break;
     }
 }
@@ -186,6 +225,7 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
     colorTimePassed = 0;
     colorTimeStrobePassed = 0;
     colorTimeLimit = 0;
+    colorTimeStrobeLimit = 0;
     m_ColorState = COLOR_STATIC;
 
 }
