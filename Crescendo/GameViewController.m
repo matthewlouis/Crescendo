@@ -223,6 +223,11 @@ enum
     [self.view addGestureRecognizer:swipeDownFingerDrag];
     swipeDownFingerDrag = false;
     
+    UIPanGestureRecognizer *swipePan = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipes:)];
+    [swipePan setMaximumNumberOfTouches:1];
+    [swipePan setMinimumNumberOfTouches:1];
+    [self.view addGestureRecognizer:swipePan];
+
 }
 
 -(BaseEffect *)GetShader

@@ -14,7 +14,6 @@
 
 @interface Player ()
 {
-    float _playerSpeed;
     float _rotateDefault;
     float _rotateAmount;
 }
@@ -25,8 +24,8 @@
 
 - (instancetype)init {
     if ((self = [super initWithName:"player" shader:nil vertices:(Vertex*) player_Vertices vertexCount:sizeof(player_Vertices) / sizeof(player_Vertices[0])])) {
-        _playerSpeed = 30.0f;
-        _timeToAnimate = 0.8f;
+        _playerSpeed = 1.0f;
+        _timeToAnimate = 1.0f;
         _rotateAmount = 1.0f;
         //[self loadTexture:@"mushroom.png"];
         //self.rotationY = M_PI;
@@ -45,60 +44,55 @@
 
 - (bool)moveTo:(GLKVector3)moveToPosition
 {
-    if (_timeElapsed / _timeToAnimate > 1.0f)
+    float animationSpeed = _timeElapsed * _playerSpeed;
+    
+    if (animationSpeed > _timeToAnimate)
     {
-        NSLog(@"What is this:");
-        
-        self->worldPosition = [self lerpStartVector:_startPosition withEndVector:moveToPosition lerpDistance:1.0f];
+        // When the animation is done
+        self->worldPosition = moveToPosition;
         
         if (roundf(100 * _startPosition.x) / 100 != roundf(100 * moveToPosition.x) / 100)
         {
             if (_startPosition.x < moveToPosition.x)
             {
-                self->rotation.y = [self lerp:_startRotation.y withEndValue:_startRotation.y - _rotateAmount lerpDistance:1.0f];
+                // Rotation when moving right
+                self->rotation.y = _startRotation.y - _rotateAmount;
             }
             else if (_startPosition.x > moveToPosition.x)
             {
-                self->rotation.y = [self lerp:_startRotation.y withEndValue:_startRotation.y + _rotateAmount lerpDistance:1.0f];
+                // Rotation when move left
+                self->rotation.y = _startRotation.y + _rotateAmount;
             }
         }
+        
         _startPosition = self->worldPosition;
         _startRotation = self->rotation;
         _timeElapsed = 0;
+        
         return false;
     }
     else
     {
-        NSLog(@"Time[%f]: %f", _timeElapsed/_timeToAnimate, QuinticEaseIn(_timeElapsed/_timeToAnimate, 1, _startPosition.x - moveToPosition.x));
-        //self->worldPosition = [self lerpStartVector:_startPosition withEndVector:moveToPosition lerpDistance:_timeElapsed/ _timeToAnimate];
-        self->worldPosition.x = _startPosition.x - CubicEaseInOut(_timeElapsed/_timeToAnimate, 1, _startPosition.x - moveToPosition.x);
+        // Animating
+        self->worldPosition.x = _startPosition.x - CubicEaseInOut(animationSpeed / _timeToAnimate, 1, _startPosition.x - moveToPosition.x);
+        self->worldPosition.y = _startPosition.y - CubicEaseInOut(animationSpeed / _timeToAnimate, 1, _startPosition.y - moveToPosition.y);
         if (roundf(100 * _startPosition.x) / 100 != roundf(100 * moveToPosition.x) / 100)
         {
+            
             if (_startPosition.x < moveToPosition.x)
             {
-                self->rotation.y = [self lerp:_startRotation.y withEndValue:_startRotation.y - _rotateAmount lerpDistance:_timeElapsed/ _timeToAnimate];
+                // Rotation when moving right
+                self->rotation.y = _startRotation.y - SinusoidalEaseInOut(animationSpeed / _timeToAnimate, 1, _rotateAmount);
             }
             else
             {
-                self->rotation.y = [self lerp:_startRotation.y withEndValue:_startRotation.y + _rotateAmount lerpDistance:_timeElapsed/ _timeToAnimate];
+                // Rotation when move left
+                self->rotation.y = _startRotation.y + SinusoidalEaseInOut(animationSpeed / _timeToAnimate, 1, _rotateAmount);
             }
         }
+        
         return true;
     }
 }
-
-- (GLKVector3)lerpStartVector:(GLKVector3)startVector withEndVector:(GLKVector3)endVector lerpDistance:(float)percentage
-{
-    GLKVector3 result = GLKVector3Subtract(endVector, startVector);
-    result = GLKVector3MultiplyScalar(result, percentage);
-    result = GLKVector3Add(startVector, result);
-    return result;
-}
-
-- (float)lerp:(float)startValue withEndValue:(float)endValue lerpDistance:(float)percentage
-{
-    return startValue + (endValue - startValue) * percentage;
-}
-
 
 @end

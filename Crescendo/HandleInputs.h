@@ -14,6 +14,7 @@
 #import "Player.h"
 #import "Crescendo-Swift.h"//
 #import "NSMutableArray+Queue.h"
+#import <math.h>
 
 typedef NS_ENUM(NSInteger, MoveDirection)
 {
@@ -68,6 +69,11 @@ typedef NS_ENUM(NSInteger, MoveDirection)
  * @param recognizer The recognizer passed in by GameViewController
  */
 - (void)handleSwipeDown:(UISwipeGestureRecognizer *)recognizer;
+
+/*!
+ * @discussion Handles the swipes in 8 directions
+ */
+- (void)handleSwipes:(UIPanGestureRecognizer *)recognizer;
 
 /*!
  * @discussion Updates the player movement if there is any movements in the movement buffer
