@@ -43,6 +43,9 @@ static bool gameStarted;
         self->buildBar = false;
         
         timeAccumBeforeStart = 0.0f;
+        
+        // Set default spawn color
+        self->spawnColor = GLKVector4Make(0, 0, 0, 1);
     }
     
     return self;
@@ -74,9 +77,9 @@ static bool gameStarted;
     Bar * newBar;
     //get musical info from soundeffectcontroller and remove it from the queue
     if(gameStarted){
-        newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance atBPM: gameMusicPlayer.bpm usingMusicBar: soundEffectController._musicBars[0]];
+        newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance atBPM: gameMusicPlayer.bpm usingMusicBar: soundEffectController._musicBars[0] inColor:spawnColor];
     }else{
-        newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance atBPM: gameMusicPlayer.bpm usingMusicBar: nil];
+        newBar = [[Bar alloc]initWithPosition:self->m_SpawnDistance atBPM: gameMusicPlayer.bpm usingMusicBar: nil inColor:spawnColor];
     }
     [soundEffectController removeSection];
     
@@ -229,6 +232,13 @@ static bool gameStarted;
 -(void)pauseMusic{
     [gameMusicPlayer pause];
 }
+- (void)fadeAllBarsTo:(GLKVector4)color In:(float)time
+{
+    for (Bar* bar in m_Bars)
+    {
+        [bar fadeAllPlaneColorsTo:color In:time];
+    }
+}
 
 /*
  * Resume audio
@@ -237,5 +247,13 @@ static bool gameStarted;
     [gameMusicPlayer resume];
 }
 
+
+- (void)strobeAllBarsBetweenColors:(GLKVector4)color1 And:(GLKVector4)color2 Every:(float)timeBetweenFlashes For:(float)timeLimit
+{
+    for (Bar* bar in m_Bars)
+    {
+        [bar strobeAllPlanesBetweenColors:color1 And:color2 Every:timeBetweenFlashes For:timeLimit];
+    }
+}
 
 @end
