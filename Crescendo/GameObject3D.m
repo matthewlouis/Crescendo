@@ -120,9 +120,6 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
                            (self->worldPosition.y - object->worldPosition.y) * (self->worldPosition.y - object->worldPosition.y) +
                            (self->worldPosition.z - object->worldPosition.z) * (self->worldPosition.z - object->worldPosition.z)
                            );
-
-    printf("\n%f", distance);
-
     
     //use radius to check for intersection of spheres
     if(distance <= object->boundingSphereRadius + self->boundingSphereRadius){

@@ -25,7 +25,7 @@ class MusicBar:NSObject{
      */
     func getSoundObject(position: Float)->InteractiveSoundObject?{
         for(var i = 0; i < events.count; ++i){
-            if(events[i]._position == Double(position)){
+            if(events[i]._position == position){
                 return events[i]
             }
         }

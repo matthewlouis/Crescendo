@@ -178,7 +178,7 @@ enum
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     [_shader render:_scene];
     
@@ -195,7 +195,7 @@ enum
 
 - (void)initializeClasses
 {
-    self.handleInput = [[HandleInputs alloc] initWithGameViewSize:self.view.frame.size];
+    self.handleInput = [[HandleInputs alloc] init];
 }
 
 - (void)createGestures
@@ -207,21 +207,31 @@ enum
     swipeLeftFingerDrag.direction = UISwipeGestureRecognizerDirectionLeft;
     [swipeLeftFingerDrag setNumberOfTouchesRequired:1];
     [self.view addGestureRecognizer:swipeLeftFingerDrag];
+    swipeLeftFingerDrag.enabled = false;
     
     UISwipeGestureRecognizer *swipeRightFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeRight:)];
     swipeRightFingerDrag.direction = UISwipeGestureRecognizerDirectionRight;
     [swipeRightFingerDrag setNumberOfTouchesRequired:1];
     [self.view addGestureRecognizer:swipeRightFingerDrag];
+    swipeRightFingerDrag.enabled = false;
     
     UISwipeGestureRecognizer *swipeUpFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeUp:)];
     swipeUpFingerDrag.direction = UISwipeGestureRecognizerDirectionUp;
     [swipeLeftFingerDrag setNumberOfTouchesRequired:1];
     [self.view addGestureRecognizer:swipeUpFingerDrag];
+    swipeUpFingerDrag.enabled = false;
     
     UISwipeGestureRecognizer *swipeDownFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeDown:)];
     swipeDownFingerDrag.direction = UISwipeGestureRecognizerDirectionDown;
     [swipeDownFingerDrag setNumberOfTouchesRequired:1];
     [self.view addGestureRecognizer:swipeDownFingerDrag];
+    swipeDownFingerDrag = false;
+    
+    UIPanGestureRecognizer *swipePan = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipes:)];
+    [swipePan setMaximumNumberOfTouches:1];
+    [swipePan setMinimumNumberOfTouches:1];
+    [self.view addGestureRecognizer:swipePan];
+
 }
 
 -(BaseEffect *)GetShader
