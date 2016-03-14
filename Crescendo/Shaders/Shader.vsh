@@ -17,13 +17,27 @@ uniform vec4 color;
 
 void main()
 {
+    vec4 transformedPosition = modelViewProjectionMatrix * position;
+    
     vec3 eyeNormal = normalize(normalMatrix * normal);
     vec3 lightPosition = vec3(0.0, 1.0, 1.0);
     vec4 diffuseColor = vec4(1.0, 0.1, 0.2, 1);
     
     float nDotVP = max(0.0, dot(eyeNormal, normalize(lightPosition)));
-                 
-    colorVarying = color * nDotVP;
     
-    gl_Position = modelViewProjectionMatrix * position;
+    // Fog
+    float opaqueness = 1.0;
+    float fogLength = 10.0;
+    float fogStartZ = 60.0;
+    float distance = transformedPosition.z - fogStartZ;
+    if (distance > 0.0)
+    {
+        opaqueness = (fogLength - distance) / fogLength;
+        opaqueness = clamp(opaqueness, 0.0, 1.0);
+    }
+    
+    colorVarying = color * nDotVP;
+    colorVarying.w = opaqueness;
+    
+    gl_Position = transformedPosition; //modelViewProjectionMatrix *  position;
 }

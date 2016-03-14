@@ -18,4 +18,9 @@ static float BARS_IN_SIGHT = 2;
 //Music player constants
 static int   DRUM_TRACK = 3;
 
+// SPEEDUP CONSTANTS
+static float TIME_BEFORE_SPEEDUP = 60;
+static float SPEEDUP_INTERVAL = 3;
+static float SPEEDUP_AMOUNT = 1.01f;
+
 #endif /* Constants_h */

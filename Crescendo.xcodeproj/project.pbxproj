@@ -42,6 +42,7 @@
 		34C445951C77B34C00654AD4 /* SoundEffectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C445931C77B34C00654AD4 /* SoundEffectController.swift */; };
 		4801BF4F1C6D99F3001784B7 /* Transformations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF4E1C6D99F3001784B7 /* Transformations.m */; };
 		4801BF521C6DBB09001784B7 /* GridMovement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4801BF511C6DBB09001784B7 /* GridMovement.m */; };
+		4812A2FF1C9369D100C7B58A /* Easing.m in Sources */ = {isa = PBXBuildFile; fileRef = 4812A2FE1C9369D100C7B58A /* Easing.m */; };
 		485974581C6E6391003FBC7C /* HandleInputs.m in Sources */ = {isa = PBXBuildFile; fileRef = 485974571C6E6391003FBC7C /* HandleInputs.m */; };
 		920721AA1C6E58A200C929CB /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 920721A91C6E58A200C929CB /* Player.m */; };
 		920721BB1C6E7B7A00C929CB /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 920721B91C6E7B7A00C929CB /* Shader.fsh */; };
@@ -114,6 +115,8 @@
 		4801BF4E1C6D99F3001784B7 /* Transformations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Transformations.m; path = Utilities/Transformations.m; sourceTree = "<group>"; };
 		4801BF501C6DBB09001784B7 /* GridMovement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GridMovement.h; path = GameComponents/GridMovement.h; sourceTree = "<group>"; };
 		4801BF511C6DBB09001784B7 /* GridMovement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GridMovement.m; path = GameComponents/GridMovement.m; sourceTree = "<group>"; };
+		4812A2FE1C9369D100C7B58A /* Easing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Easing.m; sourceTree = "<group>"; };
+		4812A3001C936A3200C7B58A /* Easing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Easing.h; sourceTree = "<group>"; };
 		485974571C6E6391003FBC7C /* HandleInputs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HandleInputs.m; sourceTree = "<group>"; };
 		485974591C6E63B7003FBC7C /* HandleInputs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HandleInputs.h; sourceTree = "<group>"; };
 		920721A81C6E58A200C929CB /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = GameComponents/Player.h; sourceTree = "<group>"; };
@@ -228,6 +231,8 @@
 				03A0C82A1C499B4C004213DB /* NSMutableArray+Queue.h */,
 				03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */,
 				D7A2DC301C78F37000B802C4 /* Constants.h */,
+				4812A2FE1C9369D100C7B58A /* Easing.m */,
+				4812A3001C936A3200C7B58A /* Easing.h */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -436,6 +441,7 @@
 			files = (
 				348326E61C779328003C22AC /* GameMusicPlayer.swift in Sources */,
 				D7A2DC321C791BF500B802C4 /* MusicBar.swift in Sources */,
+				4812A2FF1C9369D100C7B58A /* Easing.m in Sources */,
 				920721BF1C6E7BAD00C929CB /* BaseEffect.m in Sources */,
 				03A0C8041C498C7D004213DB /* AppDelegate.m in Sources */,
 				34C445941C77B34C00654AD4 /* InteractiveSoundObject.swift in Sources */,
