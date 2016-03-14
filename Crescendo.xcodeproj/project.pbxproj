@@ -46,7 +46,6 @@
 		920721BF1C6E7BAD00C929CB /* BaseEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 920721BE1C6E7BAD00C929CB /* BaseEffect.m */; };
 		920721CC1C6E865600C929CB /* FragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 920721CB1C6E865600C929CB /* FragmentShader.glsl */; };
 		920721CE1C6E868600C929CB /* VertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 920721CD1C6E868600C929CB /* VertexShader.glsl */; };
-		927B9A8D1C778B0D005E3B67 /* ._.DS_Store in Resources */ = {isa = PBXBuildFile; fileRef = 927B9A8A1C778B0D005E3B67 /* ._.DS_Store */; };
 		92EBA11A1C6FAD1900993E0F /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 92EBA1191C6FAD1900993E0F /* GameScene.m */; };
 		D73542141C77BFE200274735 /* Bar.m in Sources */ = {isa = PBXBuildFile; fileRef = D73542131C77BFE200274735 /* Bar.m */; };
 		D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = D75068371C6D9971001FBCFD /* GameObject3D.m */; };
@@ -374,7 +373,7 @@
 				TargetAttributes = {
 					03A0C7FB1C498C7C004213DB = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = PWD9N9B99E;
+						DevelopmentTeam = Z7KQWKL5VF;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -411,7 +410,6 @@
 				340FB3781C629E9000F4A3AC /* Songs in Resources */,
 				03A0C80E1C498C7D004213DB /* Main.storyboard in Resources */,
 				34A9DD1C1C78F91200A8CC7A /* Fonts in Resources */,
-				927B9A8D1C778B0D005E3B67 /* ._.DS_Store in Resources */,
 				920721BC1C6E7B7A00C929CB /* Shader.vsh in Resources */,
 				920721CC1C6E865600C929CB /* FragmentShader.glsl in Resources */,
 				920721CE1C6E868600C929CB /* VertexShader.glsl in Resources */,
@@ -584,7 +582,7 @@
 				INFOPLIST_FILE = Crescendo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ca.bcit.Crescendo;
+				PRODUCT_BUNDLE_IDENTIFIER = ca.bcit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
@@ -609,7 +607,7 @@
 				INFOPLIST_FILE = Crescendo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = ca.bcit.Crescendo;
+				PRODUCT_BUNDLE_IDENTIFIER = ca.bcit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = YES;

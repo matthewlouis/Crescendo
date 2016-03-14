@@ -12,6 +12,8 @@
 #import "PlaneContainer.h"
 #import "HandleInputs.h"
 
+#import "Plane.h"
+
 
 
 @implementation GameScene{
@@ -22,9 +24,13 @@
     
     float _sceneOffset;
     float _playerSpeed;
+    
+    Plane *collisionPlane;
+    int i;
 }
 
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput {
+    i = 0;
     
     if ((self = [super initWithName:"GameScene" shader:shader vertices:nil vertexCount:0])) {
         
@@ -45,8 +51,7 @@
         [self->children addObject:planeContainer];
         
         //debug to show where player collides with plane objects
-        Plane *collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil];
-        collisionPlane->lineWidth = 4;
+        Plane *collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil withThickness:4];
         [self->children addObject:collisionPlane];
 
         [planeContainer startMusic];
@@ -71,6 +76,35 @@
     }
     
     [planeContainer update:timePassed];
+    
+    [self checkForPlayerCollisions];
+}
+
+-(void)checkForPlayerCollisions{
+    for (PlaneObject *planeObject in planeContainer->nextPlane->m_PlaneObjects) {
+        if ([_player checkCollision:planeObject]){
+            [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
+            [planeContainer->nextPlane->children removeObject:planeObject]; //remove object
+        }
+    }
+    /*Bar *bar = planeContainer->m_Bars[0];
+    for (Plane *cPlane in bar->m_Planes) {
+        for (PlaneObject *planeObject in cPlane->m_PlaneObjects) {
+            if ([_player checkCollision:planeObject]){
+                [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
+                [cPlane->children removeObject:planeObject]; //remove object
+            }
+        }
+    }*/
+}
+- (void)CleanUp
+{
+    [self CleanUp];
+    
+    for (GameObject3D* o in children)
+    {
+        [o CleanUp];
+    }
 }
 
 

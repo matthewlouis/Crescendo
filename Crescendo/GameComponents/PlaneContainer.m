@@ -8,10 +8,10 @@
 
 #import "PlaneContainer.h"
 #import "Crescendo-Swift.h"
+#import "Constants.h"
 
 @implementation PlaneContainer
 {
-    @private SoundEffectController *soundEffectController;
     float totalTimePassed;
     float timeAccumBeforeStart;
 }
@@ -23,10 +23,10 @@ static bool gameStarted;
     self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
     if (self)
     {
-        self->m_SpawnDistance = -80.0f;
+        self->m_SpawnDistance = -BAR_WIDTH * BARS_IN_SIGHT + (BAR_WIDTH / 4);
         
         // Default Plane Velocity of 5 per seconds
-        [self setSpawnBarVelocity:20.0f];
+        [self setSpawnBarVelocity:BAR_WIDTH / 2];
     
         //Instantiate Music Player
         gameMusicPlayer = [[GameMusicPlayer alloc] initWithTempoListener:self];
@@ -80,7 +80,7 @@ static bool gameStarted;
     }
     [soundEffectController removeSection];
     
-    //newBar->worldPosition.z = self->m_SpawnDistance;
+    newBar->worldPosition.z = self->m_SpawnDistance;
     newBar->m_Velocity = self->m_SpawnBarVelocity;
     [newBar updatePlanePositions];
     [m_Bars enqueue:newBar];
@@ -112,19 +112,20 @@ static bool gameStarted;
 {
     timeAccumBeforeStart += timePassed;
     
-    if (timeAccumBeforeStart > 60)
+    if (timeAccumBeforeStart > TIME_BEFORE_SPEEDUP)
     {
         //Matt: test code to make the game go faster and faster: WORKS!
         totalTimePassed += timePassed;
-        if(totalTimePassed > 3){
+        if(totalTimePassed > SPEEDUP_INTERVAL){
             totalTimePassed = 1;
-            gameMusicPlayer.bpm *= 1.01;
+            gameMusicPlayer.bpm *= SPEEDUP_AMOUNT;
+            m_SpawnBarVelocity *= SPEEDUP_AMOUNT;
         }
 
     }
     
     if(timePassed)
-    // Update all planes
+    // Update all Bars
     for (NSObject* o in m_Bars)
     {
         Bar* currentBar = (Bar*)o;
@@ -136,7 +137,7 @@ static bool gameStarted;
     {
         Bar* nextBar = ((Bar*)[m_Bars peek]);
         
-        if (nextBar->worldPosition.z > 40)
+        if (nextBar->worldPosition.z > nextBar->m_BarWidth)
         {
             [self->children removeObject:(Bar*)[m_Bars peek]];
             [nextBar CleanUp];	
@@ -154,6 +155,8 @@ static bool gameStarted;
         [self CreateBar];
         buildBar = false;
     }
+    
+    [self findNextPlane];
 }
 
 /*
@@ -176,6 +179,29 @@ static bool gameStarted;
         }
     }
      */
+}
+
+- (void)findNextPlane
+{
+    bool done = false;
+    
+    // Iterate through all bars
+    for (Bar* bar in m_Bars)
+    {
+        for (Plane* plane in bar->m_Planes)
+        {
+            if (plane->worldPosition.z < 0)
+            {
+                nextPlane = plane;
+                done = true;
+                break;
+            }
+        }
+        if (done)
+        {
+            break;
+        }
+    }
 }
 
 /**

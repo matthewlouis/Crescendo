@@ -150,9 +150,13 @@ enum
     glDeleteBuffers(1, &_vertexBuffer);
     glDeleteVertexArraysOES(1, &_vertexArray);
     
+    [_scene CleanUp];
+    
     if (_shader) {
         [_shader tearDown];
     }
+    
+    [EAGLContext setCurrentContext:nil];
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods
@@ -167,14 +171,14 @@ enum
 {
     // Rendering Code for Jarred
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     
     glBindVertexArrayOES(_vertexArray);
     
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     [_shader render:_scene];
     
