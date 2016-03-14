@@ -162,7 +162,6 @@ static bool gameStarted;
  * Acts as a sort of "Tap Tempo" mechanism. When called, creates a plane in time with the music
  */
 -(void)syncToBar{
-    //printf("start of bar!\n");
     self->buildBar = true;
     /*
     NSArray<MusicBar*> *barbar = soundEffectController._musicBars;

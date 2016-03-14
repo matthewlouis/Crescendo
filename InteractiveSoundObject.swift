@@ -18,14 +18,18 @@ enum ObjectType{
 class InteractiveSoundObject:NSObject{
     
     var _type:ObjectType
-    var _track:Int, _note:Int, _duration:Int, _position:Double
+    var _track:Int, _note:Int, _duration:Float, _position:Float
     
-    init(type: ObjectType = .OBSTACLE, track: Int = 16, note: Int, duration: Int, position: Double){
+    init(type: ObjectType = .OBSTACLE, track: Int = 16, note: Int, duration: Float, position: Float){
         self._type = type
         _track = track
         _note = note
         _position = position
         _duration = duration
         super.init()
+    }
+    
+    override var description : String {
+        return String(format: "ISO - note: %d, position: %f, duration: %f", _note, _position, _duration)
     }
 }

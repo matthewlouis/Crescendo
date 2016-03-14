@@ -14,4 +14,8 @@ static float DEFAULT_BPM = 120.0f;
 static float BAR_WIDTH = 40.0f;
 static float BARS_IN_SIGHT = 2;
 
+
+//Music player constants
+static int   DRUM_TRACK = 3;
+
 #endif /* Constants_h */

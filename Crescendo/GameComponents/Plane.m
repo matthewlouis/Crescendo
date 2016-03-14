@@ -104,8 +104,6 @@
  */
 -(void)CreatePlaneObject:(InteractiveSoundObject *)soundObject
 {
-    if ([self getRandomNumberBetween:-1 to:1] == 1)
-    {
         // create new object
         //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
         PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject];
@@ -131,7 +129,6 @@
         // add new object to world
         [m_PlaneObjects enqueue: (newPlaneObject)];
         [self->children addObject:newPlaneObject];
-    }
 }
 
 -(int)getRandomNumberBetween:(int)from to:(int)to {

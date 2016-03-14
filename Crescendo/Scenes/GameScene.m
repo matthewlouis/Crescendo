@@ -109,13 +109,11 @@
 
 //for pausing game when home button hit
 - (void) pauseScene{
-    printf("\npause");
     [planeContainer pauseMusic];
 }
 
 //for resuming game when app reopended
 - (void) resumeScene{
-    printf("\nresume");
     [planeContainer resumeMusic];
 }
 
