@@ -16,8 +16,45 @@
 
 - (instancetype)initWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)sound objectType:(int)type{
     self->type = type;
-    Vertex  *vertices = [self selectModelBasedOnObjectType];
-    if ((self = [super initWithName:"cube" shader:nil vertices:(Vertex*)cube_Vertices vertexCount:sizeof(cube_Vertices) / sizeof(cube_Vertices[0])])) {
+    switch (type) {
+        case SoundPickup:
+            if ((self = [super initWithName:"soundCube" shader:nil vertices:(Vertex*)cube_Vertices vertexCount:sizeof(cube_Vertices) / sizeof(cube_Vertices[0])])) {
+                
+                self->worldPosition = GLKVector3Make(0, 0, plane->worldPosition.z);
+                //self->rotation = GLKVector3Make(-1.25, 3.14, 0);
+                self->scale = GLKVector3Make(0.75, 0.75, 0.75);
+                
+                // Specify Drawing Mode
+                renderMode = GL_TRIANGLES;
+                
+                self->soundObject = sound;
+                self->color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
+            }
+            break;
+            
+        default:
+            if ((self = [super initWithName:"cube" shader:nil vertices:(Vertex*)cube_Vertices vertexCount:sizeof(cube_Vertices) / sizeof(cube_Vertices[0])])) {
+                
+                self->worldPosition = GLKVector3Make(0, 0, plane->worldPosition.z);
+                //self->rotation = GLKVector3Make(-1.25, 3.14, 0);
+                self->scale = GLKVector3Make(0.75, 0.75, 0.75);
+                
+                // Specify Drawing Mode
+                renderMode = GL_TRIANGLES;
+                
+                self->soundObject = sound;
+                self->color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
+            }
+            break;
+    }
+   
+
+    return self;
+}
+
+- (instancetype)initGlassCollidableWithPlane:(Plane*)plane{
+    self->type = Collideable;
+    if ((self = [super initWithName:"glassCollideable" shader:nil vertices:(Vertex*)cube_Vertices vertexCount:sizeof(cube_Vertices) / sizeof(cube_Vertices[0])])) {
         
         self->worldPosition = GLKVector3Make(0, 0, plane->worldPosition.z);
         //self->rotation = GLKVector3Make(-1.25, 3.14, 0);
@@ -26,9 +63,9 @@
         // Specify Drawing Mode
         renderMode = GL_TRIANGLES;
         
-        self->soundObject = sound;
         self->color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
     }
+    
     return self;
 }
 
@@ -41,26 +78,6 @@
     //[self updateActionBasedOnObjectType];
 }
 
--(Vertex *)selectModelBasedOnObjectType
-{
-    switch (type) {
-        case SoundPickup:
-            return cube_Vertices;
-            break;
-        case Collideable:
-            return cube_Vertices;
-            break;
-        case PowerPickup:
-            return cube_Vertices;
-            break;
-            
-        default:
-            break;
-    }
-    // default incase no return;
-    return cube_Vertices;
-    
-}
 
 -(void)updateActionBasedOnObjectType
 {

@@ -153,7 +153,7 @@
 {
     int quadrant;
     
-     if ([self getRandomNumberBetween:-1 to:1] == 1)
+     if ([self getRandomNumberBetween:-1 to:1] == 1) 
      {
          // create new object
          //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
