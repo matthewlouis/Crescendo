@@ -7,8 +7,12 @@
 //
 
 #import "AppDelegate.h"
+#import "GameViewController.h"
+#import "GameScene.h"
 
-@interface AppDelegate ()
+@interface AppDelegate (){
+    id lastViewController;
+}
 
 @end
 
@@ -17,8 +21,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCurrentViewController:) name:@"CurrentViewController" object:nil];
+    
     return YES;
 }
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -28,10 +37,19 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    printf("\napplication entered background");
+    GameViewController *vc = lastViewController;
+    [vc.scene pauseScene];
+    exit(0);
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    printf("\napplication entered foreground");
+    
+    GameViewController *vc = lastViewController;
+    [vc.scene resumeScene];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -40,6 +58,24 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+-(BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
+{
+    return YES;
+}
+
+-(BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
+{
+    return YES;
+}
+
+
+//updates the current view controller to reference the controller on top
+- (void)handleCurrentViewController:(NSNotification *)notification {
+    if([[notification userInfo] objectForKey:@"lastViewController"]) {
+        lastViewController = [[notification userInfo] objectForKey:@"lastViewController"];
+    }
 }
 
 @end

@@ -15,7 +15,7 @@
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput;
 
 - (void) updateWithDeltaTime:(float)timePassed;
-
-
+- (void) pauseScene;
+- (void) resumeScene;
 
 @end

@@ -51,8 +51,8 @@
         [self->children addObject:planeContainer];
         
         //debug to show where player collides with plane objects
-        Plane *collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil withThickness:4];
-        [self->children addObject:collisionPlane];
+        Plane *cPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil withThickness:4];
+        [self->children addObject:cPlane];
 
         [planeContainer startMusic];
     }
@@ -105,6 +105,18 @@
     {
         [o CleanUp];
     }
+}
+
+//for pausing game when home button hit
+- (void) pauseScene{
+    printf("\npause");
+    [planeContainer pauseMusic];
+}
+
+//for resuming game when app reopended
+- (void) resumeScene{
+    printf("\nresume");
+    [planeContainer resumeMusic];
 }
 
 

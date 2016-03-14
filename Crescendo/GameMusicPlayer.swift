@@ -54,7 +54,7 @@ class GameMusicPlayer : NSObject{
     //Original tempo for starting the music
     let DEFAULT_BPM:Float = 120
     
-    public var bpm:Float{
+    internal var bpm:Float{
         didSet{
             sequencer!.setRate(bpm/DEFAULT_BPM)
         }
@@ -82,6 +82,13 @@ class GameMusicPlayer : NSObject{
         self.bpm = DEFAULT_BPM
         tk = TempoKeeper(listener:tempoListener)
         super.init()
+    }
+    
+    //cleanup code
+    deinit {
+        sequencer?.stop()
+        AudioKit.stop()
+        GameMusicPlayer.theInstance = nil
     }
     
     //loads audiokit and settings, will be turned into loadSong
@@ -369,6 +376,17 @@ class GameMusicPlayer : NSObject{
         }
     }
     
+    //stop music
+    func pause(){
+        sequencer?.stop()
+        AudioKit.stop()
+    }
+    
+    func resume(){
+        AudioKit.start()
+        sequencer?.play()
+    }
+    
     
     /********************** PRIVATE FUNCTIONS *******************/
      
@@ -383,4 +401,6 @@ class GameMusicPlayer : NSObject{
         }
         toTrack.volume!.gain = gainLevel
     }
+    
+    
 }
