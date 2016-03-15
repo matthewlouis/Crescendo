@@ -22,6 +22,9 @@ class SoundEffectController: NSObject{
     static let BAR_RESOLUTION:Float = 4
     static let DEFAULT_STEP:Float = 1/BAR_RESOLUTION
     
+    //keeps track of how many bars we've generated
+    var barsGenerated:Int = 0
+    
     var _musicSequences:[MusicNoteSequence]
     
     var isMinorScale = true
@@ -65,6 +68,8 @@ class SoundEffectController: NSObject{
             barOfMusic.events.append(soundObject)
         }
         
+        barsGenerated += sequence.seqLengthBars
+        
         /*
         //generate random note in scale
         for (var i:Int = 0; i < numSteps; i++){
@@ -88,6 +93,7 @@ class SoundEffectController: NSObject{
     func removeSection(){
         if(_musicBars.count > 0){
             _musicBars.removeFirst()
+            --barsGenerated
         }
     }
     

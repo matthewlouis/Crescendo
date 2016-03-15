@@ -69,7 +69,9 @@ static bool gameStarted;
     float step = SoundEffectController.DEFAULT_STEP;
     float barLength = SoundEffectController.SEQ_LENGTH;
     
-    [soundEffectController generateAndAddSection:step barLength:barLength];
+    if(soundEffectController.barsGenerated == 0){
+        [soundEffectController generateAndAddSection:step barLength:barLength];
+    }
     
     Bar * newBar;
     //get musical info from soundeffectcontroller and remove it from the queue
