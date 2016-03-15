@@ -225,19 +225,5 @@ static bool gameStarted;
     [self CreateBar];
 }
 
-/*
- * Pause audio
- */
--(void)pauseMusic{
-    [gameMusicPlayer pause];
-}
-
-/*
- * Resume audio
- */
--(void)resumeMusic{
-    [gameMusicPlayer resume];
-}
-
 
 @end

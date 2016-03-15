@@ -53,8 +53,6 @@
 
 +(void)startGame;
 -(void)startMusic;
--(void)pauseMusic;
--(void)resumeMusic;
 -(void)syncToBar;
 
 @end

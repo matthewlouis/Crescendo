@@ -19,9 +19,12 @@
 @interface PlaneObject : GameObject3D
 {
     @public InteractiveSoundObject *soundObject;
+@private int type;
+@private Vertex *vertices;
+    
 }
 
-- (instancetype)initWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)soundObject;
+- (instancetype)initWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)soundObject objectType:(int)objectType;
 -(void)updatePositionBasedOnPlane:(Plane *) plane;
 
 @end

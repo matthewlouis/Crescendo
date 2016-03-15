@@ -31,7 +31,6 @@ class MessageView: SCNView {
         sceneSetup()
     }
     
-    
     @objc func sceneSetup() {
         // 1
         let scene = SCNScene()
@@ -58,8 +57,7 @@ class MessageView: SCNView {
         
         self.autoenablesDefaultLighting = true
         self.backgroundColor = UIColor.clearColor()
-    }
-    
+}
     
     func messageConfirmed(){
         SCNTransaction.begin()

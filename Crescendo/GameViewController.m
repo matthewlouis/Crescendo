@@ -37,6 +37,7 @@ enum
     PlaneContainer *planeContainer;
     
     BaseEffect *_shader;
+    GameScene *_scene;
     GLKMatrix4 projectionMatrix;
 }
 @property (strong, nonatomic) EAGLContext *context;
@@ -82,8 +83,6 @@ enum
     
     // Create the game scene
     [self setupScene];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"CurrentViewController" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self, @"lastViewController", nil]];
 }
 
 - (void)dealloc
@@ -93,7 +92,6 @@ enum
     if ([EAGLContext currentContext] == self.context) {
         [EAGLContext setCurrentContext:nil];
     }
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -240,6 +238,5 @@ enum
 {
     return _shader;
 }
-
 
 @end

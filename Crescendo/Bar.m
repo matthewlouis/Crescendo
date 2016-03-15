@@ -27,6 +27,11 @@
         
         self->m_Planes = [[NSMutableArray alloc] init];
         
+        // generate sound quadrants for this bar. i.e. sound pickup to fall in these quadrants
+        self->_quadrants = [[NSMutableArray alloc]init];
+        [self GenerateSoundQuadrants];
+        
+        
         [self GeneratePlanes: musicBar];
         [self updatePlanePositions];
     }
@@ -66,11 +71,35 @@
 }
 
 /*
+ * Generates sound quadrants to be used in bar, will be used to populate the quadrant with sound pickups
+ */
+-(void)GenerateSoundQuadrants
+{
+    int numberOfQuadrantsToGenerate = [self getRandomNumberBetween:0 to:MAX_SOUND_QUADRANT];
+    int row;
+    int quadrant;
+    
+    for(int i = 0; i < numberOfQuadrantsToGenerate; i++)
+    {
+        row = [self getRandomNumberBetween:1 to:GRID_ROWS]; // used to calculate row of object
+        quadrant = [self getRandomNumberBetween:1 to:GRID_COLS]; // random quadrant between 1 and 3
+        
+        // calculates quadrant on second row between 7-9.
+        if(row == 2)
+        {
+            quadrant += 6;
+        }
+        
+        [_quadrants addObject:@(quadrant)];
+    }
+}
+
+/*
  * Creates a plane and places it in the queue
  */
 -(void)CreatePlane:(float)zOffset withSoundObject:(InteractiveSoundObject *)soundObject withThickness:(float)thickness
 {
-    Plane* newPlane = [[Plane alloc]initWithPosition:worldPosition.z + zOffset soundObject:soundObject withThickness:thickness];
+    Plane* newPlane = [[Plane alloc]initWithPosition:worldPosition.z + zOffset soundObject:soundObject withThickness:thickness soundQuadrant:_quadrants];
     newPlane->m_LocalZOffset = zOffset;
     newPlane->m_Velocity = 0;
     [m_Planes enqueue: (newPlane)];
@@ -129,6 +158,12 @@
         Plane* currentPlane = (Plane*)o;
         currentPlane->worldPosition.z = self->worldPosition.z + currentPlane->m_LocalZOffset;
     }
+}
+
+// return a random number from to
+-(int)getRandomNumberBetween:(int)from to:(int)to {
+    
+    return (int)from + arc4random() % (to-from+1);
 }
 
 @end
