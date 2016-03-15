@@ -226,12 +226,6 @@ static bool gameStarted;
     [self CreateBar];
 }
 
-/*
- * Pause audio
- */
--(void)pauseMusic{
-    [gameMusicPlayer pause];
-}
 - (void)fadeAllBarsTo:(GLKVector4)color In:(float)time
 {
     for (Bar* bar in m_Bars)
@@ -239,14 +233,6 @@ static bool gameStarted;
         [bar fadeAllPlaneColorsTo:color In:time];
     }
 }
-
-/*
- * Resume audio
- */
--(void)resumeMusic{
-    [gameMusicPlayer resume];
-}
-
 
 - (void)strobeAllBarsBetweenColors:(GLKVector4)color1 And:(GLKVector4)color2 Every:(float)timeBetweenFlashes For:(float)timeLimit
 {

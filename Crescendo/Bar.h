@@ -19,6 +19,7 @@
 @interface Bar : GameObject3D
 {
 @public NSMutableArray *m_Planes;
+@private NSMutableArray *_quadrants;
 @public float m_BPM;
 @public float m_BarWidth;
 @public float m_Velocity;
