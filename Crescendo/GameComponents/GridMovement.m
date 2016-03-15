@@ -101,17 +101,17 @@
     if (moveDirection.y < 0)
     {
         // DownLeft
-        if (moveDirection.x < 0 && (_playerQuadrant % 3 != 1) && _playerQuadrant > GridQuadrantBottomRight)
+        if (moveDirection.x < 0 && (_playerQuadrant % (int)_gridCount.y != 1) && _playerQuadrant > GridQuadrantBottomRight)
         {
-            _playerQuadrant += (int)moveDirection.y * 3;
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
             _playerQuadrant--;
             return cellArray[_playerQuadrant];
         }
         
         // DownRight
-        if (moveDirection.x > 0 && (_playerQuadrant % 3 != 0) && _playerQuadrant > GridQuadrantBottomRight)
+        if (moveDirection.x > 0 && (_playerQuadrant % (int)_gridCount.y != 0) && _playerQuadrant > GridQuadrantBottomRight)
         {
-            _playerQuadrant += (int)moveDirection.y * 3;
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
             _playerQuadrant++;
             return cellArray[_playerQuadrant];
         }
@@ -119,24 +119,24 @@
         // Down
         if (_playerQuadrant > GridQuadrantBottomRight)
         {
-            _playerQuadrant += (int)moveDirection.y * 3;
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
             return cellArray[_playerQuadrant];
         }
     }
     else if (moveDirection.y > 0)
     {
         // UpLeft
-        if (moveDirection.x < 0 && (_playerQuadrant % 3 != 1) && _playerQuadrant < GridQuadrantTopLeft)
+        if (moveDirection.x < 0 && (_playerQuadrant % (int)_gridCount.y != 1) && _playerQuadrant < GridQuadrantTopLeft)
         {
-            _playerQuadrant += (int)moveDirection.y * 3;
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
             _playerQuadrant--;
             return cellArray[_playerQuadrant];
         }
         
         // UpRight
-        if (moveDirection.x > 0 && (_playerQuadrant % 3 != 0) && _playerQuadrant < GridQuadrantTopLeft)
+        if (moveDirection.x > 0 && (_playerQuadrant % (int)_gridCount.y != 0) && _playerQuadrant < GridQuadrantTopLeft)
         {
-            _playerQuadrant += (int)moveDirection.y * 3;
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
             _playerQuadrant++;
             return cellArray[_playerQuadrant];
         }
@@ -144,14 +144,14 @@
         // Up
         if (_playerQuadrant < GridQuadrantTopLeft)
         {
-            _playerQuadrant += (int)moveDirection.y * 3;
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
             return cellArray[_playerQuadrant];
         }
     }
     else
     {
         // Left
-        if (moveDirection.x < 0 && (_playerQuadrant % 3 != 1))
+        if (moveDirection.x < 0 && (_playerQuadrant % (int)_gridCount.y != 1))
         {
             _playerQuadrant--;
             return cellArray[_playerQuadrant];

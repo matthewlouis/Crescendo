@@ -8,13 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <GLKit/GLKit.h>
-#import "Transformations.h"
 #import "GridMovement.h"
 #import "GameViewController.h"
 #import "Player.h"
 #import "Crescendo-Swift.h"//
 #import "NSMutableArray+Queue.h"
-#import <math.h>
 
 typedef NS_ENUM(NSInteger, MoveDirection)
 {
@@ -47,31 +45,7 @@ typedef NS_ENUM(NSInteger, MoveDirection)
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer;
 
 /*!
- * @discussion Handles the swipe left gesture for placing the player at set coordinates
- * @param recognizer The recognizer passed in by GameViewController
- */
-- (void)handleSwipeLeft:(UISwipeGestureRecognizer *)recognizer;
-
-/*!
- * @discussion Handles the swipe up gesture for placing the player at set coordinates
- * @param recognizer The recognizer passed in by GameViewController
- */
-- (void)handleSwipeUp:(UISwipeGestureRecognizer *)recognizer;
-
-/*!
- * @discussion Handles the swipe right gesture for placing the player at set coordinates
- * @param recognizer The recognizer passed in by GameViewController
- */
-- (void)handleSwipeRight:(UISwipeGestureRecognizer *)recognizer;
-
-/*!
- * @discussion Handles the swipe down gesture for placing the player at set coordinates
- * @param recognizer The recognizer passed in by GameViewController
- */
-- (void)handleSwipeDown:(UISwipeGestureRecognizer *)recognizer;
-
-/*!
- * @discussion Handles the swipes in 8 directions
+ * @discussion Handles a swiping motion in 8 directions with a threshold of some velocity
  */
 - (void)handleSwipes:(UIPanGestureRecognizer *)recognizer;
 
