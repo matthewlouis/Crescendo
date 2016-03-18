@@ -181,7 +181,7 @@
     // The direction the player should head in by the amount of quadrants
     if ([numberDirection longValue] == (long)MoveDirectionUp)
     {
-        moveDirection = GLKVector2Make(0, 2);
+        moveDirection = GLKVector2Make(0, 1);
     }
     else if ([numberDirection longValue] == (long)MoveDirectionRight)
     {
@@ -189,7 +189,7 @@
     }
     else if ([numberDirection longValue] == (long)MoveDirectionDown)
     {
-        moveDirection = GLKVector2Make(0, -2);
+        moveDirection = GLKVector2Make(0, -1);
     }
     else if ([numberDirection longValue] == (long)MoveDirectionLeft)
     {
@@ -197,25 +197,25 @@
     }
     else if ([numberDirection longValue] == (long)MoveDirectionUpRight)
     {
-        moveDirection = GLKVector2Make(1, 2);
+        moveDirection = GLKVector2Make(1, 1);
     }
     else if ([numberDirection longValue] == (long)MoveDirectionUpLeft)
     {
-        moveDirection = GLKVector2Make(-1, 2);
+        moveDirection = GLKVector2Make(-1, 1);
     }
     else if ([numberDirection longValue] == (long)MoveDirectionDownRight)
     {
-        moveDirection = GLKVector2Make(1, -2);
+        moveDirection = GLKVector2Make(1, -1);
     }
     else if ([numberDirection longValue] == (long)MoveDirectionDownLeft)
     {
-        moveDirection = GLKVector2Make(-1, -2);
+        moveDirection = GLKVector2Make(-1, -1);
     }
     
     // Updates the player's position
     if (!_isMoving)
     {
-        GLKVector2 gridLocation = [gridMovement gridLocationWithMoveDirection:moveDirection];
+        GLKVector2 gridLocation = [gridMovement grid2x2LocationWithMoveDirection:moveDirection];
         
         if (gridLocation.x == player->worldPosition.x && gridLocation.y == player->worldPosition.y)
         {
@@ -241,7 +241,7 @@
         
         _isMoving = true;
         
-        GLKVector2 gridLocation   = [gridMovement gridLocationWithGridQuadrant:GridQuadrantBottom];
+        GLKVector2 gridLocation   = [gridMovement gridLocationWithGridQuadrant:Grid2x2QuadrantBottomRight];
         _translation = GLKVector3Make(gridLocation.x, gridLocation.y, player->worldPosition.z);
         
         // Enables all the swipe gestures once the title is gone
