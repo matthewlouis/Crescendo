@@ -51,7 +51,7 @@ struct Track{
 
 
 class GameMusicPlayer : NSObject{
-    static var theInstance:GameMusicPlayer?
+    static var i = 1;
     
     //Original tempo for starting the music
     let DEFAULT_BPM:Float = 120
@@ -61,7 +61,7 @@ class GameMusicPlayer : NSObject{
             sequencer!.setRate(bpm/DEFAULT_BPM)
         }
     }
-    var drumTracker:AKFrequencyTracker?
+    var drumTracker:AKAmplitudeTracker?
     var sequencer:AKSequencer?
     var mixer = AKMixer()
     
@@ -75,11 +75,11 @@ class GameMusicPlayer : NSObject{
     var tk:TempoKeeper
     
     init(tempoListener: PlaneContainer){
+        print("\nMusicPlayer Created: %d", GameMusicPlayer.i++)
         currentMidiLoop = "Songs/testTimeCode";
         self.bpm = DEFAULT_BPM
         tk = TempoKeeper(listener:tempoListener)
         super.init()
-        GameMusicPlayer.theInstance = self
     }
     
     init(withMidiLoopFileName tempoListener: PlaneContainer, midiLoopFileName: NSString){
@@ -87,23 +87,18 @@ class GameMusicPlayer : NSObject{
         self.bpm = DEFAULT_BPM
         tk = TempoKeeper(listener:tempoListener)
         super.init()
-        GameMusicPlayer.theInstance = self
     }
     
     //loads audiokit and settings, will be turned into loadSong
     func load(){
-        drumTracker = AKFrequencyTracker(mixer, minimumFrequency: 10, maximumFrequency: 1000)
-        drumTracker!.start()
-        
         AudioKit.output = mixer
         AudioKit.start()
         sequencer = AKSequencer(filename: currentMidiLoop, engine: AudioKit.engine)
         sequencer?.setBPM(bpm)
         
-        
-        
-        
         loadSampler(3, fileName: "Sounds/Sampler Instruments/Drums", sampleFormat: SampleFormat.EXS24)
+        
+        AudioKit.stop()
         
         let drumsfx1 = addFX(3, fxType: .COMPRESSOR) as! AKCompressor
         drumsfx1.releaseTime = 1
@@ -124,7 +119,6 @@ class GameMusicPlayer : NSObject{
         pianofx2.dryWetMix = 0.5
         let pianofx3 = addFX(1, fxType: .COMPRESSOR) as! AKCompressor
         pianofx3.masterGain = 9
-        
         
         let bass = loadPolySynth(7, instrumentType: .ANALOGX, voiceCount: 2) as! CoreInstrument
         bass.releaseDuration = 0.05
@@ -177,6 +171,9 @@ class GameMusicPlayer : NSObject{
         cuefx3.masterGain = 12
         
         
+        
+        AudioKit.start()
+        drumTracker = addFX(3, fxType: .AMPLITUDE_TRACKER) as! AKAmplitudeTracker
         tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
         sequencer!.avTracks[sequencer!.avTracks.capacity-1].destinationMIDIEndpoint = tk.midiIn
         
@@ -184,6 +181,7 @@ class GameMusicPlayer : NSObject{
         AudioKit.stop()
         let vol = AKBooster(tk)
         mixer.connect(vol)
+        
         
         
         //connects all tracks to mixer at default gain level
@@ -201,6 +199,7 @@ class GameMusicPlayer : NSObject{
         
         tracks[4]?.volume?.gain = 0.1
         tracks[1]?.volume?.gain = 0.3
+        
         
         AudioKit.output = masterComp
         
@@ -399,5 +398,9 @@ class GameMusicPlayer : NSObject{
             toTrack.volume = AKBooster(toTrack.instrument)
         }
         toTrack.volume!.gain = gainLevel
+    }
+    
+    func getAmp()->Double{
+        return drumTracker!.amplitude
     }
 }
