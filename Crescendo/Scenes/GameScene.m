@@ -128,4 +128,10 @@
     }
 }
 
+//Used to get the planeContainer's reference to the music player
+-(GameMusicPlayer *)getGlobalMusicPlayer{
+    return planeContainer->gameMusicPlayer;
+}
+
+
 @end

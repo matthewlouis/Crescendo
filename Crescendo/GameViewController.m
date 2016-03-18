@@ -32,13 +32,12 @@ enum
     
     GLuint _vertexArray;
     GLuint _vertexBuffer;
-        
-    // Plane Container
-    PlaneContainer *planeContainer;
     
     BaseEffect *_shader;
     GameScene *_scene;
     GLKMatrix4 projectionMatrix;
+    
+    GameMusicPlayer *_musicPlayer;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -62,10 +61,6 @@ enum
     
     [self.messageView sceneSetup];
     
-    // Initialize plane container
-    planeContainer = [[PlaneContainer alloc] init];
-    
-    
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
     [self initializeClasses];
@@ -83,6 +78,9 @@ enum
     
     // Create the game scene
     [self setupScene];
+    
+    //get musicplayer (must be called after planeContainer init
+    _musicPlayer = [_scene getGlobalMusicPlayer];
 }
 
 - (void)dealloc
@@ -165,6 +163,7 @@ enum
 {
     // Update Scene
     [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
+    printf("\n%f", [_musicPlayer getAmp]);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
