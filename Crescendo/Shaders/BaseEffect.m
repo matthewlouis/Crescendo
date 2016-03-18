@@ -82,6 +82,7 @@
     uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX] = glGetUniformLocation(_program, "modelViewProjectionMatrix");
     uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
     uniforms[UNIFORM_COLOR] = glGetUniformLocation(_program, "color");
+    uniforms[UNIFORM_ISPLANE] = glGetUniformLocation(_program, "isPlane");
     
     // Fail Case: Release vertex and fragment shaders.
     if (vertShader) {
@@ -192,7 +193,7 @@
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
     glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
-    glUniform4fv(uniforms[UNIFORM_COLOR], 1, gameObject3D->color.v);
+    glUniform4fv(uniforms[UNIFORM_COLOR], 1, gameObject3D->_color.v);
     
     glBindVertexArrayOES(gameObject3D->vao);
     
@@ -200,21 +201,26 @@
     switch (gameObject3D->renderMode)
     {
         case GL_TRIANGLES:
+            glUniform1i(uniforms[UNIFORM_ISPLANE], false);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
         case GL_LINES:
+            glUniform1i(uniforms[UNIFORM_ISPLANE], true);
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
         case GL_LINE_LOOP:
+            glUniform1i(uniforms[UNIFORM_ISPLANE], true);
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
         case GL_LINE_STRIP:
+            glUniform1i(uniforms[UNIFORM_ISPLANE], true);
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
         case GL_POINTS:
+            glUniform1i(uniforms[UNIFORM_ISPLANE], false);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
     }

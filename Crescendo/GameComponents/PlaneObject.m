@@ -30,7 +30,7 @@
                 renderMode = GL_TRIANGLES;
                 
                 self->soundObject = sound;
-                self->color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
+                self->_color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
             }
             break;
             
@@ -45,7 +45,7 @@
                 renderMode = GL_TRIANGLES;
                 
                 self->soundObject = sound;
-                self->color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
+                self->_color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
             }
             break;
     }
@@ -66,9 +66,8 @@
         renderMode = GL_TRIANGLES;
         
         self->soundObject = sound;
-        self->color = GLKVector4Make(0.7f, 0.3f, 0.3f, 1);
+        self->_color = GLKVector4Make(0.7f, 0.3f, 0.3f, 1);
     }
-    
     return self;
 }
 
@@ -84,9 +83,8 @@
         renderMode = GL_TRIANGLES;
         
         self->soundObject = sound;
-        self->color = GLKVector4Make(0.3f, 0.7f, 0.7f, 1);
-    }
-    
+        self->_color = GLKVector4Make(0.3f, 0.7f, 0.7f, 1);
+    }  
     return self;
 }
 

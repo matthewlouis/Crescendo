@@ -14,6 +14,7 @@ varying lowp vec4 colorVarying;
 uniform mat4 modelViewProjectionMatrix;
 uniform mat3 normalMatrix;
 uniform vec4 color;
+uniform bool isPlane;
 
 void main()
 {
@@ -21,7 +22,7 @@ void main()
     
     vec3 eyeNormal = normalize(normalMatrix * normal);
     vec3 lightPosition = vec3(0.0, 1.0, 1.0);
-    vec4 diffuseColor = vec4(1.0, 0.1, 0.2, 1);
+    //vec4 diffuseColor = vec4(1.0, 0.1, 0.2, 1);
     
     float nDotVP = max(0.0, dot(eyeNormal, normalize(lightPosition)));
     
@@ -36,7 +37,15 @@ void main()
         opaqueness = clamp(opaqueness, 0.0, 1.0);
     }
     
-    colorVarying = color * nDotVP;
+    if (isPlane)
+    {
+        colorVarying = color;
+    }
+    else
+    {
+        colorVarying = color * nDotVP;
+    }
+
     colorVarying.w = opaqueness;
     
     gl_Position = transformedPosition; //modelViewProjectionMatrix *  position;

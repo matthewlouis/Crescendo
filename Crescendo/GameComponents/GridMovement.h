@@ -33,6 +33,12 @@
 - (void)calculateCellsCenter;
 
 /*!
+ * @discussion Returns the world position based on the 2x2 quadrant specified with a z value of 0
+ * @param quadrant One of the 4 available quadrants
+ */
+- (GLKVector3)getGrid2x2Location:(Grid2x2Quadrant)quadrant;
+
+/*!
  * @discussion Returns the world position based on the quadrant specified with a z value of 0
  * @param quadrant One of the 9 available quadrants
  */
@@ -50,10 +56,24 @@
 - (GLKVector2)gridLocation:(GLKVector2)screenLocation;
 
 /*!
+ * @discussion Returns the 2x2 quadrant's world location based on which direction to move in and by how much
+ * @param moveDirection Direction the object should move in eg. (-1, 1) for Left and Up movement
+ * @warning moveDirection value should not be greater than 1
+ */
+- (GLKVector2)grid2x2LocationWithMoveDirection:(GLKVector2)moveDirection;
+
+/*!
  * @discussion Returns the quadrant's world location based on which direction to move in and by how much
- * @param moveDirection Direction the object should move in, one argument must be 0
+ * @param moveDirection Direction the object should move in eg. (-1, 1) for Left and Up movement
+ * @warning moveDirection should not be greater than 2
  */
 - (GLKVector2)gridLocationWithMoveDirection:(GLKVector2)moveDirection;
+
+/*!
+ * @discussion Returns the 2x2 quadrant's world location based on the quadrant specified
+ * @param quadrant One of the set 2x2 quadrant locations defined
+ */
+- (GLKVector2)gridLocationWithGrid2x2Quadrant:(Grid2x2Quadrant)quadrant;
 
 /*!
  * @discussion Returns the quadrant's world location based on the quadrant specified
