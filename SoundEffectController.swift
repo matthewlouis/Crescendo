@@ -60,6 +60,7 @@ class SoundEffectController: NSObject{
         barOfMusic = MusicBar(length: SoundEffectController.SEQ_LENGTH)
         let numSteps = Int(SoundEffectController.SEQ_LENGTH/stepSize)
         
+        /*
         
         let index = arc4random_uniform(UInt32(_musicSequences.count))
         var sequence = _musicSequences[Int(index)]
@@ -74,9 +75,9 @@ class SoundEffectController: NSObject{
         for(var j = 0; j < barsToGenerate; j += sequence.seqLengthBars){
             _musicBars.append(barOfMusic)
         }
-        barsGenerated += barsToGenerate
+        barsGenerated += barsToGenerate*/
+
         
-        /*
         //generate random note in scale
         for (var i:Int = 0; i < numSteps; i++){
             if(random(1,100) < difficultyScale ){
@@ -89,9 +90,13 @@ class SoundEffectController: NSObject{
                     octaveOffset = Int(maybe() * maybe() * Float(octaveOffset)) + 24;
                 }
                 let noteToAdd = SoundEffectController.ROOT_NOTE + scale[Int(scaleOffset)] + octaveOffset
-                barOfMusic.events.append(InteractiveSoundObject(note: noteToAdd, duration: 1, position: step))
+                barOfMusic.events.append(InteractiveSoundObject(note: noteToAdd, duration: 1, position: Float(step)))
             }
-        }*/
+        }
+        for(var j:Float = 0.0; j < Float(barsToGenerate); j += barLength){
+            _musicBars.append(barOfMusic)
+        }
+        barsGenerated += barsToGenerate
     }
     
     func removeSection(){

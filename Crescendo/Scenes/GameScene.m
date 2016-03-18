@@ -27,6 +27,8 @@
     
     Plane *collisionPlane;
     int i;
+    int previousHighScore;
+    int highScore;
 }
 
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput {
@@ -84,6 +86,7 @@
     for (PlaneObject *planeObject in planeContainer->nextPlane->m_PlaneObjects) {
         if ([_player checkCollision:planeObject]){
             [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
+            ++highScore;
             [planeContainer->nextPlane->children removeObject:planeObject]; //remove object
         }
     }
