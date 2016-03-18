@@ -39,6 +39,8 @@ enum
     BaseEffect *_shader;
     GameScene *_scene;
     GLKMatrix4 projectionMatrix;
+    
+    GameMusicPlayer *_musicPlayer;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -64,7 +66,9 @@ enum
     
     // Initialize plane container
     planeContainer = [[PlaneContainer alloc] init];
-    
+    //get musicplayer (must be called after planeContainer init
+    _musicPlayer = [GameMusicPlayer theInstance];
+    [_musicPlayer.drumTracker start];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -165,6 +169,7 @@ enum
 {
     // Update Scene
     [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
+    printf("\n%f", _musicPlayer.drumTracker.amplitude);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect

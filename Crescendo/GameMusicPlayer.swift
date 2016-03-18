@@ -23,6 +23,7 @@ enum FXType {
     case BITCRUSH
     case COMPRESSOR
     case FATTEN
+    case AMPLITUDE_TRACKER
 }
 
 enum InstrumentType{
@@ -60,8 +61,10 @@ class GameMusicPlayer : NSObject{
             sequencer!.setRate(bpm/DEFAULT_BPM)
         }
     }
+    var drumTracker:AKFrequencyTracker?
     var sequencer:AKSequencer?
     var mixer = AKMixer()
+    
     
     //Allots for 16 tracks, with a 1-based index
     var tracks = [Track?](count: 17, repeatedValue:nil)
@@ -76,6 +79,7 @@ class GameMusicPlayer : NSObject{
         self.bpm = DEFAULT_BPM
         tk = TempoKeeper(listener:tempoListener)
         super.init()
+        GameMusicPlayer.theInstance = self
     }
     
     init(withMidiLoopFileName tempoListener: PlaneContainer, midiLoopFileName: NSString){
@@ -83,14 +87,20 @@ class GameMusicPlayer : NSObject{
         self.bpm = DEFAULT_BPM
         tk = TempoKeeper(listener:tempoListener)
         super.init()
+        GameMusicPlayer.theInstance = self
     }
     
     //loads audiokit and settings, will be turned into loadSong
     func load(){
+        drumTracker = AKFrequencyTracker(mixer, minimumFrequency: 10, maximumFrequency: 1000)
+        drumTracker!.start()
+        
         AudioKit.output = mixer
         AudioKit.start()
         sequencer = AKSequencer(filename: currentMidiLoop, engine: AudioKit.engine)
         sequencer?.setBPM(bpm)
+        
+        
         
         
         loadSampler(3, fileName: "Sounds/Sampler Instruments/Drums", sampleFormat: SampleFormat.EXS24)
@@ -104,6 +114,7 @@ class GameMusicPlayer : NSObject{
         let drumsfx2 = addFX(3, fxType: .BITCRUSH) as! AKBitCrusher
         drumsfx2.bitDepth = 8
         
+        
         loadSampler(1, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24)
         let pianofx1 = addFX(1, fxType: .FATTEN) as! Fatten
         pianofx1.time = 0.05
@@ -113,6 +124,7 @@ class GameMusicPlayer : NSObject{
         pianofx2.dryWetMix = 0.5
         let pianofx3 = addFX(1, fxType: .COMPRESSOR) as! AKCompressor
         pianofx3.masterGain = 9
+        
         
         let bass = loadPolySynth(7, instrumentType: .ANALOGX, voiceCount: 2) as! CoreInstrument
         bass.releaseDuration = 0.05
@@ -172,6 +184,7 @@ class GameMusicPlayer : NSObject{
         AudioKit.stop()
         let vol = AKBooster(tk)
         mixer.connect(vol)
+        
         
         //connects all tracks to mixer at default gain level
         for var index = 1; index < tracks.count; ++index {
@@ -316,6 +329,9 @@ class GameMusicPlayer : NSObject{
             break
         case .FATTEN:
             tracks[intoTrackNumber]!.fx.append(Fatten(lastNodeInChain))
+            break
+        case .AMPLITUDE_TRACKER:
+            tracks[intoTrackNumber]!.fx.append(AKAmplitudeTracker(lastNodeInChain))
             break
         }
         
