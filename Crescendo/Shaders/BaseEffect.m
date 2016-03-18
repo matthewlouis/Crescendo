@@ -83,6 +83,7 @@
     uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
     uniforms[UNIFORM_COLOR] = glGetUniformLocation(_program, "color");
     uniforms[UNIFORM_ISPLANE] = glGetUniformLocation(_program, "isPlane");
+    uniforms[UNIFORM_AMPLITUDE] = glGetUniformLocation(_program, "amplitude");
     
     // Fail Case: Release vertex and fragment shaders.
     if (vertShader) {
@@ -206,16 +207,19 @@
             break;
         case GL_LINES:
             glUniform1i(uniforms[UNIFORM_ISPLANE], true);
+            glUniform1f(uniforms[UNIFORM_AMPLITUDE], amplitude);
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
         case GL_LINE_LOOP:
             glUniform1i(uniforms[UNIFORM_ISPLANE], true);
+                        glUniform1f(uniforms[UNIFORM_AMPLITUDE], amplitude);
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
         case GL_LINE_STRIP:
             glUniform1i(uniforms[UNIFORM_ISPLANE], true);
+            glUniform1f(uniforms[UNIFORM_AMPLITUDE], amplitude);
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;

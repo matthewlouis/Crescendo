@@ -180,6 +180,7 @@ enum
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    _shader->amplitude = 0.1f;
     [_shader render:_scene];
     
 }

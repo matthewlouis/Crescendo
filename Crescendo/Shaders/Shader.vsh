@@ -15,6 +15,7 @@ uniform mat4 modelViewProjectionMatrix;
 uniform mat3 normalMatrix;
 uniform vec4 color;
 uniform bool isPlane;
+uniform float amplitude;
 
 void main()
 {
@@ -40,7 +41,7 @@ void main()
     if (isPlane)
     {
         colorVarying = color;
-        transformedPosition += 0.2 * vec4(normal.x, normal.y, normal.z, 0);
+        transformedPosition += amplitude * vec4(normal.x, normal.y, normal.z, 0);
     }
     else
     {

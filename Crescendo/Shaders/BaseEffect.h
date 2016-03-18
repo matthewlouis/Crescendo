@@ -21,14 +21,16 @@
         UNIFORM_NORMAL_MATRIX,
         UNIFORM_COLOR,
         UNIFORM_ISPLANE,
+        UNIFORM_AMPLITUDE,
         NUM_UNIFORMS
     };
     
 @public GLuint _program;
 @public GLKMatrix4 projectionMatrix;
+@public float amplitude;
     
     
-    @private GLint uniforms[NUM_UNIFORMS];
+@private GLint uniforms[NUM_UNIFORMS];
 }
 
 
