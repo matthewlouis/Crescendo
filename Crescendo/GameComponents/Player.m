@@ -26,12 +26,12 @@
     if ((self = [super initWithName:"player" shader:nil vertices:(Vertex*) player_Vertices vertexCount:sizeof(player_Vertices) / sizeof(player_Vertices[0])])) {
         _playerSpeed = 1.0f;
         _timeToAnimate = 1.0f;
-        _rotateAmount = 1.0f;
+        _rotateAmount = 2.0f;
         //[self loadTexture:@"mushroom.png"];
         //self.rotationY = M_PI;
         //self.rotationX = M_PI_2;
         self->worldPosition = GLKVector3Make(0, -1, 0);
-        self->rotation = GLKVector3Make(-1.25, 3.14, 0);
+        self->rotation = GLKVector3Make(-1.25, 3.14 - 1, 0);
         self->scale = GLKVector3Make(0.5, 0.5, 0.5);
         
         _rotateDefault = self->rotation.y;

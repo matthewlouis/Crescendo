@@ -15,7 +15,7 @@ static float BAR_WIDTH = 40.0f;
 static float BARS_IN_SIGHT = 2;
 
 static int GRID_ROWS = 2;
-static int GRID_COLS = 3;
+static int GRID_COLS = 2;
 
 typedef NS_ENUM(NSInteger, GridQuadrant)
 {
@@ -29,6 +29,15 @@ typedef NS_ENUM(NSInteger, GridQuadrant)
     GridQuadrantTop         = 8,
     GridQuadrantTopRight    = 9,
 };
+
+typedef NS_ENUM(NSInteger, Grid2x2Quadrant)
+{
+    Grid2x2QuadrantBottomLeft  = 1,
+    Grid2x2QuadrantBottomRight = 2,
+    Grid2x2QuadrantTopLeft     = 3,
+    Grid2x2QuadrantTopRight    = 4,
+};
+
 
 typedef NS_ENUM(NSInteger, ObjectType)
 {
