@@ -165,6 +165,7 @@ enum
 {
     // Update Scene
     [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
+
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect

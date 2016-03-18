@@ -107,15 +107,6 @@
     }
 }
 
-//for pausing game when home button hit
-- (void) pauseScene{
-    [planeContainer pauseMusic];
-}
-
-//for resuming game when app reopended
-- (void) resumeScene{
-    [planeContainer resumeMusic];
-}
 
 
 @end
