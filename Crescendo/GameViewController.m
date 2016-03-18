@@ -163,7 +163,7 @@ enum
 {
     // Update Scene
     [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
-    printf("\n%f", [_musicPlayer getAmp]);
+    //printf("\n%f", [_musicPlayer getAmp]);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
@@ -179,7 +179,7 @@ enum
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    _shader->amplitude = 0.1f;
+    _shader->amplitude = [_musicPlayer getAmp] * 2;
     [_shader render:_scene];
     
 }

@@ -408,6 +408,6 @@ class GameMusicPlayer : NSObject{
     deinit {
         sequencer?.stop()
         AudioKit.stop()
-        GameMusicPlayer.theInstance = nil
+        //GameMusicPlayer.theInstance = nil
     }
 }
