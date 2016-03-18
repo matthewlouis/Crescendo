@@ -384,4 +384,11 @@ class GameMusicPlayer : NSObject{
         }
         toTrack.volume!.gain = gainLevel
     }
+    
+    //cleanup code
+    deinit {
+        sequencer?.stop()
+        AudioKit.stop()
+        GameMusicPlayer.theInstance = nil
+    }
 }

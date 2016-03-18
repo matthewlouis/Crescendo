@@ -40,6 +40,7 @@ void main()
     if (isPlane)
     {
         colorVarying = color;
+        transformedPosition += 0.2 * vec4(normal.x, normal.y, normal.z, 0);
     }
     else
     {
