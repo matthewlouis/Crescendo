@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import GLKit
 
 /**
  * Contains information to play a sequence of notes of a given length on a given track
@@ -16,11 +17,12 @@ class MusicNoteSequence:NSObject{
     var track:Int
     var seqLengthBars:Int
     var notes:[SequenceNote]
-    
+    var weightedMatrix:NSDictionary
     override init(){
         notes = [SequenceNote]()
         track = 0
         seqLengthBars = 0
+        weightedMatrix = NSDictionary()
         super.init()
     }
     

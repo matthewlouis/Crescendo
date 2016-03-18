@@ -53,13 +53,16 @@ class SoundEffectController: NSObject{
     
     func generateAndAddSection(stepSize:Float = DEFAULT_STEP, barLength:Float = SEQ_LENGTH){
         
+        var barsToGenerate:Int = 1
+        barsToGenerate = barsToGenerate << Int(random(1,6))
+        
         var barOfMusic:MusicBar
         barOfMusic = MusicBar(length: SoundEffectController.SEQ_LENGTH)
         let numSteps = Int(SoundEffectController.SEQ_LENGTH/stepSize)
         
         
         let index = arc4random_uniform(UInt32(_musicSequences.count))
-        var sequence = _musicSequences[0]
+        var sequence = _musicSequences[Int(index)]
         
         for(var i = 0; i < sequence.notes.count; ++i){
             let note = sequence.notes[i]
@@ -68,7 +71,10 @@ class SoundEffectController: NSObject{
             barOfMusic.events.append(soundObject)
         }
         
-        barsGenerated += sequence.seqLengthBars
+        for(var j = 0; j < barsToGenerate; j += sequence.seqLengthBars){
+            _musicBars.append(barOfMusic)
+        }
+        barsGenerated += barsToGenerate
         
         /*
         //generate random note in scale
@@ -86,8 +92,6 @@ class SoundEffectController: NSObject{
                 barOfMusic.events.append(InteractiveSoundObject(note: noteToAdd, duration: 1, position: step))
             }
         }*/
-        
-        _musicBars.append(barOfMusic)
     }
     
     func removeSection(){
@@ -125,6 +129,17 @@ class SoundEffectController: NSObject{
         return (outVal)
     }
     
+    func calculateMarkovMatrices(){
+        
+    }
+    
+    func calculateMarkovNote(){
+        
+    }
+    
+    func calculateMarkovDuration(){
+    
+    }
     
     /*Can use this to get apple MusicTrack event information (midi)
     func getMusicTrackEventInfo(index: Int){

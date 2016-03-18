@@ -137,7 +137,7 @@
     //newPlaneObject->worldPosition.x = [self randomMinFloat:0 MaxFloat:2] - 1;
     PlaneObject* newPlaneObject = [[PlaneObject alloc]initWithPlane:self soundObject:soundObject objectType:SoundPickup];
     // bounding sphere for collision detection
-    newPlaneObject->boundingSphereRadius = 2;
+    newPlaneObject->boundingSphereRadius = 1;
     
     // gets position based on quadrant
     GLKVector3 position = [_gridMovement getGridLocation:quadrant];
