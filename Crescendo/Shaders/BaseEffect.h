@@ -27,8 +27,9 @@
     
 @public GLuint _program;
 @public GLKMatrix4 projectionMatrix;
-@public float amplitude;
     
+@private float m_amplitude;
+@private float m_targetAmplitude;
     
 @private GLint uniforms[NUM_UNIFORMS];
 }
@@ -42,6 +43,9 @@
 - (BOOL)validateProgram:(GLuint)prog;
 
 - (void)render:(GameObject3D*)gameObject3D;
+- (void)update:(float)deltaTime;
+
+- (void)setAmplitude:(float)amplitude;
 
 - (void)tearDown;
 

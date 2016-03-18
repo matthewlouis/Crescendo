@@ -22,6 +22,9 @@ typedef enum color_states
 
 @interface GameObject3D : NSObject
 {
+// Type
+@protected int type;
+    
 // Transformations
 @public GLKVector3 worldPosition;
 @public GLKVector3 rotation;

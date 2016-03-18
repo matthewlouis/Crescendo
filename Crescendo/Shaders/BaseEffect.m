@@ -8,6 +8,7 @@
 
 #import "BaseEffect.h"
 #import "Vertex.h"
+#import "Constants.h"
 
 @implementation BaseEffect
 
@@ -17,6 +18,8 @@
     
     if (self)
     {
+        m_amplitude = 0;
+        m_targetAmplitude = 0;
         [self loadShaders];
     }
     
@@ -207,19 +210,19 @@
             break;
         case GL_LINES:
             glUniform1i(uniforms[UNIFORM_ISPLANE], true);
-            glUniform1f(uniforms[UNIFORM_AMPLITUDE], amplitude);
+            glUniform1f(uniforms[UNIFORM_AMPLITUDE], m_amplitude);
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
         case GL_LINE_LOOP:
             glUniform1i(uniforms[UNIFORM_ISPLANE], true);
-                        glUniform1f(uniforms[UNIFORM_AMPLITUDE], amplitude);
+                        glUniform1f(uniforms[UNIFORM_AMPLITUDE], m_amplitude);
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
         case GL_LINE_STRIP:
             glUniform1i(uniforms[UNIFORM_ISPLANE], true);
-            glUniform1f(uniforms[UNIFORM_AMPLITUDE], amplitude);
+            glUniform1f(uniforms[UNIFORM_AMPLITUDE], m_amplitude);
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
@@ -236,6 +239,17 @@
     for (GameObject3D *child in gameObject3D->children) {
         [self render:child];
     }
+}
+
+- (void)update:(float)deltaTime
+{
+    // Update amplitude
+    m_amplitude += (MIN(m_targetAmplitude - m_amplitude, MAX_AMPLITUDE_SHIFT));
+}
+
+- (void)setAmplitude:(float)amplitude
+{
+    m_targetAmplitude = amplitude * AMPLITUDE_SCALE;
 }
 
 - (void)tearDown

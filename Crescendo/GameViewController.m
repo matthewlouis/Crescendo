@@ -163,6 +163,7 @@ enum
 {
     // Update Scene
     [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
+    [_shader update:self.timeSinceLastUpdate];
     //printf("\n%f", [_musicPlayer getAmp]);
 }
 
@@ -179,7 +180,7 @@ enum
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    _shader->amplitude = [_musicPlayer getAmp] * 2;
+    [_shader setAmplitude:[_musicPlayer getAmp]];
     [_shader render:_scene];
     
 }
