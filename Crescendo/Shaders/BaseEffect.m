@@ -210,7 +210,19 @@
             break;
         case GL_LINES:
             glUniform1i(uniforms[UNIFORM_ISPLANE], true);
-            glUniform1f(uniforms[UNIFORM_AMPLITUDE], m_amplitude);
+            //glUniform1f(uniforms[UNIFORM_AMPLITUDE], m_amplitude);
+            
+            // Assign Amplitude based on type
+            switch (gameObject3D->type)
+            {
+                case Plane1:
+                    glUniform1f(uniforms[UNIFORM_AMPLITUDE], musicPlayer.kickDrumTracker.amplitude);
+                    break;
+                case Plane2:
+                    glUniform1f(uniforms[UNIFORM_AMPLITUDE], musicPlayer.snareDrumTracker.amplitude);
+                    break;
+            }
+            
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;

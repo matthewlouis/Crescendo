@@ -11,6 +11,7 @@
 #import <GLKit/GLKit.h>
 #import "GameObject3D.h"
 #import <OpenGLES/ES2/glext.h>
+#import "Crescendo-Swift.h"
 
 @interface BaseEffect : NSObject
 {
@@ -27,6 +28,8 @@
     
 @public GLuint _program;
 @public GLKMatrix4 projectionMatrix;
+    
+@public GameMusicPlayer *musicPlayer;
     
 @private float m_amplitude;
 @private float m_targetAmplitude;

@@ -18,12 +18,14 @@
 /**
  * Provides default parameter to generate empty planes (so we can start the game with no obstacles
  */
-- (id)initWithPosition:(float)positon soundObject:(InteractiveSoundObject *)soundObject withThickness:(float)thickness soundQuadrant:(NSMutableArray *)soundQuadrants inColor:(GLKVector4)color
+- (id)initWithPosition:(float)positon soundObject:(InteractiveSoundObject *)soundObject withThickness:(float)thickness soundQuadrant:(NSMutableArray *)soundQuadrants inColor:(GLKVector4)color ofType:(ObjectType)otype
 {
     self = [super initWithName:"plane" shader:nil vertices:(Vertex*)plane_vertices vertexCount:sizeof(plane_vertices)/sizeof(Vertex)];
     
     if (self)
     {
+        self->type = otype;
+        
         self->worldPosition = GLKVector3Make(0, 0, positon);
         self->rotation = GLKVector3Make(0, 0, 0);
         self->scale = GLKVector3Make(X_SCALE_FACTOR, Y_SCALE_FACTOR, Z_SCALE_FACTOR);

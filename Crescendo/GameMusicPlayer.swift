@@ -61,7 +61,9 @@ class GameMusicPlayer : NSObject{
             sequencer!.setRate(bpm/DEFAULT_BPM)
         }
     }
-    var drumTracker:AKAmplitudeTracker?
+    var kickDrumTracker:AKAmplitudeTracker!
+    var snareDrumTracker:AKAmplitudeTracker!
+    var pianoLeadTracker:AKAmplitudeTracker!
     var sequencer:AKSequencer?
     var mixer = AKMixer()
     
@@ -100,14 +102,23 @@ class GameMusicPlayer : NSObject{
         
         AudioKit.stop()
         
-        let drumsfx1 = addFX(3, fxType: .COMPRESSOR) as! AKCompressor
+        let drumsfx1 = AKCompressor((tracks[3]?.instrument)!)
         drumsfx1.releaseTime = 1
         drumsfx1.attackTime = 0.05
         drumsfx1.threshold = -40
         drumsfx1.headRoom = 9
         drumsfx1.masterGain = 3
-        let drumsfx2 = addFX(3, fxType: .BITCRUSH) as! AKBitCrusher
+        let drumsfx2 = AKBitCrusher(drumsfx1)
         drumsfx2.bitDepth = 8
+        let kTrackFilter = AKLowPassFilter(drumsfx2, cutoffFrequency: 100)
+        kickDrumTracker = AKAmplitudeTracker(kTrackFilter)
+        let sTrackFilter = AKBandPassFilter(drumsfx2, centerFrequency:  1000, bandwidth:  500)
+        snareDrumTracker = AKAmplitudeTracker(sTrackFilter)
+        let preMix = AKMixer(sTrackFilter, kTrackFilter)
+        let drumMix = AKDryWetMixer(preMix, drumsfx2, balance: 1)
+        addFX(3, node: drumMix)
+        
+        
         
         
         loadSampler(1, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24)
@@ -169,11 +180,12 @@ class GameMusicPlayer : NSObject{
         let cuefx3 = addFX(16, fxType: .COMPRESSOR) as! AKCompressor
         cuefx3.threshold = -20
         cuefx3.masterGain = 12
+        pianoLeadTracker = addFX(16, fxType: .AMPLITUDE_TRACKER) as! AKAmplitudeTracker
         
         
         
         AudioKit.start()
-        drumTracker = addFX(3, fxType: .AMPLITUDE_TRACKER) as! AKAmplitudeTracker
+        
         tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
         sequencer!.avTracks[sequencer!.avTracks.capacity-1].destinationMIDIEndpoint = tk.midiIn
         
@@ -338,9 +350,17 @@ class GameMusicPlayer : NSObject{
         return tracks[intoTrackNumber]!.fx[tracks[intoTrackNumber]!.fx.count - 1]!
     }
     
+    //adds an effect chain directly
+    func addFX(intoTrackNumber: Int, node: AKNode){
+        tracks[intoTrackNumber]!.fx.append(node)
+    }
+    
     //play sequencer
     func play(){
         sequencer!.play();
+        kickDrumTracker!.start()
+        snareDrumTracker!.start()
+        pianoLeadTracker!.start()
     }
     
     //stop sequencer
@@ -401,13 +421,12 @@ class GameMusicPlayer : NSObject{
     }
     
     func getAmp()->Double{
-        return drumTracker!.amplitude
+        return kickDrumTracker!.amplitude
     }
     
     //cleanup code
     deinit {
         sequencer?.stop()
         AudioKit.stop()
-        //GameMusicPlayer.theInstance = nil
     }
 }
