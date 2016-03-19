@@ -70,6 +70,7 @@
     }
     else
     {
+        [_player updateBobMotion:timePassed];
         _player.startPosition = _player->worldPosition;
         _player.startRotation = _player->rotation;
         _player.timeElapsed = 0.0f;

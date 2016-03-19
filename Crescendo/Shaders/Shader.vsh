@@ -15,10 +15,17 @@ uniform mat4 modelViewProjectionMatrix;
 uniform mat3 normalMatrix;
 uniform vec4 color;
 uniform bool isPlane;
+uniform bool isPlayer;
+uniform float bob;
 
 void main()
 {
     vec4 transformedPosition = modelViewProjectionMatrix * position;
+ 
+    if (isPlayer)
+    {
+        transformedPosition = vec4(transformedPosition.x, transformedPosition.y + bob, transformedPosition.z, transformedPosition.w);
+    }
     
     vec3 eyeNormal = normalize(normalMatrix * normal);
     vec3 lightPosition = vec3(0.0, 1.0, 1.0);
