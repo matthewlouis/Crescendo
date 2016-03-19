@@ -241,7 +241,7 @@
         
         _isMoving = true;
         
-        GLKVector2 gridLocation   = [gridMovement gridLocationWithGridQuadrant:Grid2x2QuadrantBottomRight];
+        GLKVector2 gridLocation   = [gridMovement gridLocationWithGrid2x2Quadrant:Grid2x2QuadrantBottomRight];
         _translation = GLKVector3Make(gridLocation.x, gridLocation.y, player->worldPosition.z);
         
         // Enables all the swipe gestures once the title is gone

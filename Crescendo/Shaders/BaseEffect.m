@@ -8,6 +8,7 @@
 
 #import "BaseEffect.h"
 #import "Vertex.h"
+#import "Player.h"
 
 @implementation BaseEffect
 
@@ -83,6 +84,8 @@
     uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
     uniforms[UNIFORM_COLOR] = glGetUniformLocation(_program, "color");
     uniforms[UNIFORM_ISPLANE] = glGetUniformLocation(_program, "isPlane");
+    uniforms[UNIFORM_ISPLAYER] = glGetUniformLocation(_program, "isPlayer");
+    uniforms[UNIFORM_BOB] = glGetUniformLocation(_program, "bob");
     
     // Fail Case: Release vertex and fragment shaders.
     if (vertShader) {
@@ -188,7 +191,6 @@
     
     GLKMatrix4 _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
-    // Render the object again with ES2
     glUseProgram(_program);
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
@@ -196,6 +198,16 @@
     glUniform4fv(uniforms[UNIFORM_COLOR], 1, gameObject3D->_color.v);
     
     glBindVertexArrayOES(gameObject3D->vao);
+    
+    if ([gameObject3D isKindOfClass:[Player class]])
+    {
+        glUniform1i(uniforms[UNIFORM_ISPLAYER], true);
+        glUniform1f(uniforms[UNIFORM_BOB], ((Player *)gameObject3D).bob);
+    }
+    else
+    {
+        glUniform1i(uniforms[UNIFORM_ISPLAYER], false);
+    }
     
     // Check rendering mode of object
     switch (gameObject3D->renderMode)
