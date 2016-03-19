@@ -17,8 +17,10 @@
 @property (nonatomic, assign) float playerSpeed;
 @property (nonatomic, assign) GLKVector3 startPosition;
 @property (nonatomic, assign) GLKVector3 startRotation;
+@property (nonatomic, assign) float bob;
 
 - (instancetype)init;
+- (void)updateBobMotion:(float)timeElapsed;
 - (bool)moveTo:(GLKVector3)moveToPosition;
 
 @end

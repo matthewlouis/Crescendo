@@ -21,6 +21,8 @@
         UNIFORM_NORMAL_MATRIX,
         UNIFORM_COLOR,
         UNIFORM_ISPLANE,
+        UNIFORM_ISPLAYER,
+        UNIFORM_BOB,
         NUM_UNIFORMS
     };
     
