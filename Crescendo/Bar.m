@@ -75,22 +75,13 @@
  */
 -(void)GenerateSoundQuadrants
 {
-    int numberOfQuadrantsToGenerate = [self getRandomNumberBetween:0 to:MAX_SOUND_QUADRANT];
-    int row;
+    int numberOfQuadrantsToGenerate = [self getRandomNumberBetween:1 to:MAX_SOUND_QUADRANT];
     int quadrant;
     
     for(int i = 0; i < numberOfQuadrantsToGenerate; i++)
     {
-        row = [self getRandomNumberBetween:1 to:GRID_ROWS]; // used to calculate row of object
-        quadrant = [self getRandomNumberBetween:1 to:GRID_COLS]; // random quadrant between 1 and 3
-        
-        // calculates quadrant on second row between 7-9.
-        if(row == 2)
-        {
-            quadrant += 6;
-        }
-        
-        [_quadrants addObject:@(quadrant)];
+        quadrant = [self getRandomNumberBetween:1 to:(GRID_ROWS * GRID_COLS)]; // used to calculate random quad and add to list
+        [_quadrants addObject:[NSNumber numberWithInt:quadrant]];
     }
 }
 

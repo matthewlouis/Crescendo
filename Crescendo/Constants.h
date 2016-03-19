@@ -59,4 +59,9 @@ static float TIME_BEFORE_SPEEDUP = 60;
 static float SPEEDUP_INTERVAL = 3;
 static float SPEEDUP_AMOUNT = 1.01f;
 
+//Object Generation Constants
+static int COLLIDEABLE_FACTOR = 5; // lower is harder/populates more
+
+
+
 #endif /* Constants_h */
