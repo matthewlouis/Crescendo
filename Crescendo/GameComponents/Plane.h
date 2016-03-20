@@ -36,6 +36,8 @@
 @private GridMovement *_gridMovement;
 @private NSMutableArray *soundQuadrants;
 @private NSMutableArray *availableQuadrants;
+    
+@private int collideableDifficulty;
 }
 
 - (void)move:(GLKVector3)amount;

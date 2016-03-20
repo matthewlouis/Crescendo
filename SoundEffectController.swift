@@ -22,11 +22,13 @@ class SoundEffectController: NSObject{
     static let BAR_RESOLUTION:Float = 4
     static let DEFAULT_STEP:Float = 1/BAR_RESOLUTION
     
+    static  let OBSTACLE_NOTE = InteractiveSoundObject(note: 86, duration: 0.25, position: 0)
+    
     var _musicSequences:[MusicNoteSequence]
     
     var isMinorScale = true
     
-    var difficultyScale:Double = 90
+    var difficultyScale:Double = 70
     
     var _musicBars:[MusicBar]
     
@@ -39,7 +41,7 @@ class SoundEffectController: NSObject{
         _musicSequences = [MusicNoteSequence]()
         _musicBars   = [MusicBar]()
         _musicPlayer = musicPlayer
-        _soundeffectInstrument = (musicPlayer.tracks[16]?.instrument)!;
+        _soundeffectInstrument = (musicPlayer.tracks[16]?.instrument)!
     
         super.init()
         
@@ -54,7 +56,7 @@ class SoundEffectController: NSObject{
         barOfMusic = MusicBar(length: SoundEffectController.SEQ_LENGTH)
         let numSteps = Int(SoundEffectController.SEQ_LENGTH/stepSize)
         
-        
+        /*
         let index = arc4random_uniform(UInt32(_musicSequences.count))
         var sequence = _musicSequences[0]
         
@@ -63,9 +65,9 @@ class SoundEffectController: NSObject{
             let soundObject = InteractiveSoundObject(note: note.noteNumber, duration: note.duration, position: note.position)
             
             barOfMusic.events.append(soundObject)
-        }
+        }*/
         
-        /*
+        
         //generate random note in scale
         for (var i:Int = 0; i < numSteps; i++){
             if(random(1,100) < difficultyScale ){
@@ -78,9 +80,9 @@ class SoundEffectController: NSObject{
                     octaveOffset = Int(maybe() * maybe() * Float(octaveOffset)) + 24;
                 }
                 let noteToAdd = SoundEffectController.ROOT_NOTE + scale[Int(scaleOffset)] + octaveOffset
-                barOfMusic.events.append(InteractiveSoundObject(note: noteToAdd, duration: 1, position: step))
+                barOfMusic.events.append(InteractiveSoundObject(note: noteToAdd, duration: 1, position:Float(step)))
             }
-        }*/
+        }
         
         _musicBars.append(barOfMusic)
     }

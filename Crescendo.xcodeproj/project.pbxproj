@@ -51,6 +51,10 @@
 		920721CC1C6E865600C929CB /* FragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 920721CB1C6E865600C929CB /* FragmentShader.glsl */; };
 		920721CE1C6E868600C929CB /* VertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 920721CD1C6E868600C929CB /* VertexShader.glsl */; };
 		92EBA11A1C6FAD1900993E0F /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 92EBA1191C6FAD1900993E0F /* GameScene.m */; };
+		92F9649C1C988B5500150181 /* glassPanel.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 92F964941C988B5500150181 /* glassPanel.mtl */; };
+		92F9649D1C988B5500150181 /* glassPanel.obj in Resources */ = {isa = PBXBuildFile; fileRef = 92F964951C988B5500150181 /* glassPanel.obj */; };
+		92F9649F1C988B5500150181 /* sphere.mtl in Resources */ = {isa = PBXBuildFile; fileRef = 92F964991C988B5500150181 /* sphere.mtl */; };
+		92F964A01C988B5500150181 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 92F9649A1C988B5500150181 /* sphere.obj */; };
 		D73542141C77BFE200274735 /* Bar.m in Sources */ = {isa = PBXBuildFile; fileRef = D73542131C77BFE200274735 /* Bar.m */; };
 		D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = D75068371C6D9971001FBCFD /* GameObject3D.m */; };
 		D7A2DC321C791BF500B802C4 /* MusicBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A2DC311C791BF500B802C4 /* MusicBar.swift */; };
@@ -133,6 +137,12 @@
 		927B9A931C790076005E3B67 /* cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cube.h; sourceTree = "<group>"; };
 		92EBA1181C6FAD1900993E0F /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		92EBA1191C6FAD1900993E0F /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
+		92F964921C988B5500150181 /* glassPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glassPanel.h; sourceTree = "<group>"; };
+		92F964941C988B5500150181 /* glassPanel.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = glassPanel.mtl; sourceTree = "<group>"; };
+		92F964951C988B5500150181 /* glassPanel.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = glassPanel.obj; sourceTree = "<group>"; };
+		92F964971C988B5500150181 /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
+		92F964991C988B5500150181 /* sphere.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.mtl; sourceTree = "<group>"; };
+		92F9649A1C988B5500150181 /* sphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sphere.obj; sourceTree = "<group>"; };
 		D733D5571C6FB88A00854AE9 /* TimeSignature.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeSignature.h; sourceTree = "<group>"; };
 		D73542121C77BFCD00274735 /* Bar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bar.h; sourceTree = "<group>"; };
 		D73542131C77BFE200274735 /* Bar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bar.m; sourceTree = "<group>"; };
@@ -307,6 +317,8 @@
 			isa = PBXGroup;
 			children = (
 				D7FF36911C9CA90600773E98 /* Plane */,
+				92F964911C988B5500150181 /* GlassPanel */,
+				92F964961C988B5500150181 /* Sphere */,
 				927B9A921C790076005E3B67 /* Cube */,
 				927B9A891C778B0D005E3B67 /* Player */,
 			);
@@ -336,6 +348,26 @@
 				92EBA1191C6FAD1900993E0F /* GameScene.m */,
 			);
 			path = Scenes;
+			sourceTree = "<group>";
+		};
+		92F964911C988B5500150181 /* GlassPanel */ = {
+			isa = PBXGroup;
+			children = (
+				92F964921C988B5500150181 /* glassPanel.h */,
+				92F964941C988B5500150181 /* glassPanel.mtl */,
+				92F964951C988B5500150181 /* glassPanel.obj */,
+			);
+			path = GlassPanel;
+			sourceTree = "<group>";
+		};
+		92F964961C988B5500150181 /* Sphere */ = {
+			isa = PBXGroup;
+			children = (
+				92F964971C988B5500150181 /* sphere.h */,
+				92F964991C988B5500150181 /* sphere.mtl */,
+				92F9649A1C988B5500150181 /* sphere.obj */,
+			);
+			path = Sphere;
 			sourceTree = "<group>";
 		};
 		D73542111C77BF6800274735 /* Planes */ = {
@@ -426,14 +458,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				346671EC1C63D1C000583A6B /* Sounds in Resources */,
+				92F9649D1C988B5500150181 /* glassPanel.obj in Resources */,
 				920721BB1C6E7B7A00C929CB /* Shader.fsh in Resources */,
 				340FB3781C629E9000F4A3AC /* Songs in Resources */,
+				92F9649F1C988B5500150181 /* sphere.mtl in Resources */,
 				03A0C80E1C498C7D004213DB /* Main.storyboard in Resources */,
 				34A9DD1C1C78F91200A8CC7A /* Fonts in Resources */,
 				920721BC1C6E7B7A00C929CB /* Shader.vsh in Resources */,
 				920721CC1C6E865600C929CB /* FragmentShader.glsl in Resources */,
 				920721CE1C6E868600C929CB /* VertexShader.glsl in Resources */,
+				92F964A01C988B5500150181 /* sphere.obj in Resources */,
 				03A0C8081C498C7D004213DB /* Shader.vsh in Resources */,
+				92F9649C1C988B5500150181 /* glassPanel.mtl in Resources */,
 				03A0C8101C498C7D004213DB /* Assets.xcassets in Resources */,
 				03A0C8131C498C7D004213DB /* LaunchScreen.storyboard in Resources */,
 				03A0C8061C498C7D004213DB /* Shader.fsh in Resources */,

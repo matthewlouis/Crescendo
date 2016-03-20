@@ -67,5 +67,9 @@ static float SPEEDUP_AMOUNT = 1.01f;
 static float MAX_AMPLITUDE_SHIFT = 0.5f;
 static float KICKDRUM_AMPLITUDE_SCALE = 5;
 static float SNAREDRUM_AMPLITUDE_SCALE = 10;
+//Object Generation Constants
+static int COLLIDEABLE_FACTOR = 5; // lower is harder/populates more
+
+
 
 #endif /* Constants_h */
