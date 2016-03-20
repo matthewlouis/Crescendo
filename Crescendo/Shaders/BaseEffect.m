@@ -216,10 +216,10 @@
             switch (gameObject3D->type)
             {
                 case Plane1:
-                    glUniform1f(uniforms[UNIFORM_AMPLITUDE], musicPlayer.kickDrumTracker.amplitude);
+                    glUniform1f(uniforms[UNIFORM_AMPLITUDE], musicPlayer.kickDrumTracker.amplitude * KICKDRUM_AMPLITUDE_SCALE);
                     break;
                 case Plane2:
-                    glUniform1f(uniforms[UNIFORM_AMPLITUDE], musicPlayer.snareDrumTracker.amplitude);
+                    glUniform1f(uniforms[UNIFORM_AMPLITUDE], musicPlayer.snareDrumTracker.amplitude * SNAREDRUM_AMPLITUDE_SCALE);
                     break;
             }
             
@@ -261,7 +261,7 @@
 
 - (void)setAmplitude:(float)amplitude
 {
-    m_targetAmplitude = amplitude * AMPLITUDE_SCALE;
+    //m_targetAmplitude = amplitude * AMPLITUDE_SCALE;
 }
 
 - (void)tearDown

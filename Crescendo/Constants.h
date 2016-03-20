@@ -56,6 +56,7 @@ static float SPEEDUP_AMOUNT = 1.01f;
 
 // Amplitude Smoothing
 static float MAX_AMPLITUDE_SHIFT = 0.5f;
-static float AMPLITUDE_SCALE = 5;
+static float KICKDRUM_AMPLITUDE_SCALE = 5;
+static float SNAREDRUM_AMPLITUDE_SCALE = 10;
 
 #endif /* Constants_h */

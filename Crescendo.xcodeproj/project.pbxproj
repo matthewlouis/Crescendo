@@ -138,8 +138,8 @@
 		D73542131C77BFE200274735 /* Bar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bar.m; sourceTree = "<group>"; };
 		D75068361C6D98C6001FBCFD /* GameObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		D75068371C6D9971001FBCFD /* GameObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject3D.m; sourceTree = "<group>"; };
-		D7A2DC301C78F37000B802C4 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		D7A2DC311C791BF500B802C4 /* MusicBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicBar.swift; sourceTree = "<group>"; };
+		D7B363531C9E764F001B185D /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		D7FF36921C9CA9B000773E98 /* PlaneModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaneModel.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -230,7 +230,7 @@
 				347F7EFE1C97626F000AE69A /* NSScanner+Swift.swift */,
 				03A0C82A1C499B4C004213DB /* NSMutableArray+Queue.h */,
 				03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */,
-				D7A2DC301C78F37000B802C4 /* Constants.h */,
+				D7B363531C9E764F001B185D /* Constants.h */,
 				4812A2FE1C9369D100C7B58A /* Easing.m */,
 				4812A3001C936A3200C7B58A /* Easing.h */,
 			);
