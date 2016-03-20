@@ -9,6 +9,7 @@
 #import "BaseEffect.h"
 #import "Vertex.h"
 #import "Player.h"
+#import "Constants.h"
 
 @implementation BaseEffect
 
@@ -18,6 +19,8 @@
     
     if (self)
     {
+        m_amplitude = 0;
+        m_targetAmplitude = 0;
         [self loadShaders];
     }
     
@@ -86,6 +89,7 @@
     uniforms[UNIFORM_ISPLANE] = glGetUniformLocation(_program, "isPlane");
     uniforms[UNIFORM_ISPLAYER] = glGetUniformLocation(_program, "isPlayer");
     uniforms[UNIFORM_BOB] = glGetUniformLocation(_program, "bob");
+    uniforms[UNIFORM_AMPLITUDE] = glGetUniformLocation(_program, "amplitude");
     
     // Fail Case: Release vertex and fragment shaders.
     if (vertShader) {
@@ -218,16 +222,31 @@
             break;
         case GL_LINES:
             glUniform1i(uniforms[UNIFORM_ISPLANE], true);
+            //glUniform1f(uniforms[UNIFORM_AMPLITUDE], m_amplitude);
+            
+            // Assign Amplitude based on type
+            switch (gameObject3D->type)
+            {
+                case Plane1:
+                    glUniform1f(uniforms[UNIFORM_AMPLITUDE], musicPlayer.kickDrumTracker.amplitude * KICKDRUM_AMPLITUDE_SCALE);
+                    break;
+                case Plane2:
+                    glUniform1f(uniforms[UNIFORM_AMPLITUDE], musicPlayer.snareDrumTracker.amplitude * SNAREDRUM_AMPLITUDE_SCALE);
+                    break;
+            }
+            
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
         case GL_LINE_LOOP:
             glUniform1i(uniforms[UNIFORM_ISPLANE], true);
+                        glUniform1f(uniforms[UNIFORM_AMPLITUDE], m_amplitude);
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
         case GL_LINE_STRIP:
             glUniform1i(uniforms[UNIFORM_ISPLANE], true);
+            glUniform1f(uniforms[UNIFORM_AMPLITUDE], m_amplitude);
             glLineWidth(gameObject3D->lineWidth);
             glDrawArrays(gameObject3D->renderMode, 0, gameObject3D->vertexCount);
             break;
@@ -244,6 +263,17 @@
     for (GameObject3D *child in gameObject3D->children) {
         [self render:child];
     }
+}
+
+- (void)update:(float)deltaTime
+{
+    // Update amplitude
+    m_amplitude += (MIN(m_targetAmplitude - m_amplitude, MAX_AMPLITUDE_SHIFT));
+}
+
+- (void)setAmplitude:(float)amplitude
+{
+    //m_targetAmplitude = amplitude * AMPLITUDE_SCALE;
 }
 
 - (void)tearDown

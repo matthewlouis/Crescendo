@@ -129,7 +129,6 @@
 		920721CB1C6E865600C929CB /* FragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FragmentShader.glsl; sourceTree = "<group>"; };
 		920721CD1C6E868600C929CB /* VertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VertexShader.glsl; sourceTree = "<group>"; };
 		9228E13E1C791A2D00115E16 /* Crescendo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crescendo-Bridging-Header.h"; sourceTree = "<group>"; };
-		927B9A8A1C778B0D005E3B67 /* ._.DS_Store */ = {isa = PBXFileReference; lastKnownFileType = file; path = ._.DS_Store; sourceTree = "<group>"; };
 		927B9A8B1C778B0D005E3B67 /* playerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = playerModel.h; sourceTree = "<group>"; };
 		927B9A931C790076005E3B67 /* cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cube.h; sourceTree = "<group>"; };
 		92EBA1181C6FAD1900993E0F /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
@@ -139,8 +138,9 @@
 		D73542131C77BFE200274735 /* Bar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bar.m; sourceTree = "<group>"; };
 		D75068361C6D98C6001FBCFD /* GameObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		D75068371C6D9971001FBCFD /* GameObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject3D.m; sourceTree = "<group>"; };
-		D7A2DC301C78F37000B802C4 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		D7A2DC311C791BF500B802C4 /* MusicBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicBar.swift; sourceTree = "<group>"; };
+		D7B363531C9E764F001B185D /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		D7FF36921C9CA9B000773E98 /* PlaneModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaneModel.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,7 +230,7 @@
 				347F7EFE1C97626F000AE69A /* NSScanner+Swift.swift */,
 				03A0C82A1C499B4C004213DB /* NSMutableArray+Queue.h */,
 				03A0C82B1C499B4C004213DB /* NSMutableArray+Queue.m */,
-				D7A2DC301C78F37000B802C4 /* Constants.h */,
+				D7B363531C9E764F001B185D /* Constants.h */,
 				4812A2FE1C9369D100C7B58A /* Easing.m */,
 				4812A3001C936A3200C7B58A /* Easing.h */,
 			);
@@ -306,6 +306,7 @@
 		920721D51C6E8A9700C929CB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D7FF36911C9CA90600773E98 /* Plane */,
 				927B9A921C790076005E3B67 /* Cube */,
 				927B9A891C778B0D005E3B67 /* Player */,
 			);
@@ -315,7 +316,6 @@
 		927B9A891C778B0D005E3B67 /* Player */ = {
 			isa = PBXGroup;
 			children = (
-				927B9A8A1C778B0D005E3B67 /* ._.DS_Store */,
 				927B9A8B1C778B0D005E3B67 /* playerModel.h */,
 			);
 			path = Player;
@@ -353,6 +353,14 @@
 			name = Planes;
 			sourceTree = "<group>";
 		};
+		D7FF36911C9CA90600773E98 /* Plane */ = {
+			isa = PBXGroup;
+			children = (
+				D7FF36921C9CA9B000773E98 /* PlaneModel.h */,
+			);
+			name = Plane;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -385,7 +393,7 @@
 				TargetAttributes = {
 					03A0C7FB1C498C7C004213DB = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = CXHAMDLX5J;
+						DevelopmentTeam = Z7KQWKL5VF;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -598,7 +606,7 @@
 				INFOPLIST_FILE = Crescendo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jarredjardine.Crescendo;
+				PRODUCT_BUNDLE_IDENTIFIER = ca.bcit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
@@ -623,7 +631,7 @@
 				INFOPLIST_FILE = Crescendo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jarredjardine.Crescendo;
+				PRODUCT_BUNDLE_IDENTIFIER = ca.bcit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = YES;

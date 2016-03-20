@@ -23,6 +23,7 @@ enum FXType {
     case BITCRUSH
     case COMPRESSOR
     case FATTEN
+    case AMPLITUDE_TRACKER
 }
 
 enum InstrumentType{
@@ -50,18 +51,24 @@ struct Track{
 
 
 class GameMusicPlayer : NSObject{
-    static var theInstance:GameMusicPlayer?
     
     //Original tempo for starting the music
     let DEFAULT_BPM:Float = 120
     
-    public var bpm:Float{
+    var bpm:Float{
         didSet{
             sequencer!.setRate(bpm/DEFAULT_BPM)
         }
     }
+    
+    //variables for getting amplitude information outside of player
+    var kickDrumTracker:AKAmplitudeTracker!
+    var snareDrumTracker:AKAmplitudeTracker!
+    var pianoLeadTracker:AKAmplitudeTracker!
+    
     var sequencer:AKSequencer?
     var mixer = AKMixer()
+    
     
     //Allots for 16 tracks, with a 1-based index
     var tracks = [Track?](count: 17, repeatedValue:nil)
@@ -72,7 +79,7 @@ class GameMusicPlayer : NSObject{
     var tk:TempoKeeper
     
     init(tempoListener: PlaneContainer){
-        currentMidiLoop = "Songs/testTimeCode";
+        currentMidiLoop = "Songs/drum";
         self.bpm = DEFAULT_BPM
         tk = TempoKeeper(listener:tempoListener)
         super.init()
@@ -92,17 +99,35 @@ class GameMusicPlayer : NSObject{
         sequencer = AKSequencer(filename: currentMidiLoop, engine: AudioKit.engine)
         sequencer?.setBPM(bpm)
         
-        
         loadSampler(3, fileName: "Sounds/Sampler Instruments/Drums", sampleFormat: SampleFormat.EXS24)
         
-        let drumsfx1 = addFX(3, fxType: .COMPRESSOR) as! AKCompressor
+        AudioKit.stop()
+        
+        
+        /**Add drum effects and amplitude analysis nodes into chain **/
+        /**Matt: VERY IMPORTANT THAT ALL NODES GET SUMMED BACK TOGETHER PROPERLY OR
+                 VERY BAD THINGS HAPPEN! **/
+        let drumsfx1 = AKCompressor((tracks[3]?.instrument)!)
         drumsfx1.releaseTime = 1
         drumsfx1.attackTime = 0.05
         drumsfx1.threshold = -40
         drumsfx1.headRoom = 9
         drumsfx1.masterGain = 3
-        let drumsfx2 = addFX(3, fxType: .BITCRUSH) as! AKBitCrusher
+        let drumsfx2 = AKBitCrusher(drumsfx1)
         drumsfx2.bitDepth = 8
+        
+        let snareAnalysisFilter = AKBandPassFilter(drumsfx1, centerFrequency: 1500, bandwidth: 700)
+        snareDrumTracker = AKAmplitudeTracker(snareAnalysisFilter)
+        
+        
+        let kickAnalysisFilter = AKLowPassFilter(drumsfx1, cutoffFrequency: 75)
+        kickDrumTracker = AKAmplitudeTracker(kickAnalysisFilter)
+        let drumsWithTracker = AKMixer(kickDrumTracker)
+        drumsWithTracker.connect(snareDrumTracker)
+        let trackerbypass = AKDryWetMixer(drumsfx2, drumsWithTracker, balance:0)
+        
+        
+        addFXChain(3, node: trackerbypass)
         
         loadSampler(1, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24)
         let pianofx1 = addFX(1, fxType: .FATTEN) as! Fatten
@@ -153,18 +178,20 @@ class GameMusicPlayer : NSObject{
         /****SOUND EFFECTS********/
         
         //piano
-        let cue1 = loadSampler(16, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24, soundEffect: true)
-        let cueFX1 = addFX(16, fxType: .FATTEN) as! Fatten
+        loadSampler(16, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24, soundEffect: true)
+        let cueFX1 = Fatten((tracks[16]?.instrument)!)
         cueFX1.time = 0.2
-        let cuefx2 = addFX(16, fxType: .REVERB) as! AKReverb2
+        pianoLeadTracker = AKAmplitudeTracker(cueFX1) //amp tracker on before reverb fx
+        let cuefx2 = AKReverb2(pianoLeadTracker)
         cuefx2.decayTimeAt0Hz = 5
         cuefx2.decayTimeAtNyquist = 10
         cuefx2.dryWetMix = 0.5
-        let cuefx3 = addFX(16, fxType: .COMPRESSOR) as! AKCompressor
+        let cuefx3 = AKCompressor(cuefx2)
         cuefx3.threshold = -20
-        cuefx3.masterGain = 12
+        cuefx3.masterGain = 0
+        addFXChain(16, node: cuefx3)
         
-        
+        AudioKit.start()
         tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
         sequencer!.avTracks[sequencer!.avTracks.capacity-1].destinationMIDIEndpoint = tk.midiIn
         
@@ -172,6 +199,8 @@ class GameMusicPlayer : NSObject{
         AudioKit.stop()
         let vol = AKBooster(tk)
         mixer.connect(vol)
+        
+        
         
         //connects all tracks to mixer at default gain level
         for var index = 1; index < tracks.count; ++index {
@@ -317,10 +346,18 @@ class GameMusicPlayer : NSObject{
         case .FATTEN:
             tracks[intoTrackNumber]!.fx.append(Fatten(lastNodeInChain))
             break
+        case .AMPLITUDE_TRACKER:
+            tracks[intoTrackNumber]!.fx.append(AKAmplitudeTracker(lastNodeInChain))
+            break
         }
         
         //return the newly added effect
         return tracks[intoTrackNumber]!.fx[tracks[intoTrackNumber]!.fx.count - 1]!
+    }
+    
+    //used to append last node of an fx combination into a track
+    func addFXChain(intoTrackNumber: Int, node: AKNode){
+        tracks[intoTrackNumber]!.fx.append(node)
     }
     
     //play sequencer
@@ -383,5 +420,9 @@ class GameMusicPlayer : NSObject{
             toTrack.volume = AKBooster(toTrack.instrument)
         }
         toTrack.volume!.gain = gainLevel
+    }
+    
+    func getAmp()->Double{
+        return pianoLeadTracker!.amplitude
     }
 }

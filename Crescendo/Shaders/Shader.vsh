@@ -17,6 +17,7 @@ uniform vec4 color;
 uniform bool isPlane;
 uniform bool isPlayer;
 uniform float bob;
+uniform float amplitude;
 
 void main()
 {
@@ -47,6 +48,7 @@ void main()
     if (isPlane)
     {
         colorVarying = color;
+        transformedPosition += amplitude * vec4(normal.x, normal.y, normal.z, 0);
     }
     else
     {

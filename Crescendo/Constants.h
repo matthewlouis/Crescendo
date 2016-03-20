@@ -44,6 +44,10 @@ typedef NS_ENUM(NSInteger, ObjectType)
     SoundPickup             = 1,
     Collideable             = 2,
     PowerPickup             = 3,
+    Plane1                  = 4,
+    Plane2                  = 5,
+    Plane3                  = 6,
+    Plane4                  = 7,
 };
 
 
@@ -58,5 +62,10 @@ static int   DRUM_TRACK = 3;
 static float TIME_BEFORE_SPEEDUP = 60;
 static float SPEEDUP_INTERVAL = 3;
 static float SPEEDUP_AMOUNT = 1.01f;
+
+// Amplitude Smoothing
+static float MAX_AMPLITUDE_SHIFT = 0.5f;
+static float KICKDRUM_AMPLITUDE_SCALE = 5;
+static float SNAREDRUM_AMPLITUDE_SCALE = 10;
 
 #endif /* Constants_h */
