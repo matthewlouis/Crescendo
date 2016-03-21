@@ -9,10 +9,12 @@
 #ifndef Constants_h
 #define Constants_h
 
+// Bar stuff
 static float SECONDS_PER_MINUTE = 60.0f;
 static float DEFAULT_BPM = 120.0f;
 static float BAR_WIDTH = 40.0f;
 static float BARS_IN_SIGHT = 2;
+static float BAR_DIVISION = 4.5f;
 
 static int GRID_ROWS = 2;
 static int GRID_COLS = 2;

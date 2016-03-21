@@ -56,7 +56,7 @@
  */
 - (void)GeneratePlanes:(MusicBar *)musicBar inColor:(GLKVector4)color
 {
-    float quarterNoteOffset = m_BarWidth / 5.0f;
+    float quarterNoteOffset = m_BarWidth / BAR_DIVISION;
     
     // Generate first plane
     InteractiveSoundObject *soundObject = [musicBar getSoundObject: 0 / SoundEffectController.BAR_RESOLUTION];
