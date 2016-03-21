@@ -50,6 +50,7 @@ class SoundEffectController: NSObject{
         _musicSequences = SequenceReader.readFile(url!)
     }
     
+    
     func generateAndAddSection(stepSize:Float = DEFAULT_STEP, barLength:Float = SEQ_LENGTH){
         
         var barOfMusic:MusicBar

@@ -14,5 +14,6 @@
 @interface GameViewController : GLKViewController
 
 -(BaseEffect *)GetShader;
+- (void)tearDownGL;
 
 @end

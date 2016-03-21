@@ -11,6 +11,7 @@
 #import <GLKit/GLKit.h>
 #import "GameObject3D.h"
 #import <OpenGLES/ES2/glext.h>
+#import "Crescendo-Swift.h"
 
 @interface BaseEffect : NSObject
 {
@@ -23,14 +24,19 @@
         UNIFORM_ISPLANE,
         UNIFORM_ISPLAYER,
         UNIFORM_BOB,
+        UNIFORM_AMPLITUDE,
         NUM_UNIFORMS
     };
     
 @public GLuint _program;
 @public GLKMatrix4 projectionMatrix;
     
+@public GameMusicPlayer *musicPlayer;
     
-    @private GLint uniforms[NUM_UNIFORMS];
+@private float m_amplitude;
+@private float m_targetAmplitude;
+    
+@private GLint uniforms[NUM_UNIFORMS];
 }
 
 
@@ -42,6 +48,9 @@
 - (BOOL)validateProgram:(GLuint)prog;
 
 - (void)render:(GameObject3D*)gameObject3D;
+- (void)update:(float)deltaTime;
+
+- (void)setAmplitude:(float)amplitude;
 
 - (void)tearDown;
 

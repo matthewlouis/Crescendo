@@ -33,7 +33,7 @@
 - (id)initWithPosition:(float)position atBPM:(float)bpm usingMusicBar: (MusicBar *)musicBar inColor:(GLKVector4)color;
 
 - (void)GeneratePlanes:(MusicBar *)musicBar inColor:(GLKVector4)color;
-- (void)CreatePlane:(float)zOffset withSoundObject: (InteractiveSoundObject *)soundObject withThickness:(float)thickness inColor:(GLKVector4)color;
+- (void)CreatePlane:(float)zOffset withSoundObject: (InteractiveSoundObject *)soundObject withThickness:(float)thickness inColor:(GLKVector4)color ofType:(ObjectType)otype;
 - (Plane*)GetNextPlane;
 
 - (void)update:(float)TimePassed;

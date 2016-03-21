@@ -43,7 +43,7 @@
 - (void)move:(GLKVector3)amount;
 - (BOOL)checkCollision;
 
-- (id)initWithPosition:(float)positon soundObject: (InteractiveSoundObject *)soundObject withThickness:(float)thickness soundQuadrant:(NSMutableArray *)soundQuadrants inColor:(GLKVector4)color;
+- (id)initWithPosition:(float)positon soundObject: (InteractiveSoundObject *)soundObject withThickness:(float)thickness soundQuadrant:(NSMutableArray *)soundQuadrants inColor:(GLKVector4)color ofType:(ObjectType)otype;
 
 - (void)update:(float)TimePassed;
 //- (void)move:(GLKVector3)amount;

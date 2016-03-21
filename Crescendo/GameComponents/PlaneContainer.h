@@ -25,6 +25,7 @@
 @public NSMutableArray *m_Bars;
 @public float m_BPM;
 @public SoundEffectController *soundEffectController;
+@public GameMusicPlayer *gameMusicPlayer;
     
 @public Plane* nextPlane;
     
@@ -35,8 +36,6 @@
     
 @private float m_SpawnDistance;
 @private float m_SpawnBarVelocity;
-
-@private GameMusicPlayer *gameMusicPlayer;
     
 @private bool buildBar;
 }
@@ -54,6 +53,8 @@
 - (void)findNextPlane;
 
 +(void)startGame;
++(BOOL)gameStarted;
++(void)notifyStopGame;
 -(void)startMusic;
 -(void)syncToBar;
 

@@ -30,7 +30,7 @@
 - (instancetype)init {
     if ((self = [super initWithName:"player" shader:nil vertices:(Vertex*) player_Vertices vertexCount:sizeof(player_Vertices) / sizeof(player_Vertices[0])])) {
         _playerSpeed = 1.0f;
-        _timeToAnimate = 1.0f;
+        _timeToAnimate = 0.5f;
         _rotateAmount = 2.0f;
         _bobAmount = 1.0f;
         _bobTime = 1.0f;
