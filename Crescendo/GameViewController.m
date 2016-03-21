@@ -32,13 +32,12 @@ enum
     
     GLuint _vertexArray;
     GLuint _vertexBuffer;
-        
-    // Plane Container
-    PlaneContainer *planeContainer;
     
     BaseEffect *_shader;
     GameScene *_scene;
     GLKMatrix4 projectionMatrix;
+    
+    GameMusicPlayer *_musicPlayer;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -46,7 +45,7 @@ enum
 @property (weak, nonatomic) IBOutlet MessageView *messageView;
 
 - (void)setupGL;
-- (void)tearDownGL;
+
 
 
 - (void)initializeClasses;
@@ -61,10 +60,6 @@ enum
     [super viewDidLoad];
     
     [self.messageView sceneSetup];
-    
-    // Initialize plane container
-    planeContainer = [[PlaneContainer alloc] init];
-    
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -83,6 +78,12 @@ enum
     
     // Create the game scene
     [self setupScene];
+    
+    //get musicplayer (must be called after planeContainer init
+    _musicPlayer = [_scene getGlobalMusicPlayer];
+    
+    // Store musicplayer reference in effect
+    _shader->musicPlayer = _musicPlayer;
 }
 
 - (void)dealloc
@@ -150,6 +151,8 @@ enum
     glDeleteBuffers(1, &_vertexBuffer);
     glDeleteVertexArraysOES(1, &_vertexArray);
     
+    _musicPlayer = nil;
+    
     [_scene CleanUp];
     
     if (_shader) {
@@ -165,6 +168,13 @@ enum
 {
     // Update Scene
     [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
+    
+    if(_scene.gameOver && !self.messageView.gameOver){
+        [self.messageView displayGameOver: _scene.score];
+        [_musicPlayer fadeOutMusic];
+    }
+    
+    [_shader update:self.timeSinceLastUpdate];
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
@@ -178,10 +188,9 @@ enum
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     [_shader render:_scene];
-    
 }
 
 
@@ -195,33 +204,19 @@ enum
 
 - (void)initializeClasses
 {
-    self.handleInput = [[HandleInputs alloc] initWithGameViewSize:self.view.frame.size];
+    self.handleInput = [[HandleInputs alloc] init];
 }
 
 - (void)createGestures
 {
     UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleTap:)];
     [self.view addGestureRecognizer:singleFingerTap];
+    
+    UIPanGestureRecognizer *swipePan = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipes:)];
+    [swipePan setMaximumNumberOfTouches:1];
+    [swipePan setMinimumNumberOfTouches:1];
+    [self.view addGestureRecognizer:swipePan];
 
-    UISwipeGestureRecognizer *swipeLeftFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeLeft:)];
-    swipeLeftFingerDrag.direction = UISwipeGestureRecognizerDirectionLeft;
-    [swipeLeftFingerDrag setNumberOfTouchesRequired:1];
-    [self.view addGestureRecognizer:swipeLeftFingerDrag];
-    
-    UISwipeGestureRecognizer *swipeRightFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeRight:)];
-    swipeRightFingerDrag.direction = UISwipeGestureRecognizerDirectionRight;
-    [swipeRightFingerDrag setNumberOfTouchesRequired:1];
-    [self.view addGestureRecognizer:swipeRightFingerDrag];
-    
-    UISwipeGestureRecognizer *swipeUpFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeUp:)];
-    swipeUpFingerDrag.direction = UISwipeGestureRecognizerDirectionUp;
-    [swipeLeftFingerDrag setNumberOfTouchesRequired:1];
-    [self.view addGestureRecognizer:swipeUpFingerDrag];
-    
-    UISwipeGestureRecognizer *swipeDownFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeDown:)];
-    swipeDownFingerDrag.direction = UISwipeGestureRecognizerDirectionDown;
-    [swipeDownFingerDrag setNumberOfTouchesRequired:1];
-    [self.view addGestureRecognizer:swipeDownFingerDrag];
 }
 
 -(BaseEffect *)GetShader

@@ -51,8 +51,8 @@
         [self->children addObject:planeContainer];
         
         //debug to show where player collides with plane objects
-        Plane *collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil withThickness:4];
-        [self->children addObject:collisionPlane];
+        //Plane *collisionPlane = [[Plane alloc]initWithPosition:0.0 soundObject:nil withThickness:4];
+        //[self->children addObject:collisionPlane];
 
         [planeContainer startMusic];
     }
@@ -70,6 +70,7 @@
     }
     else
     {
+        [_player updateBobMotion:timePassed];
         _player.startPosition = _player->worldPosition;
         _player.startRotation = _player->rotation;
         _player.timeElapsed = 0.0f;
@@ -84,22 +85,43 @@
     for (PlaneObject *planeObject in planeContainer->nextPlane->m_PlaneObjects) {
         if ([_player checkCollision:planeObject]){
             [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
+            if(planeObject->type == SoundPickup){
+                ++_score;
+            }
+            
+            if(planeObject->type == Collideable){ //game over
+                _gameOver = true;
+                [PlaneContainer notifyStopGame];
+            }
+            
             [planeContainer->nextPlane->children removeObject:planeObject]; //remove object
+            
+            // Fade on collide
+            /* Random color */
+            srand48(arc4random());  // Set seed for random
+            float r = drand48();
+            srand48(arc4random());
+            float g = drand48();
+            srand48(arc4random());
+            float b = drand48();
+            
+            GLKVector4 newColor = GLKVector4Make(r, g, b, 1);
+            
+            // Fade all bars and planes to random color. Spawn in new color
+            [planeContainer fadeAllBarsTo:newColor In:1.0f];
+            planeContainer->spawnColor = newColor;
+            
+            /* Strobe stuff
+            GLKVector4 red = GLKVector4Make(1, 0, 0, 1);
+            GLKVector4 black = GLKVector4Make(0, 0, 0, 1);
+            
+            [planeContainer strobeAllBarsBetweenColors:red And:black Every:0.25f For:5.0];
+             */
         }
     }
-    /*Bar *bar = planeContainer->m_Bars[0];
-    for (Plane *cPlane in bar->m_Planes) {
-        for (PlaneObject *planeObject in cPlane->m_PlaneObjects) {
-            if ([_player checkCollision:planeObject]){
-                [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
-                [cPlane->children removeObject:planeObject]; //remove object
-            }
-        }
-    }*/
 }
 - (void)CleanUp
 {
-    [self CleanUp];
     
     for (GameObject3D* o in children)
     {
@@ -107,7 +129,10 @@
     }
 }
 
-
+//Used to get the planeContainer's reference to the music player
+-(GameMusicPlayer *)getGlobalMusicPlayer{
+    return planeContainer->gameMusicPlayer;
+}
 
 
 @end

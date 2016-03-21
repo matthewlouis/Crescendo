@@ -8,15 +8,19 @@
 
 #import "GameObject3D.h"
 
+#define PLAYER_ANIMATE_SPEED 2.5f
+
 @interface Player : GameObject3D
 
 @property (nonatomic, assign) float timeElapsed;
+@property (nonatomic, assign) float timeToAnimate;
+@property (nonatomic, assign) float playerSpeed;
 @property (nonatomic, assign) GLKVector3 startPosition;
 @property (nonatomic, assign) GLKVector3 startRotation;
+@property (nonatomic, assign) float bob;
 
 - (instancetype)init;
+- (void)updateBobMotion:(float)timeElapsed;
 - (bool)moveTo:(GLKVector3)moveToPosition;
-- (GLKVector3)lerpStartVector:(GLKVector3)startVector withEndVector:(GLKVector3)endVector lerpDistance:(float)percentage;
-- (float)lerp:(float)startValue withEndValue:(float)endValue lerpDistance:(float)percentage;
 
 @end

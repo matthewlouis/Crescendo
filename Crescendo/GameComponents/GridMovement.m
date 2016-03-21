@@ -18,7 +18,7 @@
     
     GLKVector2 _gridCount;
     GLKVector2 *cellArray;
-    GridQuadrant _playerQuadrant;
+    Grid2x2Quadrant _playerQuadrant;
 }
 
 @end
@@ -31,7 +31,7 @@
     static dispatch_once_t onceToken;
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     dispatch_once(&onceToken, ^{
-        sharedMyClass = [[self alloc] initWithGridCount:GLKVector2Make(3.0, 3.0) deviceSize:screenRect.size planeSize:CGSizeMake(X_SCALE_FACTOR * 2, Y_SCALE_FACTOR * 2)];
+        sharedMyClass = [[self alloc] initWithGridCount:GLKVector2Make(2.0, 2.0) deviceSize:screenRect.size planeSize:CGSizeMake(X_SCALE_FACTOR * 2, Y_SCALE_FACTOR * 2)];
     });
     
     return sharedMyClass;
@@ -49,7 +49,7 @@
         
         _cellPlaneSize.width  = planeSize.width / _gridCount.x;
         _cellPlaneSize.height = planeSize.height / _gridCount.y;
-        _playerQuadrant = GridQuadrantBottom;
+        _playerQuadrant = Grid2x2QuadrantBottomRight;
         [self calculateCellsCenter];
     }
     
@@ -96,36 +96,160 @@
     return GLKVector3Make(gridLocation.x, gridLocation.y, 0);
 }
 
+- (GLKVector3)getGrid2x2Location:(Grid2x2Quadrant)quadrant
+{
+    GLKVector2 gridLocation = cellArray[quadrant];
+    
+    return GLKVector3Make(gridLocation.x, gridLocation.y, 0);
+}
+
 - (GLKVector2)gridLocationWithMoveDirection:(GLKVector2)moveDirection
 {
-    // Left
-    if (moveDirection.x < 0 && (_playerQuadrant % 3 != 1))
+    if (moveDirection.y < 0)
     {
-        _playerQuadrant--;
-        return cellArray[_playerQuadrant];
+        // DownLeft
+        if (moveDirection.x < 0 && (_playerQuadrant % (int)_gridCount.y != 1) && _playerQuadrant > GridQuadrantBottomRight)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            _playerQuadrant--;
+            return cellArray[_playerQuadrant];
+        }
+        
+        // DownRight
+        if (moveDirection.x > 0 && (_playerQuadrant % (int)_gridCount.y != 0) && _playerQuadrant > GridQuadrantBottomRight)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            _playerQuadrant++;
+            return cellArray[_playerQuadrant];
+        }
+        
+        // Down
+        if (_playerQuadrant > GridQuadrantBottomRight)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            return cellArray[_playerQuadrant];
+        }
+    }
+    else if (moveDirection.y > 0)
+    {
+        // UpLeft
+        if (moveDirection.x < 0 && (_playerQuadrant % (int)_gridCount.y != 1) && _playerQuadrant < GridQuadrantTopLeft)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            _playerQuadrant--;
+            return cellArray[_playerQuadrant];
+        }
+        
+        // UpRight
+        if (moveDirection.x > 0 && (_playerQuadrant % (int)_gridCount.y != 0) && _playerQuadrant < GridQuadrantTopLeft)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            _playerQuadrant++;
+            return cellArray[_playerQuadrant];
+        }
+        
+        // Up
+        if (_playerQuadrant < GridQuadrantTopLeft)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            return cellArray[_playerQuadrant];
+        }
+    }
+    else
+    {
+        // Left
+        if (moveDirection.x < 0 && (_playerQuadrant % (int)_gridCount.y != 1))
+        {
+            _playerQuadrant--;
+            return cellArray[_playerQuadrant];
+        }
+        
+        // Right
+        if (moveDirection.x > 0 && (_playerQuadrant % (int)_gridCount.y != 0))
+        {
+            _playerQuadrant++;
+            return cellArray[_playerQuadrant];
+        }
     }
     
-    // Right
-    if (moveDirection.x > 0 && (_playerQuadrant % 3 != 0))
+    return cellArray[_playerQuadrant];
+}
+
+- (GLKVector2)grid2x2LocationWithMoveDirection:(GLKVector2)moveDirection
+{
+    if (moveDirection.y < 0)
     {
-        _playerQuadrant++;
-        return cellArray[_playerQuadrant];
+        // DownLeft
+        if (moveDirection.x < 0 && (_playerQuadrant % (int)_gridCount.y != 1) && _playerQuadrant > Grid2x2QuadrantBottomRight)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            _playerQuadrant--;
+            return cellArray[_playerQuadrant];
+        }
+        
+        // DownRight
+        if (moveDirection.x > 0 && (_playerQuadrant % (int)_gridCount.y != 0) && _playerQuadrant > Grid2x2QuadrantBottomRight)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            _playerQuadrant++;
+            return cellArray[_playerQuadrant];
+        }
+        
+        // Down
+        if (_playerQuadrant > Grid2x2QuadrantBottomRight)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            return cellArray[_playerQuadrant];
+        }
+    }
+    else if (moveDirection.y > 0)
+    {
+        // UpLeft
+        if (moveDirection.x < 0 && (_playerQuadrant % (int)_gridCount.y != 1) && _playerQuadrant < Grid2x2QuadrantTopLeft)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            _playerQuadrant--;
+            return cellArray[_playerQuadrant];
+        }
+        
+        // UpRight
+        if (moveDirection.x > 0 && (_playerQuadrant % (int)_gridCount.y != 0) && _playerQuadrant < Grid2x2QuadrantTopLeft)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            _playerQuadrant++;
+            return cellArray[_playerQuadrant];
+        }
+        
+        // Up
+        if (_playerQuadrant < Grid2x2QuadrantTopLeft)
+        {
+            _playerQuadrant += (int)moveDirection.y * (int)_gridCount.y;
+            return cellArray[_playerQuadrant];
+        }
+    }
+    else
+    {
+        // Left
+        if (moveDirection.x < 0 && (_playerQuadrant % (int)_gridCount.y != 1))
+        {
+            _playerQuadrant--;
+            return cellArray[_playerQuadrant];
+        }
+        
+        // Right
+        if (moveDirection.x > 0 && (_playerQuadrant % (int)_gridCount.y != 0))
+        {
+            _playerQuadrant++;
+            return cellArray[_playerQuadrant];
+        }
     }
     
-    // Down
-    if (moveDirection.y < 0 && (_playerQuadrant > GridQuadrantBottomRight))
-    {
-        _playerQuadrant += (int)moveDirection.y * 3;
-        return cellArray[_playerQuadrant];
-    }
-    
-    // Up
-    if (moveDirection.y > 0 && (_playerQuadrant < GridQuadrantTopLeft))
-    {
-        _playerQuadrant += (int)moveDirection.y * 3;
-        return cellArray[_playerQuadrant];
-    }
-    
+    return cellArray[_playerQuadrant];
+}
+
+- (GLKVector2)gridLocationWithGrid2x2Quadrant:(Grid2x2Quadrant)quadrant
+{
+    _playerQuadrant = quadrant;
     return cellArray[_playerQuadrant];
 }
 

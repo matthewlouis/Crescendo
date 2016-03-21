@@ -53,11 +53,13 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         
         // Instantiate color parameters
-        color = GLKVector4Make(0, 0, 0, 1); // Default color is black;
+        _color = GLKVector4Make(0, 0, 0, 1); // Default color is black;
         m_ColorState = COLOR_STATIC;        // Default state is no operation;
         colorTimePassed = 0;                // Set all timers to nothing
         colorTimeStrobePassed = 0;
         colorTimeLimit = 0;
+        
+        [self resetColorState];
     }
     return self;
 }
@@ -77,7 +79,7 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
 
 - (void)update:(float)TimePassed
 {
-    
+    [self updateColor:TimePassed];
 }
 
 - (void)updateWithDelta:(NSTimeInterval)dt {
@@ -120,9 +122,6 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
                            (self->worldPosition.y - object->worldPosition.y) * (self->worldPosition.y - object->worldPosition.y) +
                            (self->worldPosition.z - object->worldPosition.z) * (self->worldPosition.z - object->worldPosition.z)
                            );
-
-    printf("\n%f", distance);
-
     
     //use radius to check for intersection of spheres
     if(distance <= object->boundingSphereRadius + self->boundingSphereRadius){
@@ -135,13 +134,97 @@ BaseEffect *)shader vertices:(Vertex *)vertices vertexCount:(unsigned int)p_vert
 // The transition towards a destination color in the specified amount of time
 - (void)fadeToColor:(GLKVector4)color In:(float)timeToFade
 {
-    
-    
+    if (m_ColorState == COLOR_STATIC)
+    {
+        targetColor = color;
+        colorTimePassed = 0;
+        colorTimeLimit = timeToFade;
+        m_ColorState = COLOR_FADING;
+    }
 }
 
 - (void)strobeBetweenColor:(GLKVector4)firstColor And:(GLKVector4)secondColor Every:(float)timeBetweenFlashes For:(float)timeToStrobe
 {
-    
+    if (m_ColorState == COLOR_STATIC)
+    {
+        strobeColor1 = firstColor;
+        strobeColor2 = secondColor;
+        
+        colorTimePassed = 0;
+        colorTimeLimit = timeToStrobe;
+        colorTimeStrobePassed = 0;
+        colorTimeStrobeLimit = timeBetweenFlashes;
+        
+        _color = strobeColor1;
+        
+        m_ColorState = COLOR_STROBE;
+    }
+}
+
+- (void)updateColor:(float)timePassed
+{
+    float timePercentage;
+    switch (m_ColorState)
+    {
+        case COLOR_STATIC:
+            break;
+            
+        case COLOR_FADING:
+            
+            colorTimePassed += timePassed;
+            if (colorTimePassed < colorTimeLimit)
+            {
+                // Calculate percentage of time passed
+                timePercentage = colorTimePassed / colorTimeLimit;
+                _color = GLKVector4Add(GLKVector4MultiplyScalar(previousColor, (1.0f - timePercentage)), GLKVector4MultiplyScalar(targetColor, timePercentage));
+            }
+            else
+            {
+                _color = targetColor;
+                [self resetColorState];
+            }
+            break;
+            
+        case COLOR_STROBE:
+            colorTimePassed += timePassed;
+            colorTimeStrobePassed += timePassed;
+            
+            if (colorTimePassed < colorTimeLimit)
+            {
+                if (colorTimeStrobePassed > colorTimeStrobeLimit)
+                {
+                    colorTimeStrobePassed = 0;
+                    
+                    if (GLKVector4AllEqualToVector4(_color, strobeColor1))
+                    {
+                        _color = strobeColor2;
+                    }
+                    else
+                    {
+                        _color = strobeColor1;
+                    }
+
+                }
+            }
+            else
+            {
+                _color = previousColor;
+                [self resetColorState];
+            }
+            
+            break;
+    }
+}
+
+- (void)resetColorState
+{
+    previousColor = _color;
+    colorTimePassed = 0;
+    colorTimeStrobePassed = 0;
+    colorTimeLimit = 0;
+    colorTimeStrobeLimit = 0;
+    m_ColorState = COLOR_STATIC;
+
 }
 
 @end

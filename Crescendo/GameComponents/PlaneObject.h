@@ -18,10 +18,14 @@
 
 @interface PlaneObject : GameObject3D
 {
-    @public InteractiveSoundObject *soundObject;
+@public InteractiveSoundObject *soundObject;
+@private Vertex *vertices;
+    
 }
 
-- (instancetype)initWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)soundObject;
--(void)updatePositionBasedOnPlane:(Plane *) plane;
+- (instancetype)initWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)soundObject objectType:(int)objectType;
+- (instancetype)initGlassCollidableWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)soundObject;
+- (instancetype)initPowerPickupWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)sound;
+-(void)updatePositionBasedOnPlane:(Plane *) plane Time:(float)TimePassed;
 
 @end

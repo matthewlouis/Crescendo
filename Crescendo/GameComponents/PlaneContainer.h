@@ -25,16 +25,17 @@
 @public NSMutableArray *m_Bars;
 @public float m_BPM;
 @public SoundEffectController *soundEffectController;
+@public GameMusicPlayer *gameMusicPlayer;
     
 @public Plane* nextPlane;
+    
+@public GLKVector4 spawnColor;
     
 @private TimeSignature m_TimeSignature;
 @private float m_TimePassed;
     
 @private float m_SpawnDistance;
 @private float m_SpawnBarVelocity;
-
-@private GameMusicPlayer *gameMusicPlayer;
     
 @private bool buildBar;
 }
@@ -52,8 +53,14 @@
 - (void)findNextPlane;
 
 +(void)startGame;
++(BOOL)gameStarted;
++(void)notifyStopGame;
 -(void)startMusic;
 -(void)syncToBar;
+
+// Color methods
+- (void)fadeAllBarsTo:(GLKVector4)color In:(float)time;
+- (void)strobeAllBarsBetweenColors:(GLKVector4)color1 And:(GLKVector4)color2 Every:(float)timeBetweenFlashes For:(float)timeLimit;
 
 @end
 
