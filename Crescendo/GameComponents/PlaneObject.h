@@ -18,7 +18,7 @@
 
 @interface PlaneObject : GameObject3D
 {
-    @public InteractiveSoundObject *soundObject;
+@public InteractiveSoundObject *soundObject;
 @private Vertex *vertices;
     
 }

@@ -85,6 +85,15 @@
     for (PlaneObject *planeObject in planeContainer->nextPlane->m_PlaneObjects) {
         if ([_player checkCollision:planeObject]){
             [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
+            if(planeObject->type == SoundPickup){
+                ++_score;
+            }
+            
+            if(planeObject->type == Collideable){ //game over
+                _gameOver = true;
+                [PlaneContainer notifyStopGame];
+            }
+            
             [planeContainer->nextPlane->children removeObject:planeObject]; //remove object
             
             // Fade on collide
@@ -108,16 +117,6 @@
             [planeContainer strobeAllBarsBetweenColors:red And:black Every:0.25f For:5.0];
         }
     }
-    
-    /*Bar *bar = planeContainer->m_Bars[0];
-    for (Plane *cPlane in bar->m_Planes) {
-        for (PlaneObject *planeObject in cPlane->m_PlaneObjects) {
-            if ([_player checkCollision:planeObject]){
-                [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
-                [cPlane->children removeObject:planeObject]; //remove object
-            }
-        }
-    }*/
 }
 - (void)CleanUp
 {

@@ -26,7 +26,6 @@
 @public float m_BPM;
 @public SoundEffectController *soundEffectController;
 @public GameMusicPlayer *gameMusicPlayer;
-
     
 @public Plane* nextPlane;
     
@@ -54,6 +53,8 @@
 - (void)findNextPlane;
 
 +(void)startGame;
++(BOOL)gameStarted;
++(void)notifyStopGame;
 -(void)startMusic;
 -(void)syncToBar;
 

@@ -68,6 +68,7 @@ class GameMusicPlayer : NSObject{
     
     var sequencer:AKSequencer?
     var mixer = AKMixer()
+    var masterComp: AKCompressor?
     
     
     //Allots for 16 tracks, with a 1-based index
@@ -90,6 +91,16 @@ class GameMusicPlayer : NSObject{
         self.bpm = DEFAULT_BPM
         tk = TempoKeeper(listener:tempoListener)
         super.init()
+    }
+    
+    deinit{
+        print("deinit")
+        AudioKit.stop()
+        sequencer?.stop()
+        sequencer = nil
+        for(var i = 0; i < tracks.count; ++i){
+            tracks[i] = nil
+        }
     }
     
     //loads audiokit and settings, will be turned into loadSong
@@ -210,10 +221,10 @@ class GameMusicPlayer : NSObject{
             }
         }
         
-        let masterComp = AKCompressor(mixer)
-        masterComp.headRoom = 3
-        masterComp.releaseTime = 0.2
-        masterComp.masterGain = 9
+        masterComp = AKCompressor(mixer)
+        masterComp!.headRoom = 3
+        masterComp!.releaseTime = 0.2
+        masterComp!.masterGain = 9
         
         tracks[4]?.volume?.gain = 0.1
         tracks[1]?.volume?.gain = 0.3
@@ -405,6 +416,19 @@ class GameMusicPlayer : NSObject{
                 })
             })
         }
+    }
+    
+    @objc func masterFadeout(timer:NSTimer){
+        if(masterComp!.masterGain <= -40){
+            timer.invalidate()
+        }else{
+            masterComp!.masterGain -= 1
+            print(masterComp!.masterGain)
+        }
+    }
+    
+    @objc func fadeOutMusic(){
+        NSTimer.scheduledTimerWithTimeInterval(0.06, target: self, selector: Selector("masterFadeout:"), userInfo: nil, repeats: true)
     }
     
     

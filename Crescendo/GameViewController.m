@@ -166,6 +166,12 @@ enum
 {
     // Update Scene
     [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
+    
+    if(_scene.gameOver && !self.messageView.gameOver){
+        [self.messageView displayGameOver: _scene.score];
+        [_musicPlayer fadeOutMusic];
+    }
+    
     [_shader update:self.timeSinceLastUpdate];
 }
 

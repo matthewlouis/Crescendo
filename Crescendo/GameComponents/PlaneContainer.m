@@ -15,8 +15,8 @@
     float totalTimePassed;
     float timeAccumBeforeStart;
 }
-
 static bool gameStarted;
+
 
 - (id)init
 {
@@ -50,6 +50,12 @@ static bool gameStarted;
     
     return self;
 }
+
+-(void)dealloc{
+    gameMusicPlayer = nil;
+    soundEffectController = nil;
+}
+
 
 - (void)CleanUp
 {
@@ -240,6 +246,14 @@ static bool gameStarted;
     {
         [bar strobeAllPlanesBetweenColors:color1 And:color2 Every:timeBetweenFlashes For:timeLimit];
     }
+}
+
++(BOOL)gameStarted{
+    return gameStarted;
+}
+
++(void)notifyStopGame{
+    gameStarted = NO;
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import "GridMovement.h"
 #import "PlaneModel.h"
+#import "PlaneContainer.h"
 
 @implementation Plane
 
@@ -56,8 +57,10 @@
   
         // Initialize new plane object storage
         self->m_PlaneObjects = [[NSMutableArray alloc] init];
-        
+    
+    if([PlaneContainer gameStarted]){
         [self CreatePlaneObject:soundObject];
+    }
     
     
     

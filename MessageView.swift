@@ -22,6 +22,8 @@ var currentMessage:SCNNode?
 
 class MessageView: SCNView {
     
+    var gameOver = false;
+    
     required init?(coder aDecoder: NSCoder) {
         
         fontMaterial.specular.contents = UIColor.grayColor()
@@ -105,6 +107,34 @@ class MessageView: SCNView {
         let sequence = SCNAction.sequence([move1,move2])
         let repeatedSequence = SCNAction.repeatActionForever(sequence)
         currentMessage?.runAction(repeatedSequence)
+    }
+    
+    func displayGameOver(score: CLong){
+        var background = SCNPlane(width: self.bounds.width, height: self.bounds.height)
+        background.materials[0].diffuse.contents = UIColor.clearColor()
+        
+        
+        currentMessage = stringToSCNNode("Finé. " + String(score),   position:SCNVector3(0,0,0))
+        
+        scene!.rootNode.addChildNode(SCNNode(geometry: background))
+        scene!.rootNode.addChildNode(currentMessage!)
+        
+        messageDisplayed = true;
+        
+        let move1 = SCNAction.moveByX(0, y: CGFloat(0.2), z: 0.0, duration: 1)
+        let move2 = SCNAction.moveByX(0, y: CGFloat(-0.2), z: 0.0, duration: 1)
+        let sequence = SCNAction.sequence([move1,move2])
+        let repeatedSequence = SCNAction.repeatActionForever(sequence)
+        currentMessage?.runAction(repeatedSequence)
+        
+        SCNTransaction.begin()
+        SCNTransaction.setAnimationDuration(0.5)
+        let materials = (currentMessage!.geometry?.materials)! as [SCNMaterial]
+        let material = materials[0]
+        material.diffuse.contents = UIColor.whiteColor()
+        background.materials[0].diffuse.contents = UIColor.blackColor()
+        SCNTransaction.commit()
+        gameOver = true;
     }
     
     func messageIsDisplayed()->Bool{
