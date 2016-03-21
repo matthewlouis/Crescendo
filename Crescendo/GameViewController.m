@@ -209,30 +209,6 @@ enum
 {
     UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleTap:)];
     [self.view addGestureRecognizer:singleFingerTap];
-
-    UISwipeGestureRecognizer *swipeLeftFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeLeft:)];
-    swipeLeftFingerDrag.direction = UISwipeGestureRecognizerDirectionLeft;
-    [swipeLeftFingerDrag setNumberOfTouchesRequired:1];
-    [self.view addGestureRecognizer:swipeLeftFingerDrag];
-    swipeLeftFingerDrag.enabled = false;
-    
-    UISwipeGestureRecognizer *swipeRightFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeRight:)];
-    swipeRightFingerDrag.direction = UISwipeGestureRecognizerDirectionRight;
-    [swipeRightFingerDrag setNumberOfTouchesRequired:1];
-    [self.view addGestureRecognizer:swipeRightFingerDrag];
-    swipeRightFingerDrag.enabled = false;
-    
-    UISwipeGestureRecognizer *swipeUpFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeUp:)];
-    swipeUpFingerDrag.direction = UISwipeGestureRecognizerDirectionUp;
-    [swipeLeftFingerDrag setNumberOfTouchesRequired:1];
-    [self.view addGestureRecognizer:swipeUpFingerDrag];
-    swipeUpFingerDrag.enabled = false;
-    
-    UISwipeGestureRecognizer *swipeDownFingerDrag = [[UISwipeGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipeDown:)];
-    swipeDownFingerDrag.direction = UISwipeGestureRecognizerDirectionDown;
-    [swipeDownFingerDrag setNumberOfTouchesRequired:1];
-    [self.view addGestureRecognizer:swipeDownFingerDrag];
-    swipeDownFingerDrag = false;
     
     UIPanGestureRecognizer *swipePan = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipes:)];
     [swipePan setMaximumNumberOfTouches:1];
