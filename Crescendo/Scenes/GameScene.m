@@ -122,7 +122,6 @@
 }
 - (void)CleanUp
 {
-    [self CleanUp];
     
     for (GameObject3D* o in children)
     {

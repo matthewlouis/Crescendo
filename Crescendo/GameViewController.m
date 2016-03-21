@@ -45,7 +45,7 @@ enum
 @property (weak, nonatomic) IBOutlet MessageView *messageView;
 
 - (void)setupGL;
-- (void)tearDownGL;
+
 
 
 - (void)initializeClasses;
@@ -150,6 +150,8 @@ enum
     
     glDeleteBuffers(1, &_vertexBuffer);
     glDeleteVertexArraysOES(1, &_vertexArray);
+    
+    _musicPlayer = nil;
     
     [_scene CleanUp];
     

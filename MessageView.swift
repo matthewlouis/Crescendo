@@ -140,5 +140,12 @@ class MessageView: SCNView {
     func messageIsDisplayed()->Bool{
         return messageDisplayed
     }
+    
+    func cleanUp(){
+        scene = nil
+        currentMessage = nil
+        gameOver = false;
+        messageDisplayed = false;
+    }
 
 }

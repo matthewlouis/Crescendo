@@ -59,6 +59,10 @@ static bool gameStarted;
 
 - (void)CleanUp
 {
+    [gameMusicPlayer cleanUp];
+    gameMusicPlayer = nil;
+    soundEffectController = nil;
+    
     // Clean up all the Bars
     for (Bar* o in m_Bars)
     {

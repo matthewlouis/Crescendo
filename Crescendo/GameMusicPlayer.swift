@@ -103,6 +103,16 @@ class GameMusicPlayer : NSObject{
         }
     }
     
+    func cleanUp(){
+        print("cleanup MusicPlayer")
+        sequencer?.stop()
+        AudioKit.stop()
+        sequencer = nil
+        for(var i = 0; i < tracks.count; ++i){
+            tracks[i] = nil
+        }
+    }
+    
     //loads audiokit and settings, will be turned into loadSong
     func load(){
         AudioKit.output = mixer
