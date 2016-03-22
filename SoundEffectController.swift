@@ -22,6 +22,8 @@ class SoundEffectController: NSObject{
     static let BAR_RESOLUTION:Float = 4
     static let DEFAULT_STEP:Float = 1/BAR_RESOLUTION
     
+    static  let OBSTACLE_NOTE = InteractiveSoundObject(note: 86, duration: 0.25, position: 0)
+    
     //keeps track of how many bars we've generated
     var barsGenerated:Int = 0
     
@@ -29,7 +31,7 @@ class SoundEffectController: NSObject{
     
     var isMinorScale = true
     
-    var difficultyScale:Double = 90
+    var difficultyScale:Double = 70
     
     var _musicBars:[MusicBar]
     
@@ -42,7 +44,7 @@ class SoundEffectController: NSObject{
         _musicSequences = [MusicNoteSequence]()
         _musicBars   = [MusicBar]()
         _musicPlayer = musicPlayer
-        _soundeffectInstrument = (musicPlayer.tracks[16]?.instrument)!;
+        _soundeffectInstrument = (musicPlayer.tracks[16]?.instrument)!
     
         super.init()
         
@@ -50,6 +52,7 @@ class SoundEffectController: NSObject{
         let url = NSBundle.mainBundle().URLForResource("Songs/preprogrammed", withExtension: "seq")
         _musicSequences = SequenceReader.readFile(url!)
     }
+    
     
     func generateAndAddSection(stepSize:Float = DEFAULT_STEP, barLength:Float = SEQ_LENGTH){
         
@@ -61,7 +64,6 @@ class SoundEffectController: NSObject{
         let numSteps = Int(SoundEffectController.SEQ_LENGTH/stepSize)
         
         /*
-        
         let index = arc4random_uniform(UInt32(_musicSequences.count))
         var sequence = _musicSequences[Int(index)]
         
@@ -70,7 +72,7 @@ class SoundEffectController: NSObject{
             let soundObject = InteractiveSoundObject(note: note.noteNumber, duration: note.duration, position: note.position)
             
             barOfMusic.events.append(soundObject)
-        }
+        }*/
         
         for(var j = 0; j < barsToGenerate; j += sequence.seqLengthBars){
             _musicBars.append(barOfMusic)

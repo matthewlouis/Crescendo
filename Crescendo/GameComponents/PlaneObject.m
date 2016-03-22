@@ -11,6 +11,8 @@
 #import "Crescendo-Swift.h"
 #import "Constants.h"
 #import "Plane.h"
+#import "glassPanel.h"
+#import "sphere.h"
 
 @implementation PlaneObject
 
@@ -28,7 +30,7 @@
                 renderMode = GL_TRIANGLES;
                 
                 self->soundObject = sound;
-                self->color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
+                self->_color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
             }
             break;
             
@@ -43,7 +45,7 @@
                 renderMode = GL_TRIANGLES;
                 
                 self->soundObject = sound;
-                self->color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
+                self->_color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
             }
             break;
     }
@@ -52,9 +54,9 @@
     return self;
 }
 
-- (instancetype)initGlassCollidableWithPlane:(Plane*)plane{
+- (instancetype)initGlassCollidableWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)sound{
     self->type = Collideable;
-    if ((self = [super initWithName:"glassCollideable" shader:nil vertices:(Vertex*)cube_Vertices vertexCount:sizeof(cube_Vertices) / sizeof(cube_Vertices[0])])) {
+    if ((self = [super initWithName:"glassCollideable" shader:nil vertices:(Vertex*)glassPanel_Vertices vertexCount:sizeof(glassPanel_Vertices) / sizeof(glassPanel_Vertices[0])])) {
         
         self->worldPosition = GLKVector3Make(0, 0, plane->worldPosition.z);
         //self->rotation = GLKVector3Make(-1.25, 3.14, 0);
@@ -63,27 +65,44 @@
         // Specify Drawing Mode
         renderMode = GL_TRIANGLES;
         
-        self->color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
+        self->soundObject = sound;
+        self->_color = GLKVector4Make(0.7f, 0.3f, 0.3f, 0.5f);
     }
-    
+    return self;
+}
+
+- (instancetype)initPowerPickupWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)sound{
+    self->type = PowerPickup;
+    if ((self = [super initWithName:"powerPickup" shader:nil vertices:(Vertex*)sphere_Vertices vertexCount:sizeof(sphere_Vertices) / sizeof(sphere_Vertices[0])])) {
+        
+        self->worldPosition = GLKVector3Make(0, 0, plane->worldPosition.z);
+        //self->rotation = GLKVector3Make(-1.25, 3.14, 0);
+        self->scale = GLKVector3Make(0.75, 0.75, 0.75);
+        
+        // Specify Drawing Mode
+        renderMode = GL_TRIANGLES;
+        
+        self->soundObject = sound;
+        self->_color = GLKVector4Make(0.3f, 0.7f, 0.7f, 0.7f);
+    }
     return self;
 }
 
 /*
  * Updates position on each plane object based on plane movement and object behaviour
  */
--(void)updatePositionBasedOnPlane:(Plane *) plane
+-(void)updatePositionBasedOnPlane:(Plane *) plane Time:(float)timePassed
 {
     worldPosition.z = plane->worldPosition.z;
-    //[self updateActionBasedOnObjectType];
+    [self updateActionBasedOnObjectType:timePassed];
 }
 
 
--(void)updateActionBasedOnObjectType
+-(void)updateActionBasedOnObjectType:(float)timePassed
 {
     switch (type) {
         case SoundPickup:
-            
+            [self soundPickUpBehaviour:timePassed];
             break;
         case Collideable:
             
@@ -95,6 +114,11 @@
         default:
             break;
     }
+}
+
+-(void)soundPickUpBehaviour:(float)timePassed
+{
+    self->rotation.z += M_PI * timePassed;
 }
 
 @end

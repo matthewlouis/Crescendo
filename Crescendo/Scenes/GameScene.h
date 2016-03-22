@@ -12,9 +12,15 @@
 @interface GameScene : GameObject3D
 
 @property (strong, nonatomic) HandleInputs *handleInput;
+@property (weak) PlaneContainer* planeContainer;
+@property (nonatomic) bool gameOver;
+@property (nonatomic) long score;
+
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput;
 
 - (void) updateWithDeltaTime:(float)timePassed;
+
+-(GameMusicPlayer *)getGlobalMusicPlayer;
 
 
 

@@ -22,10 +22,9 @@
     
     NSMutableArray *_moveBuffer;
     CGPoint _startPanPosition;
+    
     float _maxPanVelocity;
     float _panVelocityThreshold;
-    float _totalDirection;
-    int _directionCount;
     float _lastDirection;
     
     bool _isValidSwipe;
@@ -48,29 +47,6 @@
     return self;
 }
 
-- (void)handleSwipeLeft:(UISwipeGestureRecognizer *)recognizer
-{
-    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionLeft];
-    [_moveBuffer enqueue:direction];
-}
-
-- (void)handleSwipeUp:(UISwipeGestureRecognizer *)recognizer
-{
-    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionUp];
-    [_moveBuffer enqueue:direction];
-}
-
-- (void)handleSwipeRight:(UISwipeGestureRecognizer *)recognizer
-{
-    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionRight];
-    [_moveBuffer enqueue:direction];
-}
-
-- (void)handleSwipeDown:(UISwipeGestureRecognizer *)recognizer
-{
-    NSNumber *direction = [NSNumber numberWithInteger:MoveDirectionDown];
-    [_moveBuffer enqueue:direction];
-}
 
 - (void)handleSwipes:(UIPanGestureRecognizer *)recognizer
 {
@@ -87,9 +63,7 @@
             direction = 8;
         }
 
-        _totalDirection += direction;
         _lastDirection = direction;
-        _directionCount++;
     }
 
     CGPoint velocity = [recognizer velocityInView:recognizer.view];
@@ -97,14 +71,14 @@
     float angle = atan2(velocity.y, velocity.x) * 180 / M_PI - 45 / 2 + 180;
     float direction = ceilf(angle / 45.0f);
     
+    // Appends 0 direction to 8
     if (direction == 0)
     {
         direction = 8;
     }
     
-    _totalDirection += direction;
-    _directionCount++;
     
+    // Checks for a valid swipe motion
     if (direction > _lastDirection + 1 || direction < _lastDirection - 1)
     {
         _isValidSwipe = false;
@@ -117,12 +91,9 @@
         {
             _isValidSwipe = true;
         }
-
-        NSLog(@"False");
     }
     
-    NSLog(@"Direction: %f", direction);
-    
+    // Sets the highest velocity produced by the player
     if (_maxPanVelocity < velocityLength)
     {
         _maxPanVelocity = velocityLength;
@@ -130,12 +101,9 @@
     
     if (recognizer.state == UIGestureRecognizerStateEnded)
     {
-        
+        // Only registers if the user's swipe motion goes past a threshold
         if (_maxPanVelocity >= _panVelocityThreshold && _isValidSwipe)
         {
-            
-            //direction = roundf(_totalDirection / _directionCount);
-            
             if (direction == 4)
             {
                 // Right
@@ -186,8 +154,6 @@
             }
         }
         
-        _totalDirection = 0;
-        _directionCount = 0;
         _maxPanVelocity = 0;
         _isValidSwipe = true;
     }
@@ -215,7 +181,7 @@
     // The direction the player should head in by the amount of quadrants
     if ([numberDirection longValue] == (long)MoveDirectionUp)
     {
-        moveDirection = GLKVector2Make(0, 2);
+        moveDirection = GLKVector2Make(0, 1);
     }
     else if ([numberDirection longValue] == (long)MoveDirectionRight)
     {
@@ -223,7 +189,7 @@
     }
     else if ([numberDirection longValue] == (long)MoveDirectionDown)
     {
-        moveDirection = GLKVector2Make(0, -2);
+        moveDirection = GLKVector2Make(0, -1);
     }
     else if ([numberDirection longValue] == (long)MoveDirectionLeft)
     {
@@ -231,27 +197,25 @@
     }
     else if ([numberDirection longValue] == (long)MoveDirectionUpRight)
     {
-        moveDirection = GLKVector2Make(1, 2);
+        moveDirection = GLKVector2Make(1, 1);
     }
     else if ([numberDirection longValue] == (long)MoveDirectionUpLeft)
     {
-        moveDirection = GLKVector2Make(-1, 2);
+        moveDirection = GLKVector2Make(-1, 1);
     }
     else if ([numberDirection longValue] == (long)MoveDirectionDownRight)
     {
-        moveDirection = GLKVector2Make(1, -2);
+        moveDirection = GLKVector2Make(1, -1);
     }
     else if ([numberDirection longValue] == (long)MoveDirectionDownLeft)
     {
-        moveDirection = GLKVector2Make(-1, -2);
+        moveDirection = GLKVector2Make(-1, -1);
     }
     
     // Updates the player's position
     if (!_isMoving)
     {
-        GLKVector2 gridLocation = [gridMovement gridLocationWithMoveDirection:moveDirection];
-        
-        NSLog(@"Move direction: %f, %f", moveDirection.x, moveDirection.y);
+        GLKVector2 gridLocation = [gridMovement grid2x2LocationWithMoveDirection:moveDirection];
         
         if (gridLocation.x == player->worldPosition.x && gridLocation.y == player->worldPosition.y)
         {
@@ -277,7 +241,7 @@
         
         _isMoving = true;
         
-        GLKVector2 gridLocation   = [gridMovement gridLocationWithGridQuadrant:GridQuadrantBottom];
+        GLKVector2 gridLocation   = [gridMovement gridLocationWithGrid2x2Quadrant:Grid2x2QuadrantBottomRight];
         _translation = GLKVector3Make(gridLocation.x, gridLocation.y, player->worldPosition.z);
         
         // Enables all the swipe gestures once the title is gone
