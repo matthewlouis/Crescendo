@@ -72,7 +72,7 @@ class SoundEffectController: NSObject{
             let soundObject = InteractiveSoundObject(note: note.noteNumber, duration: note.duration, position: note.position)
             
             barOfMusic.events.append(soundObject)
-        }*/
+        }
         
         for(var j = 0; j < barsToGenerate; j += sequence.seqLengthBars){
             _musicBars.append(barOfMusic)
@@ -146,6 +146,10 @@ class SoundEffectController: NSObject{
     
     func calculateMarkovDuration(){
     
+    }
+    
+    func resetMusic(){
+        _musicPlayer.sequencer?.rewind()
     }
     
     /*Can use this to get apple MusicTrack event information (midi)
