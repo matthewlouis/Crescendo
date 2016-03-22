@@ -54,7 +54,7 @@ class SoundEffectController: NSObject{
     func generateAndAddSection(stepSize:Float = DEFAULT_STEP, barLength:Float = SEQ_LENGTH){
         
         var barsToGenerate:Int = 1
-        barsToGenerate = barsToGenerate << Int(random(1,6))
+        barsToGenerate = barsToGenerate << Int(random(1,4))
         
         var barOfMusic:MusicBar
         barOfMusic = MusicBar(length: SoundEffectController.SEQ_LENGTH)
