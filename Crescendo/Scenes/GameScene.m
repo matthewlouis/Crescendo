@@ -27,6 +27,8 @@
     
     Plane *collisionPlane;
     int i;
+    int previousHighScore;
+    int highScore;
 }
 
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput {

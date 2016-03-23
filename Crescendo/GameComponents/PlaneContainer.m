@@ -14,9 +14,10 @@
 {
     float totalTimePassed;
     float timeAccumBeforeStart;
+    float musicTimePassed;
+    float adjust;
 }
 static bool gameStarted;
-
 
 - (id)init
 {
@@ -43,6 +44,7 @@ static bool gameStarted;
         self->buildBar = false;
         
         timeAccumBeforeStart = 0.0f;
+        adjust = -0.175;
         
         // Set default spawn color
         self->spawnColor = GLKVector4Make(0, 0, 0, 1);
@@ -82,7 +84,9 @@ static bool gameStarted;
     float step = SoundEffectController.DEFAULT_STEP;
     float barLength = SoundEffectController.SEQ_LENGTH;
     
-    [soundEffectController generateAndAddSection:step barLength:barLength];
+    if(soundEffectController.barsGenerated == 0){
+        [soundEffectController generateAndAddSection:step barLength:barLength];
+    }
     
     Bar * newBar;
     //get musical info from soundeffectcontroller and remove it from the queue
@@ -123,6 +127,20 @@ static bool gameStarted;
  */
  -(void)update:(float)timePassed
 {
+    
+    if(!gameStarted && gameMusicPlayer.songStarted){
+        musicTimePassed += timePassed;
+        
+        //play for 2 bars, adjustment compensates for initial rewind delay
+        if(musicTimePassed >= 60/gameMusicPlayer.bpm * 7 + adjust){
+            musicTimePassed = 0;
+            [gameMusicPlayer rewind];
+            if(adjust != 0){
+                adjust = 0;
+            }
+        }
+    }
+    
     timeAccumBeforeStart += timePassed;
     
     if (timeAccumBeforeStart > TIME_BEFORE_SPEEDUP)
@@ -176,6 +194,7 @@ static bool gameStarted;
  * Acts as a sort of "Tap Tempo" mechanism. When called, creates a plane in time with the music
  */
 -(void)syncToBar{
+    
     self->buildBar = true;
     /*
     NSArray<MusicBar*> *barbar = soundEffectController._musicBars;

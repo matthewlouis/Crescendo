@@ -69,6 +69,7 @@ class GameMusicPlayer : NSObject{
     var sequencer:AKSequencer?
     var mixer = AKMixer()
     var masterComp: AKCompressor?
+    var songStarted:Bool = false;
     
     
     //Allots for 16 tracks, with a 1-based index
@@ -79,8 +80,10 @@ class GameMusicPlayer : NSObject{
     
     var tk:TempoKeeper
     
+    var trackStart:UnsafeMutablePointer<MusicSequence>?
+    
     init(tempoListener: PlaneContainer){
-        currentMidiLoop = "Songs/drum";
+        currentMidiLoop = "Songs/testTimeCode";
         self.bpm = DEFAULT_BPM
         tk = TempoKeeper(listener:tempoListener)
         super.init()
@@ -118,6 +121,7 @@ class GameMusicPlayer : NSObject{
         AudioKit.output = mixer
         AudioKit.start()
         sequencer = AKSequencer(filename: currentMidiLoop, engine: AudioKit.engine)
+        trackStart = sequencer?.sequencePointer;
         sequencer?.setBPM(bpm)
         
         loadSampler(3, fileName: "Sounds/Sampler Instruments/Drums", sampleFormat: SampleFormat.EXS24)
@@ -240,6 +244,8 @@ class GameMusicPlayer : NSObject{
         tracks[1]?.volume?.gain = 0.3
         
         AudioKit.output = masterComp
+        
+        
         
         AudioKit.start()
         
@@ -383,12 +389,14 @@ class GameMusicPlayer : NSObject{
     
     //play sequencer
     func play(){
-        sequencer!.play();
+        sequencer!.play()
+        songStarted = true
     }
     
     //stop sequencer
     func stop(){
-        sequencer!.stop();
+        sequencer!.stop()
+        songStarted = false
     }
     
     func getBPM() -> Float{
@@ -428,6 +436,7 @@ class GameMusicPlayer : NSObject{
         }
     }
     
+    
     @objc func masterFadeout(timer:NSTimer){
         if(masterComp!.masterGain <= -40){
             timer.invalidate()
@@ -439,6 +448,10 @@ class GameMusicPlayer : NSObject{
     
     @objc func fadeOutMusic(){
         NSTimer.scheduledTimerWithTimeInterval(0.06, target: self, selector: Selector("masterFadeout:"), userInfo: nil, repeats: true)
+    }
+    
+    func rewind(){
+        sequencer?.rewind()
     }
     
     
