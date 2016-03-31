@@ -12,6 +12,12 @@ import Foundation
 import AudioKit
 import AudioToolbox
 
+enum PlayableTracks : Int{
+    case PIANO = 0
+    case STRINGS
+    case NUMBER_OF_PLAYABLE
+}
+
 //Major and Minor scales
 let scale1:[Int] = [0,2,4,7,9]
 let scale2:[Int] = [0,3,5,7,10]
@@ -35,7 +41,8 @@ class SoundEffectController: NSObject{
     
     var _musicBars:[MusicBar]
     
-    let _soundeffectInstrument:AKNode;
+    //Allots for 16 tracks, with a 1-based index
+    var _soundeffectInstrument = [AKNode?](count: 17, repeatedValue:nil)
     
     
     let _musicPlayer:GameMusicPlayer
@@ -44,7 +51,11 @@ class SoundEffectController: NSObject{
         _musicSequences = [MusicNoteSequence]()
         _musicBars   = [MusicBar]()
         _musicPlayer = musicPlayer
-        _soundeffectInstrument = (musicPlayer.tracks[16]?.instrument)!
+        
+        //gets reference to all instruments (so they can be played)
+        for(var i = 1; i <= 16; ++i){
+            _soundeffectInstrument[i] = (musicPlayer.tracks[i]?.instrument)
+        }
     
         super.init()
         
@@ -63,23 +74,6 @@ class SoundEffectController: NSObject{
         barOfMusic = MusicBar(length: SoundEffectController.SEQ_LENGTH)
         let numSteps = Int(SoundEffectController.SEQ_LENGTH/stepSize)
         
-        /*
-        let index = arc4random_uniform(UInt32(_musicSequences.count))
-        var sequence = _musicSequences[Int(index)]
-        
-        for(var i = 0; i < sequence.notes.count; ++i){
-            let note = sequence.notes[i]
-            let soundObject = InteractiveSoundObject(note: note.noteNumber, duration: note.duration, position: note.position)
-            
-            barOfMusic.events.append(soundObject)
-        }
-        
-        for(var j = 0; j < barsToGenerate; j += sequence.seqLengthBars){
-            _musicBars.append(barOfMusic)
-        }
-        barsGenerated += barsToGenerate*/
-
-        
         //generate random note in scale
         for (var i:Int = 0; i < numSteps; i++){
             if(random(1,100) < difficultyScale ){
@@ -91,10 +85,15 @@ class SoundEffectController: NSObject{
                     octaveOffset += Int(12 * ((maybe()*2.0)+(-1.0)));
                     octaveOffset = Int(maybe() * maybe() * Float(octaveOffset)) + 24;
                 }
+                
                 let noteToAdd = SoundEffectController.ROOT_NOTE + scale[Int(scaleOffset)] + octaveOffset
                 barOfMusic.events.append(InteractiveSoundObject(note: noteToAdd, duration: 1, position: Float(step)))
             }
         }
+        if(possibly(2)){ //1 in 2 chance of adding simultaneous playing
+            barOfMusic.duplicateTracksPlayedOn.append(15)
+        }
+        
         for(var j:Float = 0.0; j < Float(barsToGenerate); j += barLength){
             _musicBars.append(barOfMusic)
         }
@@ -108,25 +107,34 @@ class SoundEffectController: NSObject{
         }
     }
     
-    @objc func stopSound(timer:NSTimer){
-        let inst = _soundeffectInstrument as! AKSampler;
+    //stops a sampled instrument note
+    @objc func stopSoundSample(timer:NSTimer){
         let so = timer.userInfo as! InteractiveSoundObject;
+        let inst = _soundeffectInstrument[so._track] as! AKSampler;
         
         inst.stopNote(so._note);
     }
     
+    //stops a polyphonic instrument note
+    @objc func stopSoundPoly(timer:NSTimer){
+        let so = timer.userInfo as! InteractiveSoundObject;
+        let inst = _soundeffectInstrument[so._track] as! AKPolyphonicInstrument;
+        
+        inst.stopNote(so._note);
+    }
+    
+    //plays the sound from the sound object
     func playSound(soundObject: InteractiveSoundObject){
-        let ref = Mirror(reflecting:_soundeffectInstrument) //check type of instrument
-        
-        if(ref.subjectType == AKPolyphonicInstrument.self){
-            let polyphonicInst = _soundeffectInstrument as! AKPolyphonicInstrument
-            polyphonicInst.playNote(soundObject._note, velocity: 100)
-        }else{ //must be a sampler
-            let samplerInst = _soundeffectInstrument as! AKSampler
-            samplerInst.playNote(soundObject._note, velocity: 100)
+        //using reflection workaround to get type because AudioKit is dumb and classes don't inherit playNote method
+        let ref = Mirror(reflecting:_soundeffectInstrument[soundObject._track]) //check type of instrument
+        let (_, some) = ref.children.first!
+        if let inst = some as? AKPolyphonicInstrument {
+            inst.playNote(soundObject._note, velocity: 100)
+            NSTimer.scheduledTimerWithTimeInterval(60 / Double(_musicPlayer.bpm) * Double(soundObject._duration), target: self, selector: Selector("stopSoundPoly:"), userInfo: soundObject, repeats: false)
+        }else if let inst = some as? AKSampler{
+            inst.playNote(soundObject._note, velocity: 100)
+            NSTimer.scheduledTimerWithTimeInterval(60 / Double(_musicPlayer.bpm) * Double(soundObject._duration), target: self, selector: Selector("stopSoundSample:"), userInfo: soundObject, repeats: false)
         }
-        
-        NSTimer.scheduledTimerWithTimeInterval(60 / Double(_musicPlayer.bpm) * Double(soundObject._duration), target: self, selector: Selector("stopSound:"), userInfo: soundObject, repeats: false)
     }
     
     
@@ -170,4 +178,13 @@ class SoundEffectController: NSObject{
             MusicEventIteratorHasCurrentEvent (myIterator, &hasCurrentEvent);
         }
     }*/
+    
+    //return a random bool based on input chance
+    func possibly(oneIn:Int)->Bool{
+        let maybe:Int = random() % oneIn
+        if(maybe == 0){
+            return true
+        }
+        return false
+    }
 }

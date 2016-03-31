@@ -14,9 +14,7 @@
 @implementation Bar
 
 - (id)initWithPosition:(float)position atBPM:(float)bpm usingMusicBar:(MusicBar *)musicBar inColor:(GLKVector4)color
-{
-    InteractiveSoundObject *soundObject = [musicBar getSoundObject: 0];
-    
+{    
     self = [super initWithName:"bar" shader:nil vertices:nil vertexCount:0];
     
     if (self)
@@ -24,12 +22,15 @@
         //No longer scaling bars float bpmPercentage = DEFAULT_BPM/bpm;
         m_BarWidth = BAR_WIDTH; // No longer scaling bars * (bpmPercentage);
         worldPosition.z = position;
+        m_duplcateTracks = (int)musicBar.duplicateTracksPlayedOn.count;
         
         self->m_Planes = [[NSMutableArray alloc] init];
         
         // generate sound quadrants for this bar. i.e. sound pickup to fall in these quadrants
         self->_quadrants = [[NSMutableArray alloc]init];
-        [self GenerateSoundQuadrants];
+        
+        //specify how many tracks to play on simultaneously(right now just supports 2)
+        [self GenerateSoundQuadrants: m_duplcateTracks + 1];
         
         
         [self GeneratePlanes: musicBar inColor:color];
@@ -73,12 +74,11 @@
 /*
  * Generates sound quadrants to be used in bar, will be used to populate the quadrant with sound pickups
  */
--(void)GenerateSoundQuadrants
+-(void)GenerateSoundQuadrants: (int) numberOfQuadrants
 {
-    int numberOfQuadrantsToGenerate = [self getRandomNumberBetween:1 to:MAX_SOUND_QUADRANT];
     int quadrant;
     
-    for(int i = 0; i < numberOfQuadrantsToGenerate; i++)
+    for(int i = 0; i < numberOfQuadrants; i++)
     {
         quadrant = [self getRandomNumberBetween:1 to:(GRID_ROWS * GRID_COLS)]; // used to calculate random quad and add to list
         [_quadrants addObject:[NSNumber numberWithInt:quadrant]];

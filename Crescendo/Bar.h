@@ -23,13 +23,13 @@
 @public float m_BPM;
 @public float m_BarWidth;
 @public float m_Velocity;
+@public float m_duplcateTracks;
     
 @private TimeSignature m_TimeSignature;
 @private float m_DelayPerBar;
 
 }
 
-- (id)init;
 - (id)initWithPosition:(float)position atBPM:(float)bpm usingMusicBar: (MusicBar *)musicBar inColor:(GLKVector4)color;
 
 - (void)GeneratePlanes:(MusicBar *)musicBar inColor:(GLKVector4)color;

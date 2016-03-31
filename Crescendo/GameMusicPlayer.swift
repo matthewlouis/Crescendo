@@ -65,6 +65,7 @@ class GameMusicPlayer : NSObject{
     var kickDrumTracker:AKAmplitudeTracker!
     var snareDrumTracker:AKAmplitudeTracker!
     var pianoLeadTracker:AKAmplitudeTracker!
+    var stringLeadTracker:AKAmplitudeTracker!
     
     var sequencer:AKSequencer?
     var mixer = AKMixer()
@@ -202,19 +203,40 @@ class GameMusicPlayer : NSObject{
         
         /****SOUND EFFECTS********/
         
-        //piano
-        loadSampler(16, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24, soundEffect: true)
-        let cueFX1 = Fatten((tracks[16]?.instrument)!)
+        //lead piano
+        let leadPiano = loadPolySynth(15, instrumentType: .ANALOGX, voiceCount: 2, soundEffect: true) as! CoreInstrument
+        leadPiano.releaseDuration = 0.3
+        leadPiano.attackDuration = 0
+        leadPiano.sustainLevel = 0.5
+        leadPiano.waveform1 = Double(2.0)
+        leadPiano.waveform2 = Double(2.0)
+        leadPiano.morph = 1.0
+        
+        let cueFX1 = Fatten((tracks[15]?.instrument)!)
         cueFX1.time = 0.2
         pianoLeadTracker = AKAmplitudeTracker(cueFX1) //amp tracker on before reverb fx
-        let cuefx2 = AKReverb2(pianoLeadTracker)
-        cuefx2.decayTimeAt0Hz = 5
-        cuefx2.decayTimeAtNyquist = 10
-        cuefx2.dryWetMix = 0.5
+        let cuefx2 = AKMoogLadder(pianoLeadTracker)
+        cuefx2.cutoffFrequency = 300
+        cuefx2.resonance = 0.7
+        cuefx2.inertia = 0.01
         let cuefx3 = AKCompressor(cuefx2)
         cuefx3.threshold = -20
         cuefx3.masterGain = 0
-        addFXChain(16, node: cuefx3)
+        addFXChain(15, node: cuefx3)
+        
+        //lead strings
+        loadSampler(16, fileName: "Sounds/Sampler Instruments/BasicStacStrings", sampleFormat: SampleFormat.EXS24, soundEffect: true)
+        let cueFX4 = Fatten((tracks[16]?.instrument)!)
+        cueFX4.time = 0.2
+        stringLeadTracker = AKAmplitudeTracker(cueFX4) //amp tracker on before reverb fx
+        let cuefx5 = AKReverb2(stringLeadTracker)
+        cuefx5.decayTimeAt0Hz = 5
+        cuefx5.decayTimeAtNyquist = 10
+        cuefx5.dryWetMix = 0.5
+        let cuefx6 = AKCompressor(cuefx5)
+        cuefx6.threshold = -20
+        cuefx6.masterGain = 0
+        addFXChain(16, node: cuefx6)
         
         AudioKit.start()
         tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
