@@ -215,13 +215,10 @@ class GameMusicPlayer : NSObject{
         let cueFX1 = Fatten((tracks[15]?.instrument)!)
         cueFX1.time = 0.2
         pianoLeadTracker = AKAmplitudeTracker(cueFX1) //amp tracker on before reverb fx
-        let cuefx2 = AKMoogLadder(pianoLeadTracker)
-        cuefx2.cutoffFrequency = 300
-        cuefx2.resonance = 0.7
-        cuefx2.inertia = 0.01
+        let cuefx2 = AKReverb(pianoLeadTracker)
         let cuefx3 = AKCompressor(cuefx2)
         cuefx3.threshold = -20
-        cuefx3.masterGain = 0
+        cuefx3.masterGain = 1
         addFXChain(15, node: cuefx3)
         
         //lead strings

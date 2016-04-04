@@ -185,6 +185,6 @@ class SoundEffectController: NSObject{
         if(maybe == 0){
             return true
         }
-        return false
+        return true
     }
 }
