@@ -38,6 +38,7 @@ enum
     GLKMatrix4 projectionMatrix;
     
     GameMusicPlayer *_musicPlayer;
+    NSInteger lastHighScore;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -76,14 +77,7 @@ enum
     
     [self setupGL];
     
-    // Create the game scene
-    [self setupScene];
-    
-    //get musicplayer (must be called after planeContainer init
-    _musicPlayer = [_scene getGlobalMusicPlayer];
-    
-    // Store musicplayer reference in effect
-    _shader->musicPlayer = _musicPlayer;
+    [self newGame];
 }
 
 - (void)dealloc
@@ -166,12 +160,27 @@ enum
 
 - (void)update
 {
+    
+    if(!_scene.gameOver){ //if the game is running
     // Update Scene
     [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
-    
-    if(_scene.gameOver && !self.messageView.gameOver){
-        [self.messageView displayGameOver: _scene.score];
+    }else if(!self.messageView.gameOver){ //if game is over and gameOver screen not displayed
+        //save score
+        if(_scene.score > lastHighScore){
+            [[NSUserDefaults standardUserDefaults] setInteger:_scene.score forKey:@"high_score"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+        }
+        
+        [self.messageView displayGameOver: _scene.score highscore:lastHighScore];
         [_musicPlayer fadeOutMusic];
+    }else{ //gameOver and gameOver screen displayed
+        if(_scene.restart){ //if flagged to restart game
+            printf("\nyeah");
+            _scene.restart = false;
+            _scene.gameOver = false;
+            [_messageView messageConfirmed];
+            [_scene restartGame];
+        }
     }
     
     [_shader update:self.timeSinceLastUpdate];
@@ -199,7 +208,10 @@ enum
 {
     // Begin transformations
     [self.handleInput respondToTouchesBegan];
-    //NSLog(@"Starting Gestures");
+    
+    if(_scene.gameOver){
+        _scene.restart = true;
+    }
 }
 
 - (void)initializeClasses
@@ -222,6 +234,19 @@ enum
 -(BaseEffect *)GetShader
 {
     return _shader;
+}
+
+-(void)newGame{
+    _scene = nil;
+    
+    // Create the game scene
+    [self setupScene];
+    
+    //get musicplayer (must be called after planeContainer init
+    _musicPlayer = [_scene getGlobalMusicPlayer];
+    
+    // Store musicplayer reference in effect
+    _shader->musicPlayer = _musicPlayer;
 }
 
 @end

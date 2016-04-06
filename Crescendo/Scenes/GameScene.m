@@ -136,5 +136,10 @@
     return planeContainer->gameMusicPlayer;
 }
 
+//restart game
+-(void)restartGame{
+    [planeContainer restartContainer];
+}
+
 
 @end

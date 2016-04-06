@@ -237,6 +237,7 @@
     if([topView messageIsDisplayed] == YES)
     {
         [topView messageConfirmed];
+        
         [PlaneContainer startGame];
         
         _isMoving = true;
@@ -252,8 +253,6 @@
                 //gesture.enabled = true;
             }
         }
-        
-        recognizer.enabled = false; // Disabling the tap recognizer after the title is gone
     }
 }
 

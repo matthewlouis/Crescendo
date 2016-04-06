@@ -24,13 +24,21 @@ class MessageView: SCNView {
     
     var gameOver = false;
     
+    var background:SCNPlane?
+    var backgroundNode:SCNNode?
+    
     required init?(coder aDecoder: NSCoder) {
         
         fontMaterial.specular.contents = UIColor.grayColor()
         fontMaterial.shininess = 0.99
         fontMaterial.diffuse.contents = UIColor.redColor()
+        
         super.init(coder: aDecoder)
         sceneSetup()
+        
+        background = SCNPlane(width: self.bounds.width, height: self.bounds.height)
+        background?.materials[0].diffuse.contents = UIColor.clearColor()
+        backgroundNode = SCNNode(geometry: background)
     }
     
     @objc func sceneSetup() {
@@ -62,22 +70,33 @@ class MessageView: SCNView {
 }
     
     func messageConfirmed(){
-        SCNTransaction.begin()
-        SCNTransaction.setAnimationDuration(1)
-        let materials = (currentMessage!.geometry?.materials)! as [SCNMaterial]
-        let material = materials[0]
-        material.diffuse.contents = UIColor.clearColor()
-        SCNTransaction.commit()
-        
-        let action = SCNAction.moveByX(0, y: 0, z: 100, duration: 2)
-        /*
-        var part = SCNParticleSystem()*/
-        
-        part.reset()
-        part.emitterShape = currentMessage?.geometry;
-        self.scene!.addParticleSystem(part, withTransform: SCNMatrix4MakeRotation(0, 0, 0, 0))
-        currentMessage?.runAction(action)
-        
+        if(gameOver){
+            let materials = (currentMessage!.geometry?.materials)! as [SCNMaterial]
+            let material = materials[0]
+            
+            SCNTransaction.begin()
+            SCNTransaction.setAnimationDuration(1)
+            SCNTransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn))
+            background!.materials[0].diffuse.contents = UIColor.clearColor()
+            material.diffuse.contents = UIColor.clearColor()
+            SCNTransaction.commit()
+            gameOver = false
+            
+        }else{
+            SCNTransaction.begin()
+            SCNTransaction.setAnimationDuration(1)
+            let materials = (currentMessage!.geometry?.materials)! as [SCNMaterial]
+            let material = materials[0]
+            material.diffuse.contents = UIColor.clearColor()
+            SCNTransaction.commit()
+            
+            let action = SCNAction.moveByX(0, y: 0, z: 100, duration: 2)
+            
+            part.reset()
+            part.emitterShape = currentMessage?.geometry;
+            self.scene!.addParticleSystem(part, withTransform: SCNMatrix4MakeRotation(0, 0, 0, 0))
+            currentMessage?.runAction(action)
+        }
         messageDisplayed = false
     }
     
@@ -109,14 +128,13 @@ class MessageView: SCNView {
         currentMessage?.runAction(repeatedSequence)
     }
     
-    func displayGameOver(score: CLong){
-        var background = SCNPlane(width: self.bounds.width, height: self.bounds.height)
-        background.materials[0].diffuse.contents = UIColor.clearColor()
+    func displayGameOver(score: CLong, highscore:CLong){
         
+        currentMessage?.removeFromParentNode()
         
-        currentMessage = stringToSCNNode("Finé. " + String(score),   position:SCNVector3(0,0,0))
+        currentMessage = stringToSCNNode("Finé. " + String(score) + "\nPreviously " + String(highscore),   position:SCNVector3(0,0,0))
         
-        scene!.rootNode.addChildNode(SCNNode(geometry: background))
+        scene!.rootNode.addChildNode(backgroundNode!)
         scene!.rootNode.addChildNode(currentMessage!)
         
         messageDisplayed = true;
@@ -129,10 +147,12 @@ class MessageView: SCNView {
         
         SCNTransaction.begin()
         SCNTransaction.setAnimationDuration(0.5)
+        SCNTransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn))
+        
         let materials = (currentMessage!.geometry?.materials)! as [SCNMaterial]
         let material = materials[0]
         material.diffuse.contents = UIColor.whiteColor()
-        background.materials[0].diffuse.contents = UIColor.blackColor()
+        background!.materials[0].diffuse.contents = UIColor.blackColor()
         SCNTransaction.commit()
         gameOver = true;
     }
@@ -147,5 +167,4 @@ class MessageView: SCNView {
         gameOver = false;
         messageDisplayed = false;
     }
-
 }

@@ -279,4 +279,16 @@ static bool gameStarted;
     gameStarted = NO;
 }
 
+-(void)restartContainer{
+    // Clean up all the Bars
+    [m_Bars removeAllObjects];
+    [self->children removeAllObjects];
+    
+    self->buildBar = false;
+    gameStarted = true;
+    
+    [soundEffectController clear];
+    [gameMusicPlayer restart];
+}
+
 @end

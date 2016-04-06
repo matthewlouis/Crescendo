@@ -108,6 +108,11 @@ class SoundEffectController: NSObject{
         }
     }
     
+    func clear(){
+        _musicBars.removeAll()
+        barsGenerated = 0
+    }
+    
     @objc func stopSound(timer:NSTimer){
         let inst = _soundeffectInstrument as! AKSampler;
         let so = timer.userInfo as! InteractiveSoundObject;

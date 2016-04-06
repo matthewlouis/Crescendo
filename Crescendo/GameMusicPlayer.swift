@@ -81,6 +81,7 @@ class GameMusicPlayer : NSObject{
     var tk:TempoKeeper
     
     var trackStart:UnsafeMutablePointer<MusicSequence>?
+    var fadeTimer:NSTimer?
     
     init(tempoListener: PlaneContainer){
         currentMidiLoop = "Songs/testTimeCode";
@@ -441,17 +442,23 @@ class GameMusicPlayer : NSObject{
         if(masterComp!.masterGain <= -40){
             timer.invalidate()
         }else{
-            masterComp!.masterGain -= 1
+            masterComp!.masterGain -= 2
             print(masterComp!.masterGain)
         }
     }
     
     @objc func fadeOutMusic(){
-        NSTimer.scheduledTimerWithTimeInterval(0.06, target: self, selector: Selector("masterFadeout:"), userInfo: nil, repeats: true)
+        fadeTimer = NSTimer.scheduledTimerWithTimeInterval(0.06, target: self, selector: Selector("masterFadeout:"), userInfo: nil, repeats: true)
     }
     
     func rewind(){
         sequencer?.rewind()
+    }
+    
+    func restart(){
+        fadeTimer?.invalidate()
+        masterComp!.masterGain = 9
+        rewind()
     }
     
     
