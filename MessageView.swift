@@ -132,7 +132,7 @@ class MessageView: SCNView {
         
         currentMessage?.removeFromParentNode()
         
-        currentMessage = stringToSCNNode("Finé. " + String(score) + "\nPreviously " + String(highscore),   position:SCNVector3(0,0,0))
+        currentMessage = stringToSCNNode("Finé. " + String(score) + "\nBest " + String(highscore),   position:SCNVector3(0,0,0))
         
         scene!.rootNode.addChildNode(backgroundNode!)
         scene!.rootNode.addChildNode(currentMessage!)
