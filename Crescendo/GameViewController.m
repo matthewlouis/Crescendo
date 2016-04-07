@@ -38,7 +38,8 @@ enum
     GLKMatrix4 projectionMatrix;
     
     GameMusicPlayer *_musicPlayer;
-    NSInteger lastHighScore;
+    
+    NSInteger highScore;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -165,13 +166,8 @@ enum
     // Update Scene
     [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
     }else if(!self.messageView.gameOver){ //if game is over and gameOver screen not displayed
-        //save score
-        if(_scene.score > lastHighScore){
-            [[NSUserDefaults standardUserDefaults] setInteger:_scene.score forKey:@"high_score"];
-            [[NSUserDefaults standardUserDefaults]synchronize];
-        }
-        
-        [self.messageView displayGameOver: _scene.score highscore:lastHighScore];
+        [self saveScore];
+        [self.messageView displayGameOver: _scene.score highscore:highScore];
         [_musicPlayer fadeOutMusic];
     }else{ //gameOver and gameOver screen displayed
         if(_scene.restart){ //if flagged to restart game
@@ -247,6 +243,23 @@ enum
     
     // Store musicplayer reference in effect
     _shader->musicPlayer = _musicPlayer;
+}
+
+//Userdefaults not saving integer values, but working with strings, hence the string conversions
+-(void)saveScore{
+    NSUserDefaults *userPrefs = [NSUserDefaults standardUserDefaults];
+
+    //get current highscore
+    NSString *highScoreString = [userPrefs objectForKey:HIGH_SCORE];
+    highScore = [highScoreString integerValue]; //get int value for comparison
+    
+    if(_scene.score > highScore){ //if new score is higher
+        highScoreString = [NSString stringWithFormat:@"%ld", _scene.score];
+        highScore = _scene.score;
+    }
+    
+    [userPrefs setObject:highScoreString forKey:HIGH_SCORE];
+    [userPrefs synchronize]; //force sync */
 }
 
 @end

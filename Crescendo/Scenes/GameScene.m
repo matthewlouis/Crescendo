@@ -27,8 +27,8 @@
     
     Plane *collisionPlane;
     int i;
-    int previousHighScore;
-    int highScore;
+    NSInteger *previousHighScore;
+    NSInteger *highScore;
 }
 
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput {
@@ -139,6 +139,7 @@
 //restart game
 -(void)restartGame{
     [planeContainer restartContainer];
+    _score = 0;
 }
 
 

@@ -72,6 +72,9 @@ static float SNAREDRUM_AMPLITUDE_SCALE = 10;
 //Object Generation Constants
 static int COLLIDEABLE_FACTOR = 5; // lower is harder/populates more
 
+//Dictionary Keys
+static NSString *HIGH_SCORE = @"highscore";
+
 
 
 #endif /* Constants_h */

@@ -15,7 +15,7 @@
 @property (weak) PlaneContainer* planeContainer;
 @property (nonatomic) bool gameOver;
 @property (nonatomic) bool restart;
-@property (nonatomic) long score;
+@property (nonatomic) NSInteger score;
 
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput;
 
