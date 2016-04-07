@@ -224,6 +224,7 @@ enum
     [swipePan setMaximumNumberOfTouches:1];
     [swipePan setMinimumNumberOfTouches:1];
     [self.view addGestureRecognizer:swipePan];
+    swipePan.enabled = false;
 
 }
 
