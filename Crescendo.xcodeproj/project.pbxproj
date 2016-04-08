@@ -32,6 +32,7 @@
 		346671EC1C63D1C000583A6B /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 03CADDEA1C595500008BE459 /* Sounds */; };
 		347F7EFF1C97626F000AE69A /* NSScanner+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347F7EFE1C97626F000AE69A /* NSScanner+Swift.swift */; };
 		348326E61C779328003C22AC /* GameMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348326E51C779328003C22AC /* GameMusicPlayer.swift */; };
+		349F11701CB759CA003DAAB7 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349F116F1CB759CA003DAAB7 /* Theme.swift */; };
 		34A9DD191C78E7B000A8CC7A /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A9DD181C78E7B000A8CC7A /* MessageView.swift */; };
 		34A9DD1C1C78F91200A8CC7A /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 34A9DD1B1C78F91200A8CC7A /* Fonts */; };
 		34B673AF1C6E863800D7BD29 /* TempoKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */; };
@@ -107,6 +108,7 @@
 		340FB3771C629E9000F4A3AC /* Songs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Songs; sourceTree = "<group>"; };
 		347F7EFE1C97626F000AE69A /* NSScanner+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScanner+Swift.swift"; sourceTree = "<group>"; };
 		348326E51C779328003C22AC /* GameMusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameMusicPlayer.swift; path = Crescendo/GameMusicPlayer.swift; sourceTree = "<group>"; };
+		349F116F1CB759CA003DAAB7 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		34A9DD181C78E7B000A8CC7A /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		34A9DD1B1C78F91200A8CC7A /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempoKeeper.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 		92EBA1171C6FACF400993E0F /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				349F116F1CB759CA003DAAB7 /* Theme.swift */,
 				92EBA1181C6FAD1900993E0F /* GameScene.h */,
 				92EBA1191C6FAD1900993E0F /* GameScene.m */,
 			);
@@ -498,6 +501,7 @@
 				34B673AF1C6E863800D7BD29 /* TempoKeeper.swift in Sources */,
 				D73542141C77BFE200274735 /* Bar.m in Sources */,
 				920721AA1C6E58A200C929CB /* Player.m in Sources */,
+				349F11701CB759CA003DAAB7 /* Theme.swift in Sources */,
 				D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */,
 				340557381C6BD551001DD32E /* Conductor.swift in Sources */,
 				03A0C8321C49A13A004213DB /* PlaneContainer.m in Sources */,
