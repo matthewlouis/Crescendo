@@ -10,6 +10,7 @@
 #import <GLKit/GLKit.h>
 
 @class BaseEffect;
+@class Theme;
 
 @interface GameViewController : GLKViewController
 

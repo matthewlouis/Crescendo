@@ -40,6 +40,8 @@ enum
     GameMusicPlayer *_musicPlayer;
     
     NSInteger highScore;
+    
+    GLKVector4 backgroundColor;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -125,6 +127,8 @@ enum
     _scene = [[GameScene alloc] initWithShader:_shader HandleInputs:self.handleInput];
     
     [self.messageView displayTitle];
+    
+    backgroundColor = [Theme background];
 }
 
 - (void)setupGL
@@ -185,7 +189,7 @@ enum
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     // Rendering Code for Jarred
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     
     glBindVertexArrayOES(_vertexArray);

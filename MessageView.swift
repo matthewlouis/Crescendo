@@ -31,7 +31,8 @@ class MessageView: SCNView {
         
         fontMaterial.specular.contents = UIColor.grayColor()
         fontMaterial.shininess = 0.99
-        fontMaterial.diffuse.contents = UIColor.redColor()
+        
+        fontMaterial.diffuse.contents = UIColor(colorLiteralRed: Theme.messageColor.r, green: Theme.messageColor.g, blue: Theme.messageColor.b, alpha: Theme.messageColor.a)
         
         super.init(coder: aDecoder)
         sceneSetup()
@@ -52,14 +53,14 @@ class MessageView: SCNView {
         part.emissionDuration = 0.5
         part.spreadingAngle = 20
         part.particleDiesOnCollision = true
-        part.particleLifeSpan = 0.5
-        part.particleLifeSpanVariation = 0.3
+        part.particleLifeSpan = 0.1
+        part.particleLifeSpanVariation = 0.1
         part.particleVelocity = 100
         part.particleVelocityVariation = 3
         part.particleSize = 0.5
-        part.stretchFactor = 0.25
+        part.stretchFactor = 0.0
         part.lightingEnabled = true
-        part.particleColor = UIColor.redColor()
+        part.particleColor = UIColor(colorLiteralRed: Theme.messageColor.r, green: Theme.messageColor.g, blue: Theme.messageColor.b, alpha: Theme.messageColor.a)
         
         
         // 3
@@ -90,7 +91,7 @@ class MessageView: SCNView {
             material.diffuse.contents = UIColor.clearColor()
             SCNTransaction.commit()
             
-            let action = SCNAction.moveByX(0, y: 0, z: 100, duration: 2)
+            let action = SCNAction.moveByX(0, y: 0, z: 100, duration: 0.5)
             
             part.reset()
             part.emitterShape = currentMessage?.geometry;
@@ -151,8 +152,10 @@ class MessageView: SCNView {
         
         let materials = (currentMessage!.geometry?.materials)! as [SCNMaterial]
         let material = materials[0]
-        material.diffuse.contents = UIColor.whiteColor()
-        background!.materials[0].diffuse.contents = UIColor.blackColor()
+        
+        material.diffuse.contents = UIColor(colorLiteralRed: Theme.gameOverFontColor.r, green: Theme.gameOverFontColor.g, blue: Theme.gameOverFontColor.b, alpha: Theme.gameOverFontColor.a)
+        
+        background!.materials[0].diffuse.contents = UIColor(colorLiteralRed: Theme.gameOverScreenColor.r, green: Theme.gameOverScreenColor.g, blue: Theme.gameOverScreenColor.b, alpha: Theme.gameOverScreenColor.a)
         SCNTransaction.commit()
         gameOver = true;
     }

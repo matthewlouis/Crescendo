@@ -18,10 +18,16 @@
     float adjust;
 }
 static bool gameStarted;
+static Theme *theme;
 
 - (id)init
 {
     self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
+    
+    if(theme == nil){
+        theme = [[Theme alloc]init];
+    }
+    
     if (self)
     {
         self->m_SpawnDistance = -BAR_WIDTH * BARS_IN_SIGHT + (BAR_WIDTH / 4);
@@ -47,7 +53,7 @@ static bool gameStarted;
         adjust = -0.175;
         
         // Set default spawn color
-        self->spawnColor = GLKVector4Make(0, 0, 0, 1);
+        self->spawnColor = [Theme bar_lines];
     }
     
     return self;

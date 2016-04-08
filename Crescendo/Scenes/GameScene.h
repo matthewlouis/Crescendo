@@ -16,6 +16,7 @@
 @property (nonatomic) bool gameOver;
 @property (nonatomic) bool restart;
 @property (nonatomic) NSInteger score;
+@property (nonatomic) Theme *theme;
 
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput;
 

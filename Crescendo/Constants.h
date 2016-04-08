@@ -75,6 +75,8 @@ static int COLLIDEABLE_FACTOR = 5; // lower is harder/populates more
 //Dictionary Keys
 static NSString *HIGH_SCORE = @"highscore";
 
+//Color Scheme
+
 
 
 #endif /* Constants_h */

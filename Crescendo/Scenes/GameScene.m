@@ -98,8 +98,9 @@
             
             [planeContainer->nextPlane->children removeObject:planeObject]; //remove object
             
-            // Fade on collide
+            //Fade on collide
             /* Random color */
+            /* Matt: trying pallette color generation instead
             srand48(arc4random());  // Set seed for random
             float r = drand48();
             srand48(arc4random());
@@ -107,18 +108,17 @@
             srand48(arc4random());
             float b = drand48();
             
-            GLKVector4 newColor = GLKVector4Make(r, g, b, 1);
+            GLKVector4 newColor = GLKVector4Make(r, g, b, 1);*/
+            
+            //uses one of 3 random colours for change.
+            srand(arc4random());
+            int ci = rand() % [Theme getBarReactCount];
+            GLKVector4 newColor = [Theme getBarReact: ci];
             
             // Fade all bars and planes to random color. Spawn in new color
             [planeContainer fadeAllBarsTo:newColor In:1.0f];
             planeContainer->spawnColor = newColor;
-            
-            /* Strobe stuff
-            GLKVector4 red = GLKVector4Make(1, 0, 0, 1);
-            GLKVector4 black = GLKVector4Make(0, 0, 0, 1);
-            
-            [planeContainer strobeAllBarsBetweenColors:red And:black Every:0.25f For:5.0];
-             */
+
         }
     }
 }

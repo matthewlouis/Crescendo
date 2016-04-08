@@ -9,6 +9,7 @@
 #import "Player.h"
 #import "playerModel.h"
 #import "Easing.h"
+#import "Crescendo-Swift.h"
 
 //#import "mushroom.h"
 
@@ -49,7 +50,7 @@
         self->boundingSphereRadius = 0.2;
         
         // Set default color of red
-        self->_color = GLKVector4Make(1.0f, 0.1f, 0.2f, 0.2);
+        self->_color = [Theme player];
     }
     return self;
 }

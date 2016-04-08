@@ -215,10 +215,10 @@
         
         switch (obj->type) {
             case Collideable:
-                obj->scale = GLKVector3Make(musicPlayer.pianoLeadTracker.amplitude * 5 + 0.5, musicPlayer.pianoLeadTracker.amplitude * 2 + 0.5, musicPlayer.pianoLeadTracker.amplitude * 5 + 0.5);
+                //obj->scale = GLKVector3Make(musicPlayer.pianoLeadTracker.amplitude * 5 + 1, musicPlayer.pianoLeadTracker.amplitude * 2 + 1, musicPlayer.pianoLeadTracker.amplitude * 5 + 1);
                 break;
             case SoundPickup:
-                obj->scale = GLKVector3Make(musicPlayer.snareDrumTracker.amplitude * 5 + 0.25, musicPlayer.kickDrumTracker.amplitude * 2 + 0.25, musicPlayer.pianoLeadTracker.amplitude * KICKDRUM_AMPLITUDE_SCALE + 0.25);
+                obj->scale = GLKVector3Make(musicPlayer.pianoLeadTracker.amplitude * 2 + 0.25, musicPlayer.pianoLeadTracker.amplitude * 2 + 0.25, musicPlayer.pianoLeadTracker.amplitude * 2 + 0.25);
                 break;
             default:
                 break;
