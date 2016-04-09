@@ -456,6 +456,10 @@ class GameMusicPlayer : NSObject{
     
     @objc func fadeOutMusic(){
         sequencer!.stop()
+        for(var i = 0; i < tracks.count; i++){
+            var inst = tracks[i]?.instrument as? AKPolyphonicInstrument
+            inst?.panic()
+        }
         fadeTimer?.invalidate()
         fadeTimer = NSTimer.scheduledTimerWithTimeInterval(0.06, target: self, selector: Selector("masterFadeout:"), userInfo: nil, repeats: true)
     }

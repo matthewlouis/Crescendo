@@ -6,6 +6,8 @@
 //  Copyright © 2016 Equalizer. All rights reserved.
 //
 
+#define ADJUST -0.15
+
 #import "PlaneContainer.h"
 #import "Crescendo-Swift.h"
 #import "Constants.h"
@@ -50,7 +52,7 @@ static Theme *theme;
         self->buildBar = false;
         
         timeAccumBeforeStart = 0.0f;
-        adjust = -0.175;
+        adjust = ADJUST;
         
         // Set default spawn color
         self->spawnColor = [Theme bar_lines];
@@ -145,6 +147,7 @@ static Theme *theme;
                 adjust = 0;
             }
         }
+        timeAccumBeforeStart = 0;
     }
     
     timeAccumBeforeStart += timePassed;
@@ -286,15 +289,21 @@ static Theme *theme;
 }
 
 -(void)restartContainer{
+    timeAccumBeforeStart = 0;
     // Clean up all the Bars
     [m_Bars removeAllObjects];
     [self->children removeAllObjects];
+    [nextPlane->children removeAllObjects];
+    nextPlane = nil;
     
     self->buildBar = false;
     gameStarted = true;
     
     [soundEffectController clear];
     [gameMusicPlayer restart];
+    
+    // Default Plane Velocity of 5 per seconds
+    [self setSpawnBarVelocity:BAR_WIDTH / 2];
 }
 
 @end

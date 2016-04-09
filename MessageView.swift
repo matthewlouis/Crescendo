@@ -12,7 +12,7 @@ import UIKit
 import SceneKit
 
 
-let DEFAULT_FONT:UIFont = UIFont(name: "Asenine", size: 20)!
+let DEFAULT_FONT:UIFont = UIFont(name: "Acknowledge TT (BRK)", size: 20)!
 let part = SCNParticleSystem()
 let fontMaterial = SCNMaterial()
 internal var messageDisplayed:Bool = false
@@ -20,57 +20,88 @@ internal var messageDisplayed:Bool = false
 
 var currentMessage:SCNNode?
 
-class MessageView: SCNView {
+class MessageView: NSObject {
     
     var gameOver = false;
+    var scene:SCNScene?;
     
     var background:SCNPlane?
     var backgroundNode:SCNNode?
+    var mainLight:SCNLight;
     
-    required init?(coder aDecoder: NSCoder) {
+    let trail = SCNParticleSystem()
+    let trailEmitter = SCNNode(geometry: SCNBox(width: 1000, height: 1000, length: 100, chamferRadius: 0))
+    
+    override init(){
+        mainLight = SCNLight()
+        mainLight.type = SCNLightTypeDirectional
+        
+        super.init()
         
         fontMaterial.specular.contents = UIColor.grayColor()
         fontMaterial.shininess = 0.99
         
         fontMaterial.diffuse.contents = UIColor(colorLiteralRed: Theme.messageColor.r, green: Theme.messageColor.g, blue: Theme.messageColor.b, alpha: Theme.messageColor.a)
         
-        super.init(coder: aDecoder)
+        //super.init(coder: aDecoder)
         sceneSetup()
         
-        background = SCNPlane(width: self.bounds.width, height: self.bounds.height)
+        background = SCNPlane(width: 1000, height: 1000)
         background?.materials[0].diffuse.contents = UIColor.clearColor()
         backgroundNode = SCNNode(geometry: background)
+        
+        
     }
     
     @objc func sceneSetup() {
         // 1
+        //trailEmitter.light = mainLight
         let scene = SCNScene()
-        
+
         part.loops = false
         part.birthDirection = .SurfaceNormal
         part.birthLocation = .Vertex
-        part.birthRate = 200
-        part.emissionDuration = 0.5
+        part.birthRate = 15
+        part.emissionDuration = 0.001
         part.spreadingAngle = 20
         part.particleDiesOnCollision = true
-        part.particleLifeSpan = 0.1
+        part.particleLifeSpan = 2.5
         part.particleLifeSpanVariation = 0.1
-        part.particleVelocity = 100
-        part.particleVelocityVariation = 3
+        part.particleVelocity = 50
+        part.particleVelocityVariation = 5
         part.particleSize = 0.5
         part.stretchFactor = 0.0
-        part.lightingEnabled = true
+        part.blendMode = .Alpha
+        
+        part.lightingEnabled = false
         part.particleColor = UIColor(colorLiteralRed: Theme.messageColor.r, green: Theme.messageColor.g, blue: Theme.messageColor.b, alpha: Theme.messageColor.a)
         
+        
+        //for particle trail
+        trail.loops = false
+        trail.birthDirection = .Constant
+        trail.birthLocation = .Volume
+        trail.birthRate = 1
+        trail.emissionDuration = 0.1
+        trail.spreadingAngle = 20
+        trail.particleDiesOnCollision = true
+        trail.particleLifeSpan = 0.5
+        trail.particleLifeSpanVariation = 0.03
+        trail.particleVelocity = 5
+        trail.particleVelocityVariation = 3
+        trail.particleSize = 0.5
+        trail.lightingEnabled = false
+        trail.particleColor = UIColor(colorLiteralRed: Theme.messageColor.r, green: Theme.messageColor.g, blue: Theme.messageColor.b, alpha: 0.2)
+        trail.blendMode = .Alpha
         
         // 3
         self.scene = scene
         
-        self.autoenablesDefaultLighting = true
-        self.backgroundColor = UIColor.clearColor()
+        //self.autoenablesDefaultLighting = true
 }
     
     func messageConfirmed(){
+        messageDisplayed = false
         if(gameOver){
             let materials = (currentMessage!.geometry?.materials)! as [SCNMaterial]
             let material = materials[0]
@@ -89,16 +120,16 @@ class MessageView: SCNView {
             let materials = (currentMessage!.geometry?.materials)! as [SCNMaterial]
             let material = materials[0]
             material.diffuse.contents = UIColor.clearColor()
+            material.blendMode = SCNBlendMode.Alpha
             SCNTransaction.commit()
             
             let action = SCNAction.moveByX(0, y: 0, z: 100, duration: 0.5)
             
-            part.reset()
             part.emitterShape = currentMessage?.geometry;
+            part.blendMode = .Alpha
             self.scene!.addParticleSystem(part, withTransform: SCNMatrix4MakeRotation(0, 0, 0, 0))
             currentMessage?.runAction(action)
         }
-        messageDisplayed = false
     }
     
     func stringToSCNNode(string: String, position:SCNVector3, transform:SCNVector3 = SCNVector3.init())->SCNNode{
@@ -118,6 +149,7 @@ class MessageView: SCNView {
     
     func displayTitle(){
         currentMessage = stringToSCNNode("Crescendo",   position:SCNVector3(0,0,0))
+        currentMessage!.light = mainLight
         
         scene!.rootNode.addChildNode(currentMessage!)
         messageDisplayed = true;
@@ -134,6 +166,8 @@ class MessageView: SCNView {
         currentMessage?.removeFromParentNode()
         
         currentMessage = stringToSCNNode("Finé. " + String(score) + "\nBest " + String(highscore),   position:SCNVector3(0,0,0))
+        
+        currentMessage?.light = mainLight
         
         scene!.rootNode.addChildNode(backgroundNode!)
         scene!.rootNode.addChildNode(currentMessage!)
@@ -155,7 +189,7 @@ class MessageView: SCNView {
         
         material.diffuse.contents = UIColor(colorLiteralRed: Theme.gameOverFontColor.r, green: Theme.gameOverFontColor.g, blue: Theme.gameOverFontColor.b, alpha: Theme.gameOverFontColor.a)
         
-        background!.materials[0].diffuse.contents = UIColor(colorLiteralRed: Theme.gameOverScreenColor.r, green: Theme.gameOverScreenColor.g, blue: Theme.gameOverScreenColor.b, alpha: Theme.gameOverScreenColor.a)
+        backgroundNode?.geometry!.materials[0].diffuse.contents = UIColor(colorLiteralRed: Theme.gameOverScreenColor.r, green: Theme.gameOverScreenColor.g, blue: Theme.gameOverScreenColor.b, alpha: Theme.gameOverScreenColor.a)
         SCNTransaction.commit()
         gameOver = true;
     }
@@ -165,9 +199,13 @@ class MessageView: SCNView {
     }
     
     func cleanUp(){
-        scene = nil
         currentMessage = nil
         gameOver = false;
         messageDisplayed = false;
+    }
+    
+    func trail(position:GLKMatrix4){
+       // trail.blendMode = .Alpha
+        //self.scene!.addParticleSystem(trail, withTransform: trailEmitter.transform)
     }
 }

@@ -247,11 +247,10 @@
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer
 {
-    MessageView * topView = recognizer.view.subviews[0];
     
-    if([topView messageIsDisplayed] == YES)
+    if([_messageView messageIsDisplayed] == YES)
     {
-        [topView messageConfirmed];
+        [_messageView messageConfirmed];
         
         [PlaneContainer startGame];
         

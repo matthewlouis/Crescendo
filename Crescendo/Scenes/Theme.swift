@@ -20,7 +20,7 @@ class Theme:NSObject{
     
     //interactive objects
     static var pickups:[GLKVector4] = [GLKVector4Make(0.871, 1, 0,1), GLKVector4Make(0,0,0,1)]
-    static var obstacles:[GLKVector4] = [GLKVector4Make(1, 0, 0.369,1)]
+    static var obstacles:[GLKVector4] = [GLKVector4Make(1, 0, 0.369,0.7)]
     
     //message view
     static var titleColor = GLKVector4Make(0.435, 0.094, 1,1)

@@ -47,7 +47,7 @@
         _rotateDefault = self->rotation.y;
         // Specify Drawing Mode
         renderMode = GL_TRIANGLES;
-        self->boundingSphereRadius = 0.2;
+        self->boundingSphereRadius = 0.3;
         
         // Set default color of red
         self->_color = [Theme player];

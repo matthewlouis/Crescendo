@@ -42,11 +42,13 @@ enum
     NSInteger highScore;
     
     GLKVector4 backgroundColor;
+    
+    SCNRenderer *fxRenderer;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 @property (strong, nonatomic) HandleInputs *handleInput;
-@property (weak, nonatomic) IBOutlet MessageView *messageView;
+@property (strong, nonatomic) MessageView *messageView;
 
 - (void)setupGL;
 
@@ -63,9 +65,13 @@ enum
 {
     [super viewDidLoad];
     
+    _messageView = [[MessageView alloc]init];
     [self.messageView sceneSetup];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    
+    fxRenderer = [SCNRenderer rendererWithContext:self.context options:nil];
+    fxRenderer.scene = self.messageView.scene;
 
     [self initializeClasses];
     [self createGestures];
@@ -120,6 +126,7 @@ enum
     projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 85.0f);
     
     [self.handleInput setProjectionMatrix:projectionMatrix];
+    self.handleInput.messageView = _messageView; //for dismissing messages with touch
     
     _shader = [[BaseEffect alloc]init];
     _shader->projectionMatrix = projectionMatrix;
@@ -165,24 +172,21 @@ enum
 
 - (void)update
 {
-    
+    //Matt: debug stuff
     if(!_scene.gameOver){ //if the game is running
     // Update Scene
-    [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
+        [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
     }else if(!self.messageView.gameOver){ //if game is over and gameOver screen not displayed
         [self saveScore];
         [self.messageView displayGameOver: _scene.score highscore:highScore];
         [_musicPlayer fadeOutMusic];
-    }else{ //gameOver and gameOver screen displayed
+    }else if(self.messageView.messageIsDisplayed){ //gameOver and gameOver screen displayed
         if(_scene.restart){ //if flagged to restart game
-            printf("\nyeah");
             _scene.restart = false;
-            _scene.gameOver = false;
             [_messageView messageConfirmed];
             [_scene restartGame];
         }
     }
-    
     [_shader update:self.timeSinceLastUpdate];
 }
 
@@ -191,15 +195,19 @@ enum
     // Rendering Code for Jarred
     glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    
-    glBindVertexArrayOES(_vertexArray);
-    
+
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    glBindVertexArrayOES(0);
+    glBindVertexArrayOES(_vertexArray);
     [_shader render:_scene];
+    [fxRenderer renderAtTime:fxRenderer.sceneTime];
+    glDisable(GL_BLEND);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
 }
 
 

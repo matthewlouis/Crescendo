@@ -18,7 +18,6 @@
 
 @implementation GameScene{
     CGSize _gameArea;
-    Player *_player;
     Plane* plane;
     PlaneContainer* planeContainer;
     
@@ -80,7 +79,9 @@
     
     [planeContainer update:timePassed];
     
-    [self checkForPlayerCollisions];
+    if(planeContainer->nextPlane != nil){
+        [self checkForPlayerCollisions];
+    }
 }
 
 -(void)checkForPlayerCollisions{
@@ -98,18 +99,6 @@
             
             [planeContainer->nextPlane->children removeObject:planeObject]; //remove object
             
-            //Fade on collide
-            /* Random color */
-            /* Matt: trying pallette color generation instead
-            srand48(arc4random());  // Set seed for random
-            float r = drand48();
-            srand48(arc4random());
-            float g = drand48();
-            srand48(arc4random());
-            float b = drand48();
-            
-            GLKVector4 newColor = GLKVector4Make(r, g, b, 1);*/
-            
             //uses one of 3 random colours for change.
             srand(arc4random());
             int ci = rand() % [Theme getBarReactCount];
@@ -118,8 +107,7 @@
             // Fade all bars and planes to random color. Spawn in new color
             [planeContainer fadeAllBarsTo:newColor In:1.0f];
             planeContainer->spawnColor = newColor;
-
-        }
+            }
     }
 }
 - (void)CleanUp
@@ -138,6 +126,7 @@
 
 //restart game
 -(void)restartGame{
+    _gameOver = false;
     [planeContainer restartContainer];
     _score = 0;
 }
