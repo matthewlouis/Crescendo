@@ -32,6 +32,9 @@ class MessageView: NSObject {
     let trail = SCNParticleSystem()
     let trailEmitter = SCNNode(geometry: SCNBox(width: 1000, height: 1000, length: 100, chamferRadius: 0))
     
+    let backdrop = SCNParticleSystem()
+    let backEmitter = SCNNode(geometry: SCNBox(width: UIScreen.mainScreen().bounds.width, height: UIScreen.mainScreen().bounds.height, length: 100, chamferRadius: 0))
+    
     override init(){
         mainLight = SCNLight()
         mainLight.type = SCNLightTypeDirectional
@@ -76,28 +79,9 @@ class MessageView: NSObject {
         part.lightingEnabled = false
         part.particleColor = UIColor(colorLiteralRed: Theme.messageColor.r, green: Theme.messageColor.g, blue: Theme.messageColor.b, alpha: Theme.messageColor.a)
         
-        
-        //for particle trail
-        trail.loops = false
-        trail.birthDirection = .Constant
-        trail.birthLocation = .Volume
-        trail.birthRate = 1
-        trail.emissionDuration = 0.1
-        trail.spreadingAngle = 20
-        trail.particleDiesOnCollision = true
-        trail.particleLifeSpan = 0.5
-        trail.particleLifeSpanVariation = 0.03
-        trail.particleVelocity = 5
-        trail.particleVelocityVariation = 3
-        trail.particleSize = 0.5
-        trail.lightingEnabled = false
-        trail.particleColor = UIColor(colorLiteralRed: Theme.messageColor.r, green: Theme.messageColor.g, blue: Theme.messageColor.b, alpha: 0.2)
-        trail.blendMode = .Alpha
-        
         // 3
         self.scene = scene
         
-        //self.autoenablesDefaultLighting = true
 }
     
     func messageConfirmed(){
@@ -116,19 +100,19 @@ class MessageView: NSObject {
             
         }else{
             SCNTransaction.begin()
-            SCNTransaction.setAnimationDuration(1)
+            SCNTransaction.setAnimationDuration(4)
             let materials = (currentMessage!.geometry?.materials)! as [SCNMaterial]
             let material = materials[0]
             material.diffuse.contents = UIColor.clearColor()
             material.blendMode = SCNBlendMode.Alpha
             SCNTransaction.commit()
             
-            let action = SCNAction.moveByX(0, y: 0, z: 100, duration: 0.5)
-            
-            part.emitterShape = currentMessage?.geometry;
-            part.blendMode = .Alpha
-            self.scene!.addParticleSystem(part, withTransform: SCNMatrix4MakeRotation(0, 0, 0, 0))
+            let action = SCNAction.moveByX(0, y: 0, z: 100, duration: 4)
             currentMessage?.runAction(action)
+            
+            /*part.emitterShape = currentMessage?.geometry;
+            part.blendMode = .Alpha
+            self.scene!.addParticleSystem(part, withTransform: SCNMatrix4Identity)*/
         }
     }
     

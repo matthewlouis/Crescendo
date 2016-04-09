@@ -79,7 +79,7 @@
     
     [planeContainer update:timePassed];
     
-    if(planeContainer->nextPlane != nil){
+    if(planeContainer->nextPlane != nil && planeContainer->nextPlane->collidedWith == false){
         [self checkForPlayerCollisions];
     }
 }
@@ -87,14 +87,18 @@
 -(void)checkForPlayerCollisions{
     for (PlaneObject *planeObject in planeContainer->nextPlane->m_PlaneObjects) {
         if ([_player checkCollision:planeObject]){
-            [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
-            if(planeObject->type == SoundPickup){
-                ++_score;
-            }
+            
+            planeContainer->nextPlane->collidedWith = true; //flag as collided
             
             if(planeObject->type == Collideable){ //game over
                 _gameOver = true;
                 [PlaneContainer notifyStopGame];
+            }
+            
+            [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
+            
+            if(planeObject->type == SoundPickup){
+                ++_score;
             }
             
             [planeContainer->nextPlane->children removeObject:planeObject]; //remove object
@@ -107,7 +111,9 @@
             // Fade all bars and planes to random color. Spawn in new color
             [planeContainer fadeAllBarsTo:newColor In:1.0f];
             planeContainer->spawnColor = newColor;
-            }
+            
+            return;
+        }
     }
 }
 - (void)CleanUp

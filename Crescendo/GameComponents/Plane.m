@@ -50,6 +50,8 @@
         [self PopulateAvailableQuadrants];
         collideableDifficulty = COLLIDEABLE_FACTOR;
         
+        self->collidedWith = false;
+        
         [self resetColorState];
         [self updateLineWidth];
     }
