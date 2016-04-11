@@ -38,11 +38,17 @@ enum
     GLKMatrix4 projectionMatrix;
     
     GameMusicPlayer *_musicPlayer;
+    
+    NSInteger highScore;
+    
+    GLKVector4 backgroundColor;
+    
+    SCNRenderer *fxRenderer;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 @property (strong, nonatomic) HandleInputs *handleInput;
-@property (weak, nonatomic) IBOutlet MessageView *messageView;
+@property (strong, nonatomic) MessageView *messageView;
 
 - (void)setupGL;
 
@@ -59,9 +65,13 @@ enum
 {
     [super viewDidLoad];
     
+    _messageView = [[MessageView alloc]init];
     [self.messageView sceneSetup];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    
+    fxRenderer = [SCNRenderer rendererWithContext:self.context options:nil];
+    fxRenderer.scene = self.messageView.scene;
 
     [self initializeClasses];
     [self createGestures];
@@ -76,14 +86,7 @@ enum
     
     [self setupGL];
     
-    // Create the game scene
-    [self setupScene];
-    
-    //get musicplayer (must be called after planeContainer init
-    _musicPlayer = [_scene getGlobalMusicPlayer];
-    
-    // Store musicplayer reference in effect
-    _shader->musicPlayer = _musicPlayer;
+    [self newGame];
 }
 
 - (void)dealloc
@@ -123,6 +126,7 @@ enum
     projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 0.1f, 85.0f);
     
     [self.handleInput setProjectionMatrix:projectionMatrix];
+    self.handleInput.messageView = _messageView; //for dismissing messages with touch
     
     _shader = [[BaseEffect alloc]init];
     _shader->projectionMatrix = projectionMatrix;
@@ -130,6 +134,8 @@ enum
     _scene = [[GameScene alloc] initWithShader:_shader HandleInputs:self.handleInput];
     
     [self.messageView displayTitle];
+    
+    backgroundColor = [Theme background];
 }
 
 - (void)setupGL
@@ -166,31 +172,42 @@ enum
 
 - (void)update
 {
+    //Matt: debug stuff
+    if(!_scene.gameOver){ //if the game is running
     // Update Scene
-    [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
-    
-    if(_scene.gameOver && !self.messageView.gameOver){
-        [self.messageView displayGameOver: _scene.score];
+        [_scene updateWithDeltaTime:self.timeSinceLastUpdate];
+    }else if(!self.messageView.gameOver){ //if game is over and gameOver screen not displayed
+        [self saveScore];
+        [self.messageView displayGameOver: _scene.score highscore:highScore];
         [_musicPlayer fadeOutMusic];
+    }else if(self.messageView.messageIsDisplayed){ //gameOver and gameOver screen displayed
+        if(_scene.restart){ //if flagged to restart game
+            _scene.restart = false;
+            [_messageView messageConfirmed];
+            [_scene restartGame];
+        }
     }
-    
     [_shader update:self.timeSinceLastUpdate];
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     // Rendering Code for Jarred
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    
-    glBindVertexArrayOES(_vertexArray);
-    
+
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    glBindVertexArrayOES(0);
+    glBindVertexArrayOES(_vertexArray);
     [_shader render:_scene];
+    [fxRenderer renderAtTime:fxRenderer.sceneTime];
+    glDisable(GL_BLEND);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
 }
 
 
@@ -199,7 +216,10 @@ enum
 {
     // Begin transformations
     [self.handleInput respondToTouchesBegan];
-    //NSLog(@"Starting Gestures");
+    
+    if(_scene.gameOver){
+        _scene.restart = true;
+    }
 }
 
 - (void)initializeClasses
@@ -216,12 +236,43 @@ enum
     [swipePan setMaximumNumberOfTouches:1];
     [swipePan setMinimumNumberOfTouches:1];
     [self.view addGestureRecognizer:swipePan];
+    swipePan.enabled = false;
 
 }
 
 -(BaseEffect *)GetShader
 {
     return _shader;
+}
+
+-(void)newGame{
+    _scene = nil;
+    
+    // Create the game scene
+    [self setupScene];
+    
+    //get musicplayer (must be called after planeContainer init
+    _musicPlayer = [_scene getGlobalMusicPlayer];
+    
+    // Store musicplayer reference in effect
+    _shader->musicPlayer = _musicPlayer;
+}
+
+//Userdefaults not saving integer values, but working with strings, hence the string conversions
+-(void)saveScore{
+    NSUserDefaults *userPrefs = [NSUserDefaults standardUserDefaults];
+
+    //get current highscore
+    NSString *highScoreString = [userPrefs objectForKey:HIGH_SCORE];
+    highScore = [highScoreString integerValue]; //get int value for comparison
+    
+    if(_scene.score > highScore){ //if new score is higher
+        highScoreString = [NSString stringWithFormat:@"%ld", _scene.score];
+        highScore = _scene.score;
+    }
+    
+    [userPrefs setObject:highScoreString forKey:HIGH_SCORE];
+    [userPrefs synchronize]; //force sync */
 }
 
 @end

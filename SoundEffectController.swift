@@ -24,6 +24,9 @@ class SoundEffectController: NSObject{
     
     static  let OBSTACLE_NOTE = InteractiveSoundObject(note: 86, duration: 0.25, position: 0)
     
+    //keeps track of how many bars we've generated
+    var barsGenerated:Int = 0
+    
     var _musicSequences:[MusicNoteSequence]
     
     var isMinorScale = true
@@ -53,21 +56,29 @@ class SoundEffectController: NSObject{
     
     func generateAndAddSection(stepSize:Float = DEFAULT_STEP, barLength:Float = SEQ_LENGTH){
         
+        var barsToGenerate:Int = 1
+        barsToGenerate = barsToGenerate << Int(random(1,4))
+        
         var barOfMusic:MusicBar
         barOfMusic = MusicBar(length: SoundEffectController.SEQ_LENGTH)
         let numSteps = Int(SoundEffectController.SEQ_LENGTH/stepSize)
         
         /*
         let index = arc4random_uniform(UInt32(_musicSequences.count))
-        var sequence = _musicSequences[0]
+        var sequence = _musicSequences[Int(index)]
         
         for(var i = 0; i < sequence.notes.count; ++i){
             let note = sequence.notes[i]
             let soundObject = InteractiveSoundObject(note: note.noteNumber, duration: note.duration, position: note.position)
             
             barOfMusic.events.append(soundObject)
-        }*/
+        }
         
+        for(var j = 0; j < barsToGenerate; j += sequence.seqLengthBars){
+            _musicBars.append(barOfMusic)
+        }
+        barsGenerated += barsToGenerate*/
+
         
         //generate random note in scale
         for (var i:Int = 0; i < numSteps; i++){
@@ -81,17 +92,25 @@ class SoundEffectController: NSObject{
                     octaveOffset = Int(maybe() * maybe() * Float(octaveOffset)) + 24;
                 }
                 let noteToAdd = SoundEffectController.ROOT_NOTE + scale[Int(scaleOffset)] + octaveOffset
-                barOfMusic.events.append(InteractiveSoundObject(note: noteToAdd, duration: 1, position:Float(step)))
+                barOfMusic.events.append(InteractiveSoundObject(note: noteToAdd, duration: 1, position: Float(step)))
             }
         }
-        
-        _musicBars.append(barOfMusic)
+        for(var j:Float = 0.0; j < Float(barsToGenerate); j += barLength){
+            _musicBars.append(barOfMusic)
+        }
+        barsGenerated += barsToGenerate
     }
     
     func removeSection(){
         if(_musicBars.count > 0){
             _musicBars.removeFirst()
+            --barsGenerated
         }
+    }
+    
+    func clear(){
+        _musicBars.removeAll()
+        barsGenerated = 0
     }
     
     @objc func stopSound(timer:NSTimer){
@@ -122,6 +141,21 @@ class SoundEffectController: NSObject{
         return (outVal)
     }
     
+    func calculateMarkovMatrices(){
+        
+    }
+    
+    func calculateMarkovNote(){
+        
+    }
+    
+    func calculateMarkovDuration(){
+    
+    }
+    
+    func resetMusic(){
+        _musicPlayer.sequencer?.rewind()
+    }
     
     /*Can use this to get apple MusicTrack event information (midi)
     func getMusicTrackEventInfo(index: Int){

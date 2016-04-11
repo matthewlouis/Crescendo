@@ -54,55 +54,70 @@
     if (recognizer.state == UIGestureRecognizerStateBegan)
     {
         _startPanPosition = [recognizer translationInView:recognizer.view];
+        _isValidSwipe = false;
+    }
+
+    if (!_isValidSwipe)
+    {
+        CGPoint currentPanPosition = [recognizer translationInView:recognizer.view];
+        float distance = GLKVector2Length(GLKVector2Make(currentPanPosition.x - _startPanPosition.x, currentPanPosition.y - _startPanPosition.y));
+        if (distance > 10)
+        {
+            _isValidSwipe = true;
+            CGPoint velocity = [recognizer velocityInView:recognizer.view];
+            float angle = atan2(velocity.y, velocity.x) * 180 / M_PI - 45 / 2 + 180;
+            _lastDirection = ceilf(angle / 45.0f);
+            
+            // Appends 0 direction to 8
+            if (_lastDirection == 0)
+            {
+                _lastDirection = 8;
+            }
+        }
+    }
+    
+    float direction = -1.0;
+    
+    if (_isValidSwipe)
+    {
         CGPoint velocity = [recognizer velocityInView:recognizer.view];
-        float angle = atan2(velocity.y, velocity.x) * 180 / M_PI - 45 / 2  + 180;
-        float direction = ceilf(angle / 45.0f);
+        float velocityLength = sqrtf(powf(velocity.x, 2) + powf(velocity.y, 2));
+        float angle = atan2(velocity.y, velocity.x) * 180 / M_PI - 45 / 2 + 180;
+        direction = ceilf(angle / 45.0f);
         
+        // Appends 0 direction to 8
         if (direction == 0)
         {
             direction = 8;
         }
-
-        _lastDirection = direction;
-    }
-
-    CGPoint velocity = [recognizer velocityInView:recognizer.view];
-    float velocityLength = sqrtf(powf(velocity.x, 2) + powf(velocity.y, 2));
-    float angle = atan2(velocity.y, velocity.x) * 180 / M_PI - 45 / 2 + 180;
-    float direction = ceilf(angle / 45.0f);
-    
-    // Appends 0 direction to 8
-    if (direction == 0)
-    {
-        direction = 8;
-    }
-    
-    
-    // Checks for a valid swipe motion
-    if (direction > _lastDirection + 1 || direction < _lastDirection - 1)
-    {
-        _isValidSwipe = false;
-        if (_lastDirection == 8 && (direction == 7 || direction == 8 || direction == 1))
+        
+        
+        // Checks for a valid swipe motion
+        if (direction > _lastDirection + 1 || direction < _lastDirection - 1)
         {
-            _isValidSwipe = true;
+            _isValidSwipe = false;
+            if (_lastDirection == 8 && (direction == 7 || direction == 8 || direction == 1))
+            {
+                _isValidSwipe = true;
+            }
+            
+            if (_lastDirection == 1 && (direction == 8 || direction == 1 || direction == 2))
+            {
+                _isValidSwipe = true;
+            }
         }
-
-        if (_lastDirection == 1 && (direction == 8 || direction == 1 || direction == 2))
+        
+        // Sets the highest velocity produced by the player
+        if (_maxPanVelocity < velocityLength)
         {
-            _isValidSwipe = true;
+            _maxPanVelocity = velocityLength;
         }
-    }
-    
-    // Sets the highest velocity produced by the player
-    if (_maxPanVelocity < velocityLength)
-    {
-        _maxPanVelocity = velocityLength;
     }
     
     if (recognizer.state == UIGestureRecognizerStateEnded)
     {
         // Only registers if the user's swipe motion goes past a threshold
-        if (_maxPanVelocity >= _panVelocityThreshold && _isValidSwipe)
+        if (direction != -1.0 && _isValidSwipe && _maxPanVelocity >= _panVelocityThreshold)
         {
             if (direction == 4)
             {
@@ -232,11 +247,11 @@
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer
 {
-    MessageView * topView = recognizer.view.subviews[0];
     
-    if([topView messageIsDisplayed] == YES)
+    if([_messageView messageIsDisplayed] == YES)
     {
-        [topView messageConfirmed];
+        [_messageView messageConfirmed];
+        
         [PlaneContainer startGame];
         
         _isMoving = true;
@@ -247,13 +262,11 @@
         // Enables all the swipe gestures once the title is gone
         for (UIGestureRecognizer *gesture in recognizer.view.gestureRecognizers)
         {
-            if ([gesture isKindOfClass:[UISwipeGestureRecognizer class]])
+            if ([gesture isKindOfClass:[UIPanGestureRecognizer class]])
             {
-                //gesture.enabled = true;
+                gesture.enabled = true;
             }
         }
-        
-        recognizer.enabled = false; // Disabling the tap recognizer after the title is gone
     }
 }
 

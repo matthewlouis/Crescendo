@@ -10,6 +10,7 @@
 #import "Vertex.h"
 #import "Player.h"
 #import "Constants.h"
+#import "PlaneObject.h"
 
 @implementation BaseEffect
 
@@ -208,8 +209,20 @@
         glUniform1i(uniforms[UNIFORM_ISPLAYER], true);
         glUniform1f(uniforms[UNIFORM_BOB], ((Player *)gameObject3D).bob);
     }
-    else
+    else if ([gameObject3D isKindOfClass:[PlaneObject class]])
     {
+        PlaneObject *obj = (PlaneObject*) gameObject3D;
+        
+        switch (obj->type) {
+            case Collideable:
+                //obj->scale = GLKVector3Make(musicPlayer.pianoLeadTracker.amplitude * 5 + 1, musicPlayer.pianoLeadTracker.amplitude * 2 + 1, musicPlayer.pianoLeadTracker.amplitude * 5 + 1);
+                break;
+            case SoundPickup:
+                obj->scale = GLKVector3Make(musicPlayer.pianoLeadTracker.amplitude * 2 + 0.25, musicPlayer.pianoLeadTracker.amplitude * 2 + 0.25, musicPlayer.pianoLeadTracker.amplitude * 2 + 0.25);
+                break;
+            default:
+                break;
+        }
         glUniform1i(uniforms[UNIFORM_ISPLAYER], false);
     }
     

@@ -6,6 +6,8 @@
 //  Copyright © 2016 Equalizer. All rights reserved.
 //
 
+#define ADJUST -0.15
+
 #import "PlaneContainer.h"
 #import "Crescendo-Swift.h"
 #import "Constants.h"
@@ -14,13 +16,20 @@
 {
     float totalTimePassed;
     float timeAccumBeforeStart;
+    float musicTimePassed;
+    float adjust;
 }
 static bool gameStarted;
-
+static Theme *theme;
 
 - (id)init
 {
     self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
+    
+    if(theme == nil){
+        theme = [[Theme alloc]init];
+    }
+    
     if (self)
     {
         self->m_SpawnDistance = -BAR_WIDTH * BARS_IN_SIGHT + (BAR_WIDTH / 4);
@@ -43,9 +52,10 @@ static bool gameStarted;
         self->buildBar = false;
         
         timeAccumBeforeStart = 0.0f;
+        adjust = ADJUST;
         
         // Set default spawn color
-        self->spawnColor = GLKVector4Make(0, 0, 0, 1);
+        self->spawnColor = [Theme bar_lines];
     }
     
     return self;
@@ -82,7 +92,9 @@ static bool gameStarted;
     float step = SoundEffectController.DEFAULT_STEP;
     float barLength = SoundEffectController.SEQ_LENGTH;
     
-    [soundEffectController generateAndAddSection:step barLength:barLength];
+    if(soundEffectController.barsGenerated == 0){
+        [soundEffectController generateAndAddSection:step barLength:barLength];
+    }
     
     Bar * newBar;
     //get musical info from soundeffectcontroller and remove it from the queue
@@ -123,6 +135,21 @@ static bool gameStarted;
  */
  -(void)update:(float)timePassed
 {
+    
+    if(!gameStarted && gameMusicPlayer.songStarted){
+        musicTimePassed += timePassed;
+        
+        //play for 2 bars, adjustment compensates for initial rewind delay
+        if(musicTimePassed >= 60/gameMusicPlayer.bpm * 7 + adjust){
+            musicTimePassed = 0;
+            [gameMusicPlayer rewind];
+            if(adjust != 0){
+                adjust = 0;
+            }
+        }
+        timeAccumBeforeStart = 0;
+    }
+    
     timeAccumBeforeStart += timePassed;
     
     if (timeAccumBeforeStart > TIME_BEFORE_SPEEDUP)
@@ -176,6 +203,7 @@ static bool gameStarted;
  * Acts as a sort of "Tap Tempo" mechanism. When called, creates a plane in time with the music
  */
 -(void)syncToBar{
+    
     self->buildBar = true;
     /*
     NSArray<MusicBar*> *barbar = soundEffectController._musicBars;
@@ -258,6 +286,24 @@ static bool gameStarted;
 
 +(void)notifyStopGame{
     gameStarted = NO;
+}
+
+-(void)restartContainer{
+    timeAccumBeforeStart = 0;
+    // Clean up all the Bars
+    [m_Bars removeAllObjects];
+    [self->children removeAllObjects];
+    [nextPlane->children removeAllObjects];
+    nextPlane = nil;
+    
+    self->buildBar = false;
+    gameStarted = true;
+    
+    [soundEffectController clear];
+    [gameMusicPlayer restart];
+    
+    // Default Plane Velocity of 5 per seconds
+    [self setSpawnBarVelocity:BAR_WIDTH / 2];
 }
 
 @end
