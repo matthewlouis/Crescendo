@@ -442,7 +442,7 @@ class GameMusicPlayer : NSObject{
         if(masterComp!.masterGain <= -40){
             timer.invalidate()
         }else{
-            masterComp!.masterGain -= 1
+            masterComp!.masterGain -= 2
         }
     }
     
@@ -450,16 +450,18 @@ class GameMusicPlayer : NSObject{
         if(masterComp!.masterGain >= 9){
             timer.invalidate()
         }else{
-            masterComp!.masterGain += 1
+            masterComp!.masterGain += 2
         }
     }
     
     @objc func fadeOutMusic(){
-        sequencer!.stop()
+        
         for(var i = 0; i < tracks.count; i++){
             var inst = tracks[i]?.instrument as? AKPolyphonicInstrument
             inst?.panic()
         }
+        
+        sequencer!.stop()
         fadeTimer?.invalidate()
         fadeTimer = NSTimer.scheduledTimerWithTimeInterval(0.06, target: self, selector: Selector("masterFadeout:"), userInfo: nil, repeats: true)
     }
