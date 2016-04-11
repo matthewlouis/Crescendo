@@ -186,7 +186,7 @@
 }
 
 - (void)render:(GameObject3D*)gameObject3D
-{
+{    
     GLKMatrix4 cameraViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -5.0f);
     
     GLKMatrix4 modelViewMatrix = [gameObject3D GetModelViewMatrix];

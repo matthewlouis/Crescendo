@@ -200,14 +200,17 @@ enum
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+    
     glBindVertexArrayOES(0);
     glBindVertexArrayOES(_vertexArray);
-    [_shader render:_scene];
+    
+    [_shader render:[_scene GetPlanes]];
+    [_shader render:[_scene GetPlayer]];
+    glDepthMask(GL_FALSE);
+    [_shader render:[_scene GetPlaneObjects]];
+    glDepthMask(GL_TRUE);
+    
     [fxRenderer renderAtTime:fxRenderer.sceneTime];
-    glDisable(GL_BLEND);
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_DEPTH_TEST);
 }
 
 
