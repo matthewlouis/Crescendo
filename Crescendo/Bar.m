@@ -81,7 +81,10 @@
     for(int i = 0; i < numberOfQuadrantsToGenerate; i++)
     {
         quadrant = [self getRandomNumberBetween:1 to:(GRID_ROWS * GRID_COLS)]; // used to calculate random quad and add to list
-        [_quadrants addObject:[NSNumber numberWithInt:quadrant]];
+        if(![_quadrants containsObject:[NSNumber numberWithInt:quadrant]])
+        {
+            [_quadrants addObject:[NSNumber numberWithInt:quadrant]];
+        }
     }
 }
 

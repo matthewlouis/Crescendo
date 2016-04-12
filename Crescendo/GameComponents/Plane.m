@@ -118,7 +118,7 @@
  */
 -(void)CreatePlaneObject:(InteractiveSoundObject *)soundObject
 {
-    int quadrant;
+    int quadrant = 0;
     for(int i = 0 ; i < soundQuadrants.count; i++)
     {
         if (soundObject !=nil) {
