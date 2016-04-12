@@ -137,5 +137,46 @@
     _score = 0;
 }
 
+- (GameObject3D*)GetPlanes
+{
+    GameObject3D* planes = [[GameObject3D alloc]init];
+    planes->children = [[NSMutableArray alloc]init];
+                        
+    for (Bar* bar in planeContainer->m_Bars)
+    {
+        for (Plane* p in bar->m_Planes)
+        {
+            p->children = nil;
+            [planes->children addObject:p];
+        }
+    }
+    
+    return planes;
+}
+
+- (GameObject3D*)GetPlaneObjects
+{
+    GameObject3D* objects = [[GameObject3D alloc]init];
+    objects->children = [[NSMutableArray alloc]init];
+    
+    for (Bar* bar in [planeContainer->m_Bars reverseObjectEnumerator])
+    {
+        for (Plane* p in [bar->m_Planes reverseObjectEnumerator])
+        {
+            for (PlaneObject* o in [p->m_PlaneObjects reverseObjectEnumerator])
+            {
+                [objects->children addObject:o];
+            }
+        }
+    }
+
+    return objects;
+}
+
+- (Player*)GetPlayer
+{
+    return _player;
+}
+
 
 @end

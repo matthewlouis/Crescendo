@@ -26,6 +26,8 @@
 -(GameMusicPlayer *)getGlobalMusicPlayer;
 -(void)restartGame;
 
-
+- (GameObject3D*)GetPlanes;
+- (GameObject3D*)GetPlaneObjects;
+- (Player*)GetPlayer;
 
 @end
