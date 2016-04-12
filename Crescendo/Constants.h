@@ -75,8 +75,9 @@ static int COLLIDEABLE_FACTOR = 5; // lower is harder/populates more
 //Dictionary Keys
 static NSString *HIGH_SCORE = @"highscore";
 
-//Color Scheme
-
+// GameObject Size
+static float PICKUP_BASE_SIZE = 0.75;
+static float PICKUP_EXPAND_SCALE = 2.5;
 
 
 #endif /* Constants_h */

@@ -58,6 +58,7 @@
 		92F964A01C988B5500150181 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 92F9649A1C988B5500150181 /* sphere.obj */; };
 		D73542141C77BFE200274735 /* Bar.m in Sources */ = {isa = PBXBuildFile; fileRef = D73542131C77BFE200274735 /* Bar.m */; };
 		D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = D75068371C6D9971001FBCFD /* GameObject3D.m */; };
+		D77D16C71CBD6EAC00EB3FAB /* LowResSphere.m in Sources */ = {isa = PBXBuildFile; fileRef = D77D16C61CBD6EAC00EB3FAB /* LowResSphere.m */; };
 		D7A2DC321C791BF500B802C4 /* MusicBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A2DC311C791BF500B802C4 /* MusicBar.swift */; };
 /* End PBXBuildFile section */
 
@@ -150,6 +151,8 @@
 		D73542131C77BFE200274735 /* Bar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bar.m; sourceTree = "<group>"; };
 		D75068361C6D98C6001FBCFD /* GameObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		D75068371C6D9971001FBCFD /* GameObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject3D.m; sourceTree = "<group>"; };
+		D77D16C51CBD6E6100EB3FAB /* LowResSphere.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LowResSphere.h; sourceTree = "<group>"; };
+		D77D16C61CBD6EAC00EB3FAB /* LowResSphere.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LowResSphere.m; sourceTree = "<group>"; };
 		D7A2DC311C791BF500B802C4 /* MusicBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicBar.swift; sourceTree = "<group>"; };
 		D7B363531C9E764F001B185D /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		D7FF36921C9CA9B000773E98 /* PlaneModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaneModel.h; sourceTree = "<group>"; };
@@ -318,6 +321,7 @@
 		920721D51C6E8A9700C929CB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D77D16C41CBD6E4300EB3FAB /* LowResSphere */,
 				D7FF36911C9CA90600773E98 /* Plane */,
 				92F964911C988B5500150181 /* GlassPanel */,
 				92F964961C988B5500150181 /* Sphere */,
@@ -386,6 +390,15 @@
 				D73542131C77BFE200274735 /* Bar.m */,
 			);
 			name = Planes;
+			sourceTree = "<group>";
+		};
+		D77D16C41CBD6E4300EB3FAB /* LowResSphere */ = {
+			isa = PBXGroup;
+			children = (
+				D77D16C51CBD6E6100EB3FAB /* LowResSphere.h */,
+				D77D16C61CBD6EAC00EB3FAB /* LowResSphere.m */,
+			);
+			name = LowResSphere;
 			sourceTree = "<group>";
 		};
 		D7FF36911C9CA90600773E98 /* Plane */ = {
@@ -510,6 +523,7 @@
 				485974581C6E6391003FBC7C /* HandleInputs.m in Sources */,
 				34C445951C77B34C00654AD4 /* SoundEffectController.swift in Sources */,
 				34A9DD191C78E7B000A8CC7A /* MessageView.swift in Sources */,
+				D77D16C71CBD6EAC00EB3FAB /* LowResSphere.m in Sources */,
 				34B802241C9740E3002F1E36 /* MusicNoteSequence.swift in Sources */,
 				03A0C81D1C4992FD004213DB /* Plane.m in Sources */,
 				340557411C6BD575001DD32E /* MultiDelay.swift in Sources */,

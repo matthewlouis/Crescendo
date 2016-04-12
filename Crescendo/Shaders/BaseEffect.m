@@ -218,7 +218,7 @@
                 //obj->scale = GLKVector3Make(musicPlayer.pianoLeadTracker.amplitude * 5 + 1, musicPlayer.pianoLeadTracker.amplitude * 2 + 1, musicPlayer.pianoLeadTracker.amplitude * 5 + 1);
                 break;
             case SoundPickup:
-                obj->scale = GLKVector3Make(musicPlayer.pianoLeadTracker.amplitude * 2 + 0.25, musicPlayer.pianoLeadTracker.amplitude * 2 + 0.25, musicPlayer.pianoLeadTracker.amplitude * 2 + 0.25);
+                obj->scale = GLKVector3Make(musicPlayer.pianoLeadTracker.amplitude * PICKUP_EXPAND_SCALE + PICKUP_BASE_SIZE, musicPlayer.pianoLeadTracker.amplitude * PICKUP_EXPAND_SCALE + PICKUP_BASE_SIZE, musicPlayer.pianoLeadTracker.amplitude * PICKUP_EXPAND_SCALE + PICKUP_BASE_SIZE);
                 break;
             default:
                 break;

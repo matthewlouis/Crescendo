@@ -102,6 +102,7 @@
             }
             
             [planeContainer->nextPlane->children removeObject:planeObject]; //remove object
+            [planeContainer->nextPlane->m_PlaneObjects removeObject:planeObject];
             
             //uses one of 3 random colours for change.
             srand(arc4random());
