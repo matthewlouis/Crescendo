@@ -134,7 +134,7 @@ enum
     _scene = [[GameScene alloc] initWithShader:_shader HandleInputs:self.handleInput];
     
     [self.messageView displayTitle];
-    
+    [Theme themeMidnightIce];
     backgroundColor = [Theme background];
 }
 
@@ -172,6 +172,7 @@ enum
 
 - (void)update
 {
+    backgroundColor = [Theme background];
     //Matt: debug stuff
     if(!_scene.gameOver){ //if the game is running
     // Update Scene

@@ -50,13 +50,14 @@
         self->boundingSphereRadius = 0.3;
         
         // Set default color of red
-        self->_color = [Theme player];
+        self->_color = [Theme playerColor];
     }
     return self;
 }
 
 - (void)updateBobMotion:(float)timeElapsed
 {
+    self->_color = [Theme playerColor];
     _totalTimeElapsed += timeElapsed;
     float result = SinusoidalEaseInOut(_totalTimeElapsed / _bobTime, 0, _bobAmount);
     

@@ -56,7 +56,7 @@
         _startPanPosition = [recognizer translationInView:recognizer.view];
         _isValidSwipe = false;
     }
-
+    
     if (!_isValidSwipe)
     {
         CGPoint currentPanPosition = [recognizer translationInView:recognizer.view];
