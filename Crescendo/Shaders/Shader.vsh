@@ -49,13 +49,22 @@ void main()
     {
         colorVarying = color;
         transformedPosition += amplitude * vec4(normal.x, normal.y, normal.z, 0);
+        
+        colorVarying.w = opaqueness;
+    }
+    else if (isPlayer)
+    {
+        colorVarying = color * nDotVP;
+        
+        colorVarying.w = opaqueness;
     }
     else
     {
         colorVarying = color * nDotVP;
+        
+        colorVarying.w = min(color.w, opaqueness);
     }
 
-    colorVarying.w = opaqueness;
     
     gl_Position = transformedPosition; //modelViewProjectionMatrix *  position;
 }
