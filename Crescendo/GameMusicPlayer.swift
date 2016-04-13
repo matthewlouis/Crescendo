@@ -217,6 +217,8 @@ class GameMusicPlayer : NSObject{
         cuefx3.masterGain = 0
         addFXChain(16, node: cuefx3)
         
+        loadSampler(15, fileName: "Sounds/Sampler Instruments/M1piano", sampleFormat: .EXS24, soundEffect: true)
+        
         AudioKit.start()
         tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
         sequencer!.avTracks[sequencer!.avTracks.capacity-1].destinationMIDIEndpoint = tk.midiIn

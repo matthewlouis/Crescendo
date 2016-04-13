@@ -68,7 +68,7 @@ class MessageView: NSObject {
         part.emissionDuration = 0.001
         part.spreadingAngle = 20
         part.particleDiesOnCollision = true
-        part.particleLifeSpan = 2.5
+        part.particleLifeSpan = 1.5
         part.particleLifeSpanVariation = 0.1
         part.particleVelocity = 50
         part.particleVelocityVariation = 5
@@ -110,9 +110,9 @@ class MessageView: NSObject {
             let action = SCNAction.moveByX(0, y: 0, z: 100, duration: 4)
             currentMessage?.runAction(action)
             
-            /*part.emitterShape = currentMessage?.geometry;
+            part.emitterShape = currentMessage?.geometry;
             part.blendMode = .Alpha
-            self.scene!.addParticleSystem(part, withTransform: SCNMatrix4Identity)*/
+            self.scene!.addParticleSystem(part, withTransform: SCNMatrix4Identity)
         }
     }
     
