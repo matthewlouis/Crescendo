@@ -6,6 +6,8 @@
 //  Copyright © 2016 Equalizer. All rights reserved.
 //
 
+#define ADJUST -0.15
+
 #import "PlaneContainer.h"
 #import "Crescendo-Swift.h"
 #import "Constants.h"
@@ -18,10 +20,16 @@
     float adjust;
 }
 static bool gameStarted;
+static Theme *theme;
 
 - (id)init
 {
     self = [super initWithName:"plane" shader:nil vertices:nil vertexCount:0];
+    
+    if(theme == nil){
+        theme = [[Theme alloc]init];
+    }
+    
     if (self)
     {
         self->m_SpawnDistance = -BAR_WIDTH * BARS_IN_SIGHT + (BAR_WIDTH / 4);
@@ -44,10 +52,10 @@ static bool gameStarted;
         self->buildBar = false;
         
         timeAccumBeforeStart = 0.0f;
-        adjust = -0.175;
+        adjust = ADJUST;
         
         // Set default spawn color
-        self->spawnColor = GLKVector4Make(0, 0, 0, 1);
+        self->spawnColor = [Theme bar_lines];
     }
     
     return self;
@@ -139,6 +147,7 @@ static bool gameStarted;
                 adjust = 0;
             }
         }
+        timeAccumBeforeStart = 0;
     }
     
     timeAccumBeforeStart += timePassed;
@@ -277,6 +286,24 @@ static bool gameStarted;
 
 +(void)notifyStopGame{
     gameStarted = NO;
+}
+
+-(void)restartContainer{
+    timeAccumBeforeStart = 0;
+    // Clean up all the Bars
+    [m_Bars removeAllObjects];
+    [self->children removeAllObjects];
+    [nextPlane->children removeAllObjects];
+    nextPlane = nil;
+    
+    self->buildBar = false;
+    gameStarted = true;
+    
+    [soundEffectController clear];
+    [gameMusicPlayer restart];
+    
+    // Default Plane Velocity of 5 per seconds
+    [self setSpawnBarVelocity:BAR_WIDTH / 2];
 }
 
 @end

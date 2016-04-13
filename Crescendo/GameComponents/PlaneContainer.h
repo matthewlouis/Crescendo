@@ -57,6 +57,7 @@
 +(void)notifyStopGame;
 -(void)startMusic;
 -(void)syncToBar;
+-(void)restartContainer;
 
 // Color methods
 - (void)fadeAllBarsTo:(GLKVector4)color In:(float)time;

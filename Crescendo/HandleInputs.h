@@ -32,6 +32,8 @@ typedef NS_ENUM(NSInteger, MoveDirection)
 @property (nonatomic) bool isMoving;
 @property (nonatomic, assign) MoveDirection moveDirection;
 @property (nonatomic, readonly) GLKVector3 translation;
+@property (strong, nonatomic) MessageView *messageView;
+
 
 /*!
  * @discussion Initialization

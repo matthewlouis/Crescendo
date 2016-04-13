@@ -30,6 +30,9 @@
 @public float m_LineThickness;
 @public float m_LocalZOffset;
     
+//can only collide once with plane, this prevents multiple collisions
+@public bool collidedWith;
+    
 @public NSMutableArray *m_PlaneObjects;
 @public float m_PlaneVelocity;
     

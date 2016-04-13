@@ -90,7 +90,7 @@ class SoundEffectController: NSObject{
                 barOfMusic.events.append(InteractiveSoundObject(note: noteToAdd, duration: 1, position: Float(step)))
             }
         }
-        if(possibly(4)){ //1 in 2 chance of adding simultaneous playing
+        if(possibly(2)){ //1 in 2 chance of adding simultaneous playing
             barOfMusic.duplicateTracksPlayedOn.append(15)
         }
         
@@ -107,14 +107,6 @@ class SoundEffectController: NSObject{
         }
     }
     
-    func clear(){
-        _musicBars.removeAll()
-        barsGenerated = 0
-    }
-    
-    @objc func stopSound(timer:NSTimer){
-        let inst = _soundeffectInstrument as! AKSampler;
-    }
     //stops a sampled instrument note
     @objc func stopSoundSample(timer:NSTimer){
         let so = timer.userInfo as! InteractiveSoundObject;
@@ -193,6 +185,6 @@ class SoundEffectController: NSObject{
         if(maybe == 0){
             return true
         }
-        return false
+        return true
     }
 }

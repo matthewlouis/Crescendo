@@ -26,6 +26,8 @@
 	<array>
 		<string>Fonts/ASENINE_.ttf</string>
 		<string>Fonts/ASENW___.ttf</string>
+		<string>Fonts/acknowtt.ttf</string>
+		<string>Fonts/ABSTRACT.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

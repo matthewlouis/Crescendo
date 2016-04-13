@@ -50,6 +50,8 @@
         [self PopulateAvailableQuadrants];
         collideableDifficulty = COLLIDEABLE_FACTOR;
         
+        self->collidedWith = false;
+        
         [self resetColorState];
         [self updateLineWidth];
     }
@@ -116,7 +118,7 @@
  */
 -(void)CreatePlaneObject:(InteractiveSoundObject *)soundObject
 {
-    int quadrant;
+    int quadrant = 0;
     for(int i = 0 ; i < soundQuadrants.count; i++)
     {
         if (soundObject !=nil) {
