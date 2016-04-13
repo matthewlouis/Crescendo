@@ -32,6 +32,7 @@
 		346671EC1C63D1C000583A6B /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 03CADDEA1C595500008BE459 /* Sounds */; };
 		347F7EFF1C97626F000AE69A /* NSScanner+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347F7EFE1C97626F000AE69A /* NSScanner+Swift.swift */; };
 		348326E61C779328003C22AC /* GameMusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348326E51C779328003C22AC /* GameMusicPlayer.swift */; };
+		349F11701CB759CA003DAAB7 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349F116F1CB759CA003DAAB7 /* Theme.swift */; };
 		34A9DD191C78E7B000A8CC7A /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A9DD181C78E7B000A8CC7A /* MessageView.swift */; };
 		34A9DD1C1C78F91200A8CC7A /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 34A9DD1B1C78F91200A8CC7A /* Fonts */; };
 		34B673AF1C6E863800D7BD29 /* TempoKeeper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */; };
@@ -57,6 +58,7 @@
 		92F964A01C988B5500150181 /* sphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = 92F9649A1C988B5500150181 /* sphere.obj */; };
 		D73542141C77BFE200274735 /* Bar.m in Sources */ = {isa = PBXBuildFile; fileRef = D73542131C77BFE200274735 /* Bar.m */; };
 		D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */ = {isa = PBXBuildFile; fileRef = D75068371C6D9971001FBCFD /* GameObject3D.m */; };
+		D77D16C71CBD6EAC00EB3FAB /* LowResSphere.m in Sources */ = {isa = PBXBuildFile; fileRef = D77D16C61CBD6EAC00EB3FAB /* LowResSphere.m */; };
 		D7A2DC321C791BF500B802C4 /* MusicBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A2DC311C791BF500B802C4 /* MusicBar.swift */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +109,7 @@
 		340FB3771C629E9000F4A3AC /* Songs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Songs; sourceTree = "<group>"; };
 		347F7EFE1C97626F000AE69A /* NSScanner+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScanner+Swift.swift"; sourceTree = "<group>"; };
 		348326E51C779328003C22AC /* GameMusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameMusicPlayer.swift; path = Crescendo/GameMusicPlayer.swift; sourceTree = "<group>"; };
+		349F116F1CB759CA003DAAB7 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		34A9DD181C78E7B000A8CC7A /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		34A9DD1B1C78F91200A8CC7A /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		34B673AE1C6E863800D7BD29 /* TempoKeeper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempoKeeper.swift; sourceTree = "<group>"; };
@@ -148,6 +151,8 @@
 		D73542131C77BFE200274735 /* Bar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bar.m; sourceTree = "<group>"; };
 		D75068361C6D98C6001FBCFD /* GameObject3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject3D.h; sourceTree = "<group>"; };
 		D75068371C6D9971001FBCFD /* GameObject3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject3D.m; sourceTree = "<group>"; };
+		D77D16C51CBD6E6100EB3FAB /* LowResSphere.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LowResSphere.h; sourceTree = "<group>"; };
+		D77D16C61CBD6EAC00EB3FAB /* LowResSphere.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LowResSphere.m; sourceTree = "<group>"; };
 		D7A2DC311C791BF500B802C4 /* MusicBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicBar.swift; sourceTree = "<group>"; };
 		D7B363531C9E764F001B185D /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		D7FF36921C9CA9B000773E98 /* PlaneModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaneModel.h; sourceTree = "<group>"; };
@@ -316,6 +321,7 @@
 		920721D51C6E8A9700C929CB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D77D16C41CBD6E4300EB3FAB /* LowResSphere */,
 				D7FF36911C9CA90600773E98 /* Plane */,
 				92F964911C988B5500150181 /* GlassPanel */,
 				92F964961C988B5500150181 /* Sphere */,
@@ -344,6 +350,7 @@
 		92EBA1171C6FACF400993E0F /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				349F116F1CB759CA003DAAB7 /* Theme.swift */,
 				92EBA1181C6FAD1900993E0F /* GameScene.h */,
 				92EBA1191C6FAD1900993E0F /* GameScene.m */,
 			);
@@ -383,6 +390,15 @@
 				D73542131C77BFE200274735 /* Bar.m */,
 			);
 			name = Planes;
+			sourceTree = "<group>";
+		};
+		D77D16C41CBD6E4300EB3FAB /* LowResSphere */ = {
+			isa = PBXGroup;
+			children = (
+				D77D16C51CBD6E6100EB3FAB /* LowResSphere.h */,
+				D77D16C61CBD6EAC00EB3FAB /* LowResSphere.m */,
+			);
+			name = LowResSphere;
 			sourceTree = "<group>";
 		};
 		D7FF36911C9CA90600773E98 /* Plane */ = {
@@ -498,6 +514,7 @@
 				34B673AF1C6E863800D7BD29 /* TempoKeeper.swift in Sources */,
 				D73542141C77BFE200274735 /* Bar.m in Sources */,
 				920721AA1C6E58A200C929CB /* Player.m in Sources */,
+				349F11701CB759CA003DAAB7 /* Theme.swift in Sources */,
 				D75068381C6D9971001FBCFD /* GameObject3D.m in Sources */,
 				340557381C6BD551001DD32E /* Conductor.swift in Sources */,
 				03A0C8321C49A13A004213DB /* PlaneContainer.m in Sources */,
@@ -506,6 +523,7 @@
 				485974581C6E6391003FBC7C /* HandleInputs.m in Sources */,
 				34C445951C77B34C00654AD4 /* SoundEffectController.swift in Sources */,
 				34A9DD191C78E7B000A8CC7A /* MessageView.swift in Sources */,
+				D77D16C71CBD6EAC00EB3FAB /* LowResSphere.m in Sources */,
 				34B802241C9740E3002F1E36 /* MusicNoteSequence.swift in Sources */,
 				03A0C81D1C4992FD004213DB /* Plane.m in Sources */,
 				340557411C6BD575001DD32E /* MultiDelay.swift in Sources */,

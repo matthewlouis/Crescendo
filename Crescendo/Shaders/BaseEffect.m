@@ -10,6 +10,9 @@
 #import "Vertex.h"
 #import "Player.h"
 #import "Constants.h"
+#import "PlaneObject.h"
+@import AudioKit;
+#import "Crescendo-Swift.h"
 
 @implementation BaseEffect
 
@@ -185,7 +188,7 @@
 }
 
 - (void)render:(GameObject3D*)gameObject3D
-{
+{    
     GLKMatrix4 cameraViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -5.0f);
     
     GLKMatrix4 modelViewMatrix = [gameObject3D GetModelViewMatrix];
@@ -208,8 +211,30 @@
         glUniform1i(uniforms[UNIFORM_ISPLAYER], true);
         glUniform1f(uniforms[UNIFORM_BOB], ((Player *)gameObject3D).bob);
     }
-    else
+    else if ([gameObject3D isKindOfClass:[PlaneObject class]])
     {
+        PlaneObject *obj = (PlaneObject*) gameObject3D;
+        
+        AKAmplitudeTracker *tracker;
+        switch (obj->type) {
+            case Collideable:
+                //obj->scale = GLKVector3Make(musicPlayer.pianoLeadTracker.amplitude * 5 + 1, musicPlayer.pianoLeadTracker.amplitude * 2 + 1, musicPlayer.pianoLeadTracker.amplitude * 5 + 1);
+                break;
+            case SoundPickup:
+                
+                if(obj->soundObject._track == 16){ //if strings get correct tracker
+                    tracker = musicPlayer.stringLeadTracker;
+                }else{
+                    tracker = musicPlayer.pianoLeadTracker;
+                }
+                
+                //pulsate notes of same type
+                obj->scale = GLKVector3Make(tracker.amplitude * PICKUP_EXPAND_SCALE + PICKUP_BASE_SIZE, tracker.amplitude * PICKUP_EXPAND_SCALE + PICKUP_BASE_SIZE, tracker.amplitude * PICKUP_EXPAND_SCALE + PICKUP_BASE_SIZE);
+                
+                break;
+            default:
+                break;
+        }
         glUniform1i(uniforms[UNIFORM_ISPLAYER], false);
     }
     

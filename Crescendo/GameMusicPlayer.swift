@@ -65,6 +65,7 @@ class GameMusicPlayer : NSObject{
     var kickDrumTracker:AKAmplitudeTracker!
     var snareDrumTracker:AKAmplitudeTracker!
     var pianoLeadTracker:AKAmplitudeTracker!
+    var stringLeadTracker:AKAmplitudeTracker!
     
     var sequencer:AKSequencer?
     var mixer = AKMixer()
@@ -81,6 +82,7 @@ class GameMusicPlayer : NSObject{
     var tk:TempoKeeper
     
     var trackStart:UnsafeMutablePointer<MusicSequence>?
+    var fadeTimer:NSTimer?
     
     init(tempoListener: PlaneContainer){
         currentMidiLoop = "Songs/testTimeCode";
@@ -135,11 +137,11 @@ class GameMusicPlayer : NSObject{
         let drumsfx1 = AKCompressor((tracks[3]?.instrument)!)
         drumsfx1.releaseTime = 1
         drumsfx1.attackTime = 0.05
-        drumsfx1.threshold = -40
+        drumsfx1.threshold = -35
         drumsfx1.headRoom = 9
         drumsfx1.masterGain = 3
         let drumsfx2 = AKBitCrusher(drumsfx1)
-        drumsfx2.bitDepth = 8
+        drumsfx2.bitDepth = 16
         
         let snareAnalysisFilter = AKBandPassFilter(drumsfx1, centerFrequency: 1500, bandwidth: 700)
         snareDrumTracker = AKAmplitudeTracker(snareAnalysisFilter)
@@ -162,11 +164,11 @@ class GameMusicPlayer : NSObject{
         pianofx2.decayTimeAtNyquist = 10 
         pianofx2.dryWetMix = 0.5
         let pianofx3 = addFX(1, fxType: .COMPRESSOR) as! AKCompressor
-        pianofx3.masterGain = 9
+        pianofx3.masterGain = 6
         
         let bass = loadPolySynth(7, instrumentType: .ANALOGX, voiceCount: 2) as! CoreInstrument
         bass.releaseDuration = 0.05
-        bass.attackDuration = 0
+        bass.attackDuration = 0.005
         bass.sustainLevel = 0.5
         bass.waveform1 = Double(3.0)
         bass.waveform2 = Double(0.0)
@@ -202,19 +204,33 @@ class GameMusicPlayer : NSObject{
         
         /****SOUND EFFECTS********/
         
-        //piano
-        loadSampler(16, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: SampleFormat.EXS24, soundEffect: true)
-        let cueFX1 = Fatten((tracks[16]?.instrument)!)
+        //lead piano
+        let sampler = loadSampler(15, fileName: "Sounds/Sampler Instruments/LoFiPiano_v2", sampleFormat: .EXS24, soundEffect: true)
+        
+        let cueFX1 = Fatten((tracks[15]?.instrument)!)
         cueFX1.time = 0.2
         pianoLeadTracker = AKAmplitudeTracker(cueFX1) //amp tracker on before reverb fx
-        let cuefx2 = AKReverb2(pianoLeadTracker)
-        cuefx2.decayTimeAt0Hz = 5
-        cuefx2.decayTimeAtNyquist = 10
-        cuefx2.dryWetMix = 0.5
-        let cuefx3 = AKCompressor(cuefx2)
-        cuefx3.threshold = -20
-        cuefx3.masterGain = 0
-        addFXChain(16, node: cuefx3)
+        let cuefx2 = AKDelay(pianoLeadTracker)
+        cuefx2.time = 0.175
+        cuefx2.feedback = 0.8
+        cuefx2.dryWetMix = 0.2
+        let cuefx3 =  AKCompressor(cuefx2)
+        
+        addFXChain(15, node: cuefx3)
+        
+        //lead strings
+        loadSampler(16, fileName: "Sounds/Sampler Instruments/BasicStacStrings", sampleFormat: SampleFormat.EXS24, soundEffect: true)
+        let cueFX4 = Fatten((tracks[16]?.instrument)!)
+        cueFX4.time = 0.2
+        stringLeadTracker = AKAmplitudeTracker(cueFX4) //amp tracker on before reverb fx
+        let cuefx5 = AKReverb2(stringLeadTracker)
+        cuefx5.decayTimeAt0Hz = 5
+        cuefx5.decayTimeAtNyquist = 10
+        cuefx5.dryWetMix = 0.5
+        let cuefx6 = AKCompressor(cuefx5)
+        cuefx6.threshold = -20
+        cuefx6.masterGain = 0
+        addFXChain(16, node: cuefx6)
         
         AudioKit.start()
         tk.enableMIDI(midi.midiClient, name: "TempoKeeper")
@@ -240,12 +256,13 @@ class GameMusicPlayer : NSObject{
         masterComp!.releaseTime = 0.2
         masterComp!.masterGain = 9
         
-        tracks[4]?.volume?.gain = 0.1
+        //level balances
+        tracks[4]?.volume?.gain = 0.2
         tracks[1]?.volume?.gain = 0.3
+        tracks[7]?.volume?.gain = 0.9
+        tracks[15]?.volume?.gain = 0.6
         
         AudioKit.output = masterComp
-        
-        
         
         AudioKit.start()
         
@@ -441,17 +458,44 @@ class GameMusicPlayer : NSObject{
         if(masterComp!.masterGain <= -40){
             timer.invalidate()
         }else{
-            masterComp!.masterGain -= 1
-            print(masterComp!.masterGain)
+            masterComp!.masterGain -= 2
+        }
+    }
+    
+    @objc func masterFadeIn(timer:NSTimer){
+        if(masterComp!.masterGain >= 9){
+            timer.invalidate()
+        }else{
+            masterComp!.masterGain += 2
         }
     }
     
     @objc func fadeOutMusic(){
-        NSTimer.scheduledTimerWithTimeInterval(0.06, target: self, selector: Selector("masterFadeout:"), userInfo: nil, repeats: true)
+        
+        for(var i = 0; i < tracks.count; i++){
+            var inst = tracks[i]?.instrument as? AKPolyphonicInstrument
+            inst?.panic()
+        }
+        
+        sequencer!.stop()
+        fadeTimer?.invalidate()
+        fadeTimer = NSTimer.scheduledTimerWithTimeInterval(0.06, target: self, selector: Selector("masterFadeout:"), userInfo: nil, repeats: true)
+    }
+    
+    @objc func fadeInMusic(){
+        fadeTimer?.invalidate()
+        fadeTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: Selector("masterFadeIn:"), userInfo: nil, repeats: true)
     }
     
     func rewind(){
         sequencer?.rewind()
+    }
+    
+    func restart(){
+        sequencer?.play()
+        self.bpm = DEFAULT_BPM
+        fadeInMusic()
+        rewind()
     }
     
     

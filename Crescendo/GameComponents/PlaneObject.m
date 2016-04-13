@@ -13,44 +13,30 @@
 #import "Plane.h"
 #import "glassPanel.h"
 #import "sphere.h"
+#import "LowResSphere.h"
 
 @implementation PlaneObject
 
 - (instancetype)initWithPlane:(Plane*)plane soundObject:(InteractiveSoundObject *)sound objectType:(int)type{
     self->type = type;
-    switch (type) {
-        case SoundPickup:
-            if ((self = [super initWithName:"soundCube" shader:nil vertices:(Vertex*)cube_Vertices vertexCount:sizeof(cube_Vertices) / sizeof(cube_Vertices[0])])) {
+    
+        if ((self = [super initWithName:"soundCube" shader:nil vertices:(Vertex*)lowResSphere_vertices vertexCount:sizeof(lowResSphere_vertices) / sizeof(lowResSphere_vertices[0])])) {
                 
                 self->worldPosition = GLKVector3Make(0, 0, plane->worldPosition.z);
                 //self->rotation = GLKVector3Make(-1.25, 3.14, 0);
-                self->scale = GLKVector3Make(0.75, 0.75, 0.75);
+                self->scale = GLKVector3Make(2.0, 2.0, 2.0);
                 
                 // Specify Drawing Mode
                 renderMode = GL_TRIANGLES;
                 
                 self->soundObject = sound;
-                self->_color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
-            }
-            break;
             
-        default:
-            if ((self = [super initWithName:"cube" shader:nil vertices:(Vertex*)cube_Vertices vertexCount:sizeof(cube_Vertices) / sizeof(cube_Vertices[0])])) {
-                
-                self->worldPosition = GLKVector3Make(0, 0, plane->worldPosition.z);
-                //self->rotation = GLKVector3Make(-1.25, 3.14, 0);
-                self->scale = GLKVector3Make(0.75, 0.75, 0.75);
-                
-                // Specify Drawing Mode
-                renderMode = GL_TRIANGLES;
-                
-                self->soundObject = sound;
-                self->_color = GLKVector4Make(0.3f, 0.3f, 0.7f, 1);
+                if(sound._track == 16){
+                    self->_color = [Theme getPickups:0];
+                }else{
+                    self->_color = [Theme getPickups:1];
+                }
             }
-            break;
-    }
-   
-
     return self;
 }
 
@@ -66,7 +52,7 @@
         renderMode = GL_TRIANGLES;
         
         self->soundObject = sound;
-        self->_color = GLKVector4Make(0.7f, 0.3f, 0.3f, 0.5f);
+        self->_color = [Theme getObstacles:0];
     }
     return self;
 }
@@ -83,7 +69,7 @@
         renderMode = GL_TRIANGLES;
         
         self->soundObject = sound;
-        self->_color = GLKVector4Make(0.3f, 0.7f, 0.7f, 0.7f);
+        self->_color = [Theme getPickups:0];
     }
     return self;
 }

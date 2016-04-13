@@ -14,14 +14,20 @@
 @property (strong, nonatomic) HandleInputs *handleInput;
 @property (weak) PlaneContainer* planeContainer;
 @property (nonatomic) bool gameOver;
-@property (nonatomic) long score;
+@property (nonatomic) bool restart;
+@property (nonatomic) NSInteger score;
+@property (nonatomic) Theme *theme;
+@property (nonatomic) Player *player;
 
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput;
 
 - (void) updateWithDeltaTime:(float)timePassed;
 
 -(GameMusicPlayer *)getGlobalMusicPlayer;
+-(void)restartGame;
 
-
+- (GameObject3D*)GetPlanes;
+- (GameObject3D*)GetPlaneObjects;
+- (Player*)GetPlayer;
 
 @end

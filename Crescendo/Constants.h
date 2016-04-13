@@ -72,6 +72,12 @@ static float SNAREDRUM_AMPLITUDE_SCALE = 10;
 //Object Generation Constants
 static int COLLIDEABLE_FACTOR = 5; // lower is harder/populates more
 
+//Dictionary Keys
+static NSString *HIGH_SCORE = @"highscore";
+
+// GameObject Size
+static float PICKUP_BASE_SIZE = 0.75;
+static float PICKUP_EXPAND_SCALE = 5;
 
 
 #endif /* Constants_h */

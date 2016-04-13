@@ -18,7 +18,6 @@
 
 @implementation GameScene{
     CGSize _gameArea;
-    Player *_player;
     Plane* plane;
     PlaneContainer* planeContainer;
     
@@ -27,8 +26,8 @@
     
     Plane *collisionPlane;
     int i;
-    int previousHighScore;
-    int highScore;
+    NSInteger *previousHighScore;
+    NSInteger *highScore;
 }
 
 - (instancetype)initWithShader:(BaseEffect *)shader HandleInputs:(HandleInputs *)handleInput {
@@ -80,45 +79,41 @@
     
     [planeContainer update:timePassed];
     
-    [self checkForPlayerCollisions];
+    if(planeContainer->nextPlane != nil && planeContainer->nextPlane->collidedWith == false){
+        [self checkForPlayerCollisions];
+    }
 }
 
 -(void)checkForPlayerCollisions{
     for (PlaneObject *planeObject in planeContainer->nextPlane->m_PlaneObjects) {
         if ([_player checkCollision:planeObject]){
-            [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
-            if(planeObject->type == SoundPickup){
-                ++_score;
-            }
+            
+            planeContainer->nextPlane->collidedWith = true; //flag as collided
             
             if(planeObject->type == Collideable){ //game over
                 _gameOver = true;
                 [PlaneContainer notifyStopGame];
             }
             
+            [planeContainer->soundEffectController playSound:planeObject->soundObject]; //play note
+            
+            if(planeObject->type == SoundPickup){
+                ++_score;
+            }
+            
             [planeContainer->nextPlane->children removeObject:planeObject]; //remove object
+            [planeContainer->nextPlane->m_PlaneObjects removeObject:planeObject];
             
-            // Fade on collide
-            /* Random color */
-            srand48(arc4random());  // Set seed for random
-            float r = drand48();
-            srand48(arc4random());
-            float g = drand48();
-            srand48(arc4random());
-            float b = drand48();
-            
-            GLKVector4 newColor = GLKVector4Make(r, g, b, 1);
+            //uses one of 3 random colours for change.
+            srand(arc4random());
+            int ci = rand() % [Theme getBarReactCount];
+            GLKVector4 newColor = [Theme getBarReact: ci];
             
             // Fade all bars and planes to random color. Spawn in new color
             [planeContainer fadeAllBarsTo:newColor In:1.0f];
             planeContainer->spawnColor = newColor;
             
-            /* Strobe stuff
-            GLKVector4 red = GLKVector4Make(1, 0, 0, 1);
-            GLKVector4 black = GLKVector4Make(0, 0, 0, 1);
-            
-            [planeContainer strobeAllBarsBetweenColors:red And:black Every:0.25f For:5.0];
-             */
+            return;
         }
     }
 }
@@ -134,6 +129,54 @@
 //Used to get the planeContainer's reference to the music player
 -(GameMusicPlayer *)getGlobalMusicPlayer{
     return planeContainer->gameMusicPlayer;
+}
+
+//restart game
+-(void)restartGame{
+    _gameOver = false;
+    [planeContainer restartContainer];
+    _score = 0;
+}
+
+- (GameObject3D*)GetPlanes
+{
+    GameObject3D* planes = [[GameObject3D alloc]init];
+    planes->children = [[NSMutableArray alloc]init];
+                        
+    for (Bar* bar in planeContainer->m_Bars)
+    {
+        for (Plane* p in bar->m_Planes)
+        {
+            p->children = nil;
+            [planes->children addObject:p];
+        }
+    }
+    
+    return planes;
+}
+
+- (GameObject3D*)GetPlaneObjects
+{
+    GameObject3D* objects = [[GameObject3D alloc]init];
+    objects->children = [[NSMutableArray alloc]init];
+    
+    for (Bar* bar in [planeContainer->m_Bars reverseObjectEnumerator])
+    {
+        for (Plane* p in [bar->m_Planes reverseObjectEnumerator])
+        {
+            for (PlaneObject* o in [p->m_PlaneObjects reverseObjectEnumerator])
+            {
+                [objects->children addObject:o];
+            }
+        }
+    }
+
+    return objects;
+}
+
+- (Player*)GetPlayer
+{
+    return _player;
 }
 
 

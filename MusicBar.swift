@@ -13,10 +13,12 @@ class MusicBar:NSObject{
     
     var barLength: Float
     var events:[InteractiveSoundObject]
+    var duplicateTracksPlayedOn:[Int] //for playing duplicate notes on a different track simultaneously
     
     init(length: Float){
         barLength = length
         events = [InteractiveSoundObject]()
+        duplicateTracksPlayedOn = [Int]()
         super.init()
     }
     

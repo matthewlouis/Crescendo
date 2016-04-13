@@ -50,6 +50,8 @@
         [self PopulateAvailableQuadrants];
         collideableDifficulty = COLLIDEABLE_FACTOR;
         
+        self->collidedWith = false;
+        
         [self resetColorState];
         [self updateLineWidth];
     }
@@ -116,20 +118,18 @@
  */
 -(void)CreatePlaneObject:(InteractiveSoundObject *)soundObject
 {
-    int quadrant;
+    int quadrant = 0;
     for(int i = 0 ; i < soundQuadrants.count; i++)
     {
         if (soundObject !=nil) {
             quadrant = [soundQuadrants[i] intValue];
-            [self CreateSoundPickupwithSoundObject:soundObject withQuadrant:quadrant];
+            if(i == 0){ //if only instrument, add proper soundObject
+                [self CreateSoundPickupwithSoundObject:soundObject withQuadrant:quadrant];
+            }else{ //add duplicate note
+                [self CreateSoundPickupwithSoundObject:[soundObject getDuplicateNote:15] withQuadrant:quadrant];
+            }
             [availableQuadrants removeObject:@(quadrant)];
         }
-        else
-        {
-            ;
-        }
-        
-        
     }
     
     // creates the rest of the objects based on remaining quadrants. other objects are collidable/damaging and powerpickups

@@ -32,4 +32,8 @@ class InteractiveSoundObject:NSObject{
     override var description : String {
         return String(format: "ISO - note: %d, position: %f, duration: %f", _note, _position, _duration)
     }
+    
+    func getDuplicateNote(onTrack: Int)->InteractiveSoundObject{
+        return InteractiveSoundObject(type: _type, track: onTrack, note: _note, duration: _duration, position: _position)
+    }
 }
