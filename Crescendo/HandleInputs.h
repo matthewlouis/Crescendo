@@ -51,6 +51,8 @@ typedef NS_ENUM(NSInteger, MoveDirection)
  */
 - (void)handleSwipes:(UIPanGestureRecognizer *)recognizer;
 
+- (void)handleDoubleTap:(UITapGestureRecognizer *)recognizer;
+
 /*!
  * @discussion Updates the player movement if there is any movements in the movement buffer
  */

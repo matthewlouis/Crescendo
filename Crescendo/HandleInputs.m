@@ -28,6 +28,7 @@
     float _lastDirection;
     
     bool _isValidSwipe;
+    bool _toggleTheme;
 }
 
 @end
@@ -42,6 +43,7 @@
         gridMovement = [GridMovement sharedClass];
         _panVelocityThreshold = 100.0f;
         _isValidSwipe = true;
+        _toggleTheme = true;
     }
     
     return self;
@@ -268,6 +270,22 @@
             }
         }
     }
+}
+
+- (void)handleDoubleTap:(UITapGestureRecognizer *)recognizer
+{
+    if (_toggleTheme)
+    {
+        _toggleTheme = false;
+        
+        [Theme themeDefault];
+    }
+    else
+    {
+        _toggleTheme = true;
+        [Theme themeMidnightIce];
+    }
+    
 }
 
 - (GLKVector3)Vector3D:(GLKVector2)point2D Width:(int)w Height:(int)h

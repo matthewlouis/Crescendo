@@ -57,7 +57,6 @@
 
 - (void)updateBobMotion:(float)timeElapsed
 {
-    self->_color = [Theme playerColor];
     _totalTimeElapsed += timeElapsed;
     float result = SinusoidalEaseInOut(_totalTimeElapsed / _bobTime, 0, _bobAmount);
     

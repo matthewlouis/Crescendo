@@ -134,7 +134,7 @@ enum
     _scene = [[GameScene alloc] initWithShader:_shader HandleInputs:self.handleInput];
     
     [self.messageView displayTitle];
-    [Theme themeMidnightIce];
+    //[Theme themeMidnightIce];
     backgroundColor = [Theme background];
 }
 
@@ -235,6 +235,10 @@ enum
 {
     UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSingleTap:)];
     [self.view addGestureRecognizer:singleFingerTap];
+    
+    UITapGestureRecognizer *doubleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleDoubleTap:)];
+    [doubleFingerTap setNumberOfTapsRequired:2];
+    [self.view addGestureRecognizer:doubleFingerTap];
     
     UIPanGestureRecognizer *swipePan = [[UIPanGestureRecognizer alloc] initWithTarget:self.handleInput action:@selector(handleSwipes:)];
     [swipePan setMaximumNumberOfTouches:1];

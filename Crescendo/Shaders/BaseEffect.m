@@ -208,6 +208,7 @@
     {
         glUniform1i(uniforms[UNIFORM_ISPLAYER], true);
         glUniform1f(uniforms[UNIFORM_BOB], ((Player *)gameObject3D).bob);
+        gameObject3D->_color = [Theme playerColor];
     }
     else if ([gameObject3D isKindOfClass:[PlaneObject class]])
     {
@@ -216,9 +217,11 @@
         switch (obj->type) {
             case Collideable:
                 //obj->scale = GLKVector3Make(musicPlayer.pianoLeadTracker.amplitude * 5 + 1, musicPlayer.pianoLeadTracker.amplitude * 2 + 1, musicPlayer.pianoLeadTracker.amplitude * 5 + 1);
+                obj->_color = [Theme getObstacles:0];
                 break;
             case SoundPickup:
                 obj->scale = GLKVector3Make(musicPlayer.pianoLeadTracker.amplitude * PICKUP_EXPAND_SCALE + PICKUP_BASE_SIZE, musicPlayer.pianoLeadTracker.amplitude * PICKUP_EXPAND_SCALE + PICKUP_BASE_SIZE, musicPlayer.pianoLeadTracker.amplitude * PICKUP_EXPAND_SCALE + PICKUP_BASE_SIZE);
+                obj->_color = [Theme getPickups:0];
                 break;
             default:
                 break;
