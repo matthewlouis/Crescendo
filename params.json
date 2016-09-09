@@ -1,6 +1,6 @@
 {
   "name": "Crescendo",
-  "tagline": "Experiment iOS music game.",
+  "tagline": "Experimental iOS music game.",
   "body": "Crescendo is an iOS game/experiment. A sort of endless runner, the game world acts a music visualizer for a randomly generated soundtrack created by the player's interactions.",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
